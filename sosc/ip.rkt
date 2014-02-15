@@ -36,7 +36,7 @@
     (let* ((s (udp*-s u))
 	   (h (udp*-h u))
 	   (p (udp*-p u))
-	   (b (bytes 8192))
+	   (b (make-bytes 8192))
 	   (r (plt:sync/timeout 1.0 (plt:udp-receive!-evt s b))))
       (if r
 	  (plt:subbytes b 0 (plt:car r))
@@ -79,3 +79,4 @@
   (lambda (fd)
     (close-input-port (tcp*-i fd))
     (close-output-port (tcp*-o fd))))
+

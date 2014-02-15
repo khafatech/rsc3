@@ -12,8 +12,6 @@
   )
 
 
-
-
 ;; [a] -> int -> [a]
 (define extend
   (lambda (l n)

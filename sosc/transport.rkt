@@ -2,7 +2,8 @@
 
 ;; from transport.scm ;;;;;;;
 
-(require "bytevector.rkt"
+(require rnrs
+		 "bytevector.rkt"
          "sosc.rkt"
          "ip.rkt")
 
@@ -38,6 +39,6 @@
     (let ((p (recv fd)))
       (cond
        ((not p) (error "wait" "timed out"))
-       ((not (string=? (first p) s)) (error "wait" "bad return packet" p s))
+       ((not (string=? (car p) s)) (error "wait" "bad return packet" p s))
        (else p)))))
 

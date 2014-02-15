@@ -13,6 +13,7 @@ Licensed under GPL (2 or 3? FIXME)
 
 |#
 
+(require rnrs)
 
 (provide (all-defined-out))
 
@@ -446,7 +447,8 @@ Licensed under GPL (2 or 3? FIXME)
             (lookup x (tail l))))))
 
 ;; map :: (a -> b) -> [a] -> [b]
-(define map1
+(define map1 map)
+#;(define map1
   (lambda (f l)
     (if (null? l)
         nil
@@ -749,7 +751,22 @@ Licensed under GPL (2 or 3? FIXME)
         (cons (x) (replicate-m* (- i 1) x)))))
 
 
+;; data/tree.scm ;;;;;;;;;;;;;;
 
+;; Tree a -> [a]
+(define flatten
+  (letrec ((f (lambda (t r)
+		(cond ((null? t) r)
+		      ((pair? t) (f (head t) (f (tail t) r)))
+		      (else (cons t r))))))
+    (lambda (t)
+      (f t nil))))
 
-
+;; Tree a -> [[a]]
+(define levels
+  (lambda (t)
+    (if (null? t)
+	nil
+	(let ((lr (partition* (compose not pair?) t)))
+	  (cons (fst lr) (levels (concat (snd lr))))))))
 

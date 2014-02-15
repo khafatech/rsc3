@@ -1,6 +1,9 @@
 #lang racket
 
-(require "../rhs/rhs.rkt" rnrs/bytevectors-6 rnrs/io/ports-6)
+(require rnrs
+	"../rhs/rhs.rkt"
+	rnrs/bytevectors-6
+	rnrs/io/ports-6)
 
 (provide (all-defined-out)
          put-bytevector
@@ -62,3 +65,4 @@
     (let ((v (make-bytevector k 0)))
       (f v 0 n (endianness big))
       v)))
+
