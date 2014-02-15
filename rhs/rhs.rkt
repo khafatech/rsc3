@@ -13,6 +13,9 @@ Licensed under GPL (2 or 3? FIXME)
 
 |#
 
+
+(provide (all-defined-out))
+
 ;; prelude.scm ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; enumFromThenTo :: a -> a -> a -> [a]
@@ -236,7 +239,7 @@ Licensed under GPL (2 or 3? FIXME)
     (find-indices (lambda (y) (equal? x y)) l)))
 
 ;; find :: (a -> Bool) -> [a] -> Maybe a
-(define find
+#;(define find
   (lambda (f l)
     (if (null? l)
         #f
@@ -268,7 +271,7 @@ Licensed under GPL (2 or 3? FIXME)
       (g f l 0))))
 
 ;; filter :: (a -> Bool) -> [a] -> [a]
-(define filter
+#;(define filter
   (lambda (f l)
     (if (null? l)
         nil
@@ -381,7 +384,7 @@ Licensed under GPL (2 or 3? FIXME)
           (last xs)))))
 
 ;; length :: [a] -> Int
-(define length
+#;(define length
   (lambda (l)
     (if (null? l)
         0
@@ -413,7 +416,7 @@ Licensed under GPL (2 or 3? FIXME)
     (cons x (cons y (cons z (cons a (cons b nil)))))))
 
 ;; (!!) :: [a] -> Int -> a
-(define list-ref
+#;(define list-ref
   (lambda (l n)
     (if (= n 0)
         (head l)
@@ -499,7 +502,7 @@ Licensed under GPL (2 or 3? FIXME)
     (all (lambda (y) (not (equal? x y))) l)))
 
 ;; null :: [a] -> Bool
-(define null?
+#;(define null?
   (lambda (x)
     (equal? x nil)))
 
@@ -535,7 +538,7 @@ Licensed under GPL (2 or 3? FIXME)
         (cons x (replicate (- n 1) x)))))
 
 ;; reverse :: [a] -> [a]
-(define reverse
+#;(define reverse
   (lambda (l)
     (foldl (flip cons) nil l)))
 
