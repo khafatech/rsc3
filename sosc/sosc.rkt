@@ -7,6 +7,7 @@
   "../rhs/rhs.rkt"
   "bytevector.rkt"
   rnrs/bytevectors-6 ;; TODO - should be provided by bytevector.rkt
+  rnrs/io/ports-6
   )
 
 

@@ -6,7 +6,8 @@
          "sosc.rkt"
          "ip.rkt")
 
-(provide (all-defined-out))
+(provide (all-defined-out)
+         (all-from-out "ip.rkt"))
 
 
 

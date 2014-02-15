@@ -16,6 +16,18 @@ Licensed under GPL (2 or 3? FIXME)
 
 (provide (all-defined-out))
 
+
+;; to fix rnrs compatibility
+
+#|
+(define exact inexact->exact)
+
+(define inexact exact->inexact)
+
+(define mod remainder)
+|#
+
+
 ;; prelude.scm ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; enumFromThenTo :: a -> a -> a -> [a]
@@ -383,12 +395,14 @@ Licensed under GPL (2 or 3? FIXME)
           (head l)
           (last xs)))))
 
-;; length :: [a] -> Int
-#;(define length
+;; mlength :: [a] -> Int
+(define mlength
   (lambda (l)
     (if (null? l)
         0
         (+ 1 (length (tail l))))))
+
+
 
 ;; list1 :: a -> [a]
 (define list1
