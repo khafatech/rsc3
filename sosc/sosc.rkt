@@ -4,9 +4,9 @@
 
 (require
   rnrs
-  rnrs/bytevectors-6
   "../rhs/rhs.rkt"
   "bytevector.rkt"
+  rnrs/bytevectors-6 ;; TODO - should be provided by bytevector.rkt
   )
 
 
