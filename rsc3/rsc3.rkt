@@ -8,25 +8,27 @@
   "../sosc/transport.rkt"
   "../sosc/sosc.rkt"
   (prefix-in srfi: srfi/27)
-  (prefix-in srfi: srfi/19)
-  )
+  (prefix-in srfi: srfi/19))
 
+;; TODO - export only useful funcs
+(provide (all-defined-out)
+         send)
 
 ;; [a] -> int -> [a]
 (define extend
   (lambda (l n)
     (let ((z (length l)))
       (cond ((= z n) l)
-	    ((> z n) (take n l))
-	    (else (extend (append2 l l) n))))))
+            ((> z n) (take n l))
+            (else (extend (append2 l l) n))))))
 
 ;; [a] -> int -> [a]
 (define take-cycle
   (lambda (l n)
     (if (null? l)
-	nil
-	(cons (head l)
-	      (take-cycle (drop n l) n)))))
+        nil
+        (cons (head l)
+              (take-cycle (drop n l) n)))))
 
 ;; (a -> a -> a) -> ([a] -> [a])
 (define differentiate-with
