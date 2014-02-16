@@ -1,5 +1,4 @@
-cilantro
-========
+# rsc3 for Racket
 
 
 [rsc3](http://rd.slavepianos.org/?t=rsc3) ported to Racket and organized as package
