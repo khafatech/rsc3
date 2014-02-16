@@ -1,6 +1,6 @@
 #lang racket
 
-(require "rsc3/rsc3.rkt")
+(require rsc3)
 
 
 ;; start udp SuperCollider server with: scsynth -u 57110
