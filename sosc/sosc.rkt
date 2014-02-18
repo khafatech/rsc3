@@ -4,12 +4,11 @@
 
 (require
   rnrs
-  "../rhs/rhs.rkt"
+  rhs/rhs
   "bytevector.rkt"
   rnrs/bytevectors-6 ;; TODO - should be provided by bytevector.rkt
   rnrs/io/ports-6
   )
-
 
 (provide message
          bundle

@@ -28,6 +28,9 @@ Licensed under GPL (2 or 3? FIXME)
 (define mod remainder)
 |#
 
+;; JBC, 2014-- looks like most of these library functions have
+;; equivalents in Racket....
+
 
 ;; prelude.scm ;;;;;;;;;;;;;;;;;;;;;;
 
