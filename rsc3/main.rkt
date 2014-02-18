@@ -1,12 +1,11 @@
 #lang racket
 
-
 (require
   rnrs
-  "../rhs/rhs.rkt"
-  "../sosc/bytevector.rkt"
-  "../sosc/transport.rkt"
-  "../sosc/sosc.rkt"
+  rhs/rhs
+  sosc/bytevector
+  sosc/transport
+  sosc/sosc
   (prefix-in srfi: srfi/27)
   (prefix-in srfi: srfi/19))
 

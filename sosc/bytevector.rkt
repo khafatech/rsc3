@@ -1,14 +1,17 @@
 #lang racket
 
 (require rnrs
-	"../rhs/rhs.rkt"
-	rnrs/bytevectors-6
-	rnrs/io/ports-6)
+         rhs/rhs
+         rnrs/bytevectors-6
+         rnrs/io/ports-6)
 
 (provide (all-defined-out)
          put-bytevector
          get-bytevector-n
          bytevector-length)
+
+;; JBC-2014 -- looks like all of these have
+;; equivalents in Racket...
 
 ;; bytevector -> (port -> any) -> any
 (define with-input-from-bytevector
