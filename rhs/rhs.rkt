@@ -773,3 +773,11 @@ Licensed under GPL (2 or 3? FIXME)
 	(let ((lr (partition* (compose not pair?) t)))
 	  (cons (fst lr) (levels (concat (snd lr))))))))
 
+
+
+(module+ test
+  (require rackunit)
+  (check-equal? (drop 2 '(1 2 3 4 5 6)) '(3 4 5 6))
+  (check-equal? (transpose '((1 2) (3 4))) '((1 3) (2 4)))
+  )
+
