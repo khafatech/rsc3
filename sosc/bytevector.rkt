@@ -73,20 +73,19 @@
 (module+ test
   (require rackunit)
   
+  ;; test bytevector-section, which is equivalent ot subbytes
   (test-begin
    (let [(long-vec (bytes 10 20 30 40 50))]
      (check-equal? (bytevector-section long-vec 0 2)
                    (bytes 10 20))
      (check-equal? (bytevector-section long-vec 0 (bytes-length long-vec))
                    long-vec)
-     ;; bytevector-section is equivalent ot subbytes
      (check-equal? (bytevector-section long-vec 1 3)
                    (subbytes long-vec 1 3))
      
-     
      ; check if exceding limits raises exception
      (check-exn exn:fail? (λ () (bytevector-section long-vec 0 30)))
-     (check-exn exn:fail? (λ () (bytevector-section long-vec -1 3)))
-     )
-   )
-  )
+     (check-exn exn:fail? (λ () (bytevector-section long-vec -1 3)))))
+  
+  (check-equal? (flatten-bytevectors (list (bytes 10 20) (bytes 30 40) (list (bytes 50 60))))
+                (bytes 10 20 30 40 50 60)))
