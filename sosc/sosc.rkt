@@ -520,3 +520,21 @@
   (lambda (p)
     (or (verify-message p)
 	 (verify-bundle p))))
+
+
+                                     
+
+#|
+
+(define m1 (encode-osc (message "/a/b" (list 257))))
+
+
+
+;; try to create a call graph
+(require profile)
+(require profile/render-graphviz)
+
+(profile-thunk trace-encode
+               #:render render
+               #:use-errortrace? #t)
+|#

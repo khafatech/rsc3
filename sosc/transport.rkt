@@ -3,7 +3,7 @@
 ;; from transport.scm ;;;;;;;
 
 (require rnrs
-		 "bytevector.rkt"
+         "bytevector.rkt"
          "sosc.rkt"
          "ip.rkt")
 
