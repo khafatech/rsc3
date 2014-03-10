@@ -1,7 +1,5 @@
 #lang racket
 
-
-
 (require
   rnrs
   rhs/rhs
@@ -522,6 +520,30 @@
 	 (verify-bundle p))))
 
 
+
+(module+ test
+  (require rackunit)
+  
+  ;; test from Clement's osc package (osc-to-bytes.rkt)
+  ;; in sosc, strings are just "abc", blobs are #"abc".
+  ;; in osc, strings are #"abc", blobs are ('blob #"abc")
+  (check-equal? (encode-osc (message "/abc/def"
+                                     (list
+                                      3 6 2.278 
+                                      "froggy"
+                                      #"derple")))
+                (bytes-append 
+                 #"/abc/def\000\000\000\000,iifsb\0\0"
+                 (bytes 0 0 0 3)
+                 (bytes 0 0 0 6)
+                 #"@\21\312\301"
+                 #"froggy\0\0"
+                 (bytes 0 0 0 6)
+                 #"derple"
+                 (bytes 0 0)))
+  
+  
+  )
                                      
 
 #|
