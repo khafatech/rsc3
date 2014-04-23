@@ -1,1 +1,0 @@
-;; See lin-cong-c.

@@ -1,1 +1,0 @@
-;; See lfd-noise0
