@@ -23,7 +23,11 @@ Oregano will have these concepts/objects:
 
 ## Functionality
 
-- adding filters
+- adding filters to tracks
 
+- ability to change filter parameters
 
+- playing a note from an instrument on a track.
 
+- load sound files into buffers, and play them using notes.
+  - create instruments 

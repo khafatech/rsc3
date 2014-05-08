@@ -22,21 +22,33 @@ tracks:
 (note-on my-piano C#3 track3)
 
 |#
- 
-(define effects-list '())
 
+
+(define num-tracks 8)
+(define tracks (make-vector num-tracks '()))
+
+
+;; returns the effect list for a given track
+;; track-num is 1-based
+(define (get-track-effects track-num)
+  (vector-ref tracks track-num))
 
 
 ;; adds an effect to the end of the effect chain of the given track
 (define (append-effect track-num effect-ugen)
-  ; TODO
-  empty)
+  (define current-effects (get-track-effects track-num))
+  (vector-set! tracks track-num
+              (append current-effects (list effect-ugen))))
+
+(append-effect 3 'reverb)
+(append-effect 3 'echo)
 
 ;; creates a ugen that is routed
 ;; in-bus: input bus channel
 ;; out-bus: output bus channel
 (define (make-effect-ugen effect-ugen in-bus out-bus)
   ; TODO
+  
   empty)
 
 ;; example effect ugen
@@ -44,10 +56,15 @@ tracks:
                             (mouse-y kr 0 1 0 0.1)
                             0.5)))
 
-(define (make-freeverb-with-in-out in-bus out-bus)
+#;(define (make-freeverb-with-in-out in-bus out-bus)
   (out out-bus (free-verb (in 1 ar in-bus) 0.5
                           (mouse-y kr 0 1 0 0.1)
                           0.5)))
+
+;;(define freeverb-effect make-freeverb-with-in-out)
+
+
+
 
 
 
