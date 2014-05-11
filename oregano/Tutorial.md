@@ -35,6 +35,16 @@ The purpose of playing notes on different tracks is we can have different filter
 
 
 - Instrument: This is equivalent to choosing what the note sounds like. There are default instruments (saw wave, piano, etc.) and you can also define your own using samples.
-- Note: 
-- Track
-- Filters
+- Note: specifies a key from an instrument, and can be played on a track
+- Track: 
+- Filters: can be added to a track. The order in which they are added matters.
+
+
+## Example
+
+
+TODO:
+- use an instrument to play a note on a track.
+- add filters to  a track
+
+
