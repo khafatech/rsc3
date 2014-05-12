@@ -42,11 +42,29 @@ The purpose of playing notes on different tracks is we can have different filter
 
 ## Example
 
-- Creating an instrument
+### 1. Creating an instrument
 
+You can either use a preset instrument or define your own instrument
 
-  ;; this uses the preset
-  (define my-piano (make-instrument 'piano))
+    ;; this uses the piano preset
+    (define my-piano (make-instrument 'piano))
+    
+    ;; create a custom instrument
+    ;; can use oscilators and envelopes
+    (define my-instrument (make-instrument ...)
+    
+    ;; add envelope to instrument
+
+### 2. Playing a note
+
+Now that we have an instrument, we can use it to play notes on a specific track.
+
+    ;; this plays the key C#, octave 3 on track 2.
+    (note-on my-piano C#3 track2)
+    
+    ;; to stop playing
+    (note-off my-piano C#3 track2)
+
 
 TODO:
 - use an instrument to play a note on a track.
