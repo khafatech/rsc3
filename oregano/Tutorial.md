@@ -42,9 +42,16 @@ The purpose of playing notes on different tracks is we can have different filter
 
 ## Example
 
+- Creating an instrument
+
+
+  ;; this uses the preset
+  (define my-piano (make-instrument 'piano))
 
 TODO:
 - use an instrument to play a note on a track.
 - add filters to  a track
 
+
+    (append-effect track3 (reverb-effect 0.5 0.9))
 
