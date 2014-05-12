@@ -51,7 +51,7 @@ You can either use a preset instrument or define your own instrument
     
     ;; create a custom instrument
     ;; can use oscilators and envelopes
-    (define my-instrument (make-instrument ...)
+    (define my-instrument (make-instrument ... TODO))
     
     ;; add envelope to instrument
 
@@ -64,6 +64,8 @@ Now that we have an instrument, we can use it to play notes on a specific track.
     
     ;; to stop playing
     (note-off my-piano C#3 track2)
+
+    ;; TODO - find a way to turn off a note, or make a note play for a specific time
 
 
 TODO:
