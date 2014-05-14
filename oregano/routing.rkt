@@ -43,6 +43,7 @@ tracks:
 (append-effect 3 'reverb)
 (append-effect 3 'echo)
 
+
 ;; creates a ugen that is routed
 ;; in-bus: input bus channel
 ;; out-bus: output bus channel
@@ -56,12 +57,12 @@ tracks:
                             (mouse-y kr 0 1 0 0.1)
                             0.5)))
 
+;; internal function
 #;(define (make-freeverb-with-in-out in-bus out-bus)
   (out out-bus (free-verb (in 1 ar in-bus) 0.5
                           (mouse-y kr 0 1 0 0.1)
                           0.5)))
 
-;;(define freeverb-effect make-freeverb-with-in-out)
 
 
 

@@ -12,7 +12,7 @@
 Oregano will have these concepts/objects:
 
 
-- track: like a "track" in renoise. can have notes, and a list of effects.
+- track: like a "track" in renoise. can have notes and a list of filters
 
 
 - instrument: instrument defenitions or presets, and actual instantiated instruments.
