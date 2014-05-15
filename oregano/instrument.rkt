@@ -17,7 +17,7 @@
   current-node-id)
 
 
-(define (instrument wave-func)
+(define (wave-instrument wave-func)
   (letc ([bus 0]
          [freq 440])
         (out bus (mul 0.2 (wave-func ar freq 0)))))
@@ -41,7 +41,8 @@
 
 ;; send synthdefs
 (with-sc3 (lambda (fd)
-                  (send-synth fd "sin-inst" sin-instrument)))
+                  (send-synth fd "sin-inst" (wave-instrument sin-osc))
+                  (send-synth fd "saw-inst" saw-instrument)))
 
 
 (define (make-instrument ins)
@@ -52,6 +53,14 @@
             (send-msg (n-run1 node-id 0))
             node-id)]
     [else (error "unknown instrument used")]))
+
+(define (note-on inst freq track)
+  (send-msg (n-set1 inst "freq" freq))
+  (send-msg (n-set1 inst "bus" track))
+  (send-msg (n-run1 inst 1)))
+
+(define (note-off inst)
+  (send-msg (n-run1 inst 0)))
 
 #|
 
@@ -69,5 +78,10 @@
 (define my-sin (make-instrument 'sin))
 
 
+;; example:
+
+; (note-on my-sin 500 1)
+
+; (note-off my-sin)
 
 
