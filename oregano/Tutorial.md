@@ -36,7 +36,7 @@ The purpose of playing notes on different tracks is we can have different filter
 
 - Instrument: This is equivalent to choosing what the note sounds like. There are default instruments (saw wave, piano, etc.) and you can also define your own using samples.
 - Note: specifies a key from an instrument, and can be played on a track
-- Track: 
+- Track: a place to play notes and add filters.
 - Filters: can be added to a track. The order in which they are added matters.
 
 
@@ -98,6 +98,17 @@ For example, if you want to control the cutoff frequency for a filter using the 
 
 When the mouse is at the left of the screen, the frequency is 200, when the mouse is at the right, the frequency is 500.
 
+### List of Filters
+
+- hpf, lpf
+
+- moog
+
+- reverb
+
+- delay
+
+- comb
 
 ### Loading samples
 
