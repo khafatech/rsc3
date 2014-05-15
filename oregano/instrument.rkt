@@ -30,7 +30,7 @@
 (define saw-instrument
   (letc ([bus 0]
          [freq 440])
-        (out bus (mul 0.2 (sin-osc ar freq 0)))))
+        (out bus (mul 0.2 (saw ar freq)))))
 
 
 ;; setup
