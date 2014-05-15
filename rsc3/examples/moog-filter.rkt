@@ -60,7 +60,7 @@
    (out 0 (mul (fb-sine-c ar sample-rate 1 (mouse-x kr 1 5 1 0.1) 1.1 (mouse-y kr 0.5 1 1 0.1) 0.1 0.1) 0.2))))
 
 ;; fb-sine-c.help.scm
-(let* ((x (mouse-x kr 0.1 1 0 0.1))
+#;(let* ((x (mouse-x kr 0.1 1 0 0.1))
        (f (lambda (m a) (mul-add (lf-noise2 kr x) m a))))
   (audition
    (out 0 (mul (fb-sine-c ar
@@ -73,8 +73,12 @@
 			  0.1)
 	       0.2))))
 
+(define (simple-mouse-x start end)
+  (mouse-x kr start end 0 0.1))
+
 ;; like old telephone ring. uses key-state aaaa
-#; (let ([freq (mouse-x kr 600 2000 1 0.1)])
+; (let ([freq (mouse-x kr 600 2000 1 0.1)])
+(let ([freq (simple-mouse-x 600 1500)])
   (audition (out 0 
                  (mul (sin-osc ar 
                                (mul-add (lf-pulse ar 15 0 0.5) 200 freq)
