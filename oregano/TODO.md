@@ -1,13 +1,7 @@
 
 
 
-
-
-## Interface
-
-
-
-### DAW-like model
+## DAW-like model
 
 Oregano will have these concepts/objects:
 

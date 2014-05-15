@@ -77,7 +77,13 @@ You can add filters to a specific track.
 
 ## Functions
 
+### Oscilators
 
+These can be used in defining instruments.
+
+- sin, saw, tringle, square
+
+- 
 
 ### mouse-x and mouse-y
 
@@ -93,15 +99,16 @@ For example, if you want to control the cutoff frequency for a filter using the 
 When the mouse is at the left of the screen, the frequency is 200, when the mouse is at the right, the frequency is 500.
 
 
+### Loading samples
+
+* (load-sample file-name)
+
+* (play-sample sample)
+
 
 
 
 ---
-
-
-    (definst supersaw
-        (
-
 
 
 
