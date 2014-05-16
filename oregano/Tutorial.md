@@ -51,9 +51,12 @@ You can either use a preset instrument or define your own instrument
     
     ;; create a custom instrument
     ;; can use oscilators and envelopes
-    (define my-instrument (make-instrument ... TODO))
-    
+    ;; "freq" is the frequency parameter
+    (define-instrument my-custom-inst  (mul (sin 20) (sin "freq")))
+
     ;; add envelope to instrument
+    (define my-inst (preset-instrument "sine"
+        (envelope A S D R))
 
 ### 2. Playing a note
 
@@ -122,12 +125,28 @@ When the mouse is at the left of the screen, the frequency is 200, when the mous
 ---
 
 
+##
+
 
 ### Sliders
 
-
     (add-effect track3 (low-pass-filter resonance 
-                                        (slider : 200 500)))
+                                        (slider "name" 200 500 300)))
+
+
+How should I deal with one instrument on multiple tracks?
+
+keep a list of instruments per track.
+
+create a separate synth per track.
+
+; bus = 2
+; should create a new synth
+(play-note my-inst 880 track2)
+
+
+; bus = 3
+(play-note my-inst 880 track3)
 
 
 
