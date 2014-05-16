@@ -123,7 +123,11 @@ When the mouse is at the left of the screen, the frequency is 200, when the mous
 
 
 
+### Sliders
 
+
+    (add-effect track3 (low-pass-filter resonance 
+                                        (slider : 200 500)))
 
 
 
