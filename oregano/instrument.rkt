@@ -4,6 +4,8 @@
 
 ;; --- gui stuff
 
+;; TODO - put in another file.
+
 (require (prefix-in gui: racket/gui))
 
 (define frame (new gui:frame% [label "Sliders"]))
@@ -37,11 +39,21 @@
      [callback (lambda (s event)
                    (send-msg
                     (c-set1 bus-id (/ (gui:send s get-value) 1000))))])
-
-  
   (in 1 kr bus-id))
 
-; -------
+
+(new gui:check-box%
+     [label "note-on"]
+     [parent frame]
+     [value #f]
+     [callback (lambda (element event)
+                   (if (gui:send element get-value)
+                       (send-msg (n-run1 1001 1))
+                       (send-msg (n-run1 1001 0))))])
+                      
+
+
+; ------- end of gui stuff
 
 
 
@@ -77,7 +89,8 @@
   (letc ([bus 0]
          [freq 440])
         (out bus (moog-ff
-                  (mul (saw ar (mouse-x kr 200 1000 0 0.1)) 0.1) freq 3 0))))
+                  (mul (saw ar freq) 0.1)
+                  (mouse-y kr 200 30000 1 0.1) 3 0))))
         
 ;; setup
 ;; show osc messages on server
@@ -85,14 +98,15 @@
 (with-sc3 reset)
 
 (define perset-instrument-map
-  (hash "sin-inst" sin-instrument
-        "saw-inst" saw-instrument
-        "moog-inst" moog-instrument))
+  `(("sin-inst" ,sin-instrument)
+    ("saw-inst" ,saw-instrument)
+    ("moog-inst" ,moog-instrument)))
 
 ;; send synthdefs
-(with-sc3 (lambda (fd)
-                  (send-synth fd "sin-inst" sin-instrument) ; (wave-instrument sin-osc))
-                  (send-synth fd "saw-inst" saw-instrument)))
+(map (lambda (pair)
+       (with-sc3 (lambda (fd)
+                   (send-synth fd (first pair) (second pair)))))
+     perset-instrument-map)
 
 (define (create-synth name node-id)
   (send-msg (s-new0 name node-id 1 1))
@@ -127,7 +141,7 @@
 
 ;; example:
 (sleep 0.1)
-(note-on my-sin 500 1)
+; (note-on my-sin 500 1)
 
 ; (note-off my-sin)
 
