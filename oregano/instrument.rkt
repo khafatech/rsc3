@@ -73,11 +73,21 @@
          [freq 440])
         (out bus (mul 0.2 (saw ar freq)))))
 
-
+(define moog-instrument
+  (letc ([bus 0]
+         [freq 440])
+        (out bus (moog-ff
+                  (mul (saw ar (mouse-x kr 200 1000 0 0.1)) 0.1) freq 3 0))))
+        
 ;; setup
 ;; show osc messages on server
 (send-msg (dump-osc 1))
 (with-sc3 reset)
+
+(define perset-instrument-map
+  (hash "sin-inst" sin-instrument
+        "saw-inst" saw-instrument
+        "moog-inst" moog-instrument))
 
 ;; send synthdefs
 (with-sc3 (lambda (fd)

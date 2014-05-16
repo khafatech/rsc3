@@ -41,6 +41,16 @@
          (x (mouse-x kr 0 4 0 0.1)))
     (audition (out 0 (moog-ff n y x 0))))
 
+(let* ((y (mouse-y kr 200 30000 1 0.1))
+       (s (mul (saw ar (mouse-x kr 200 1000 0 0.1)) 0.1))
+       (x 3)) ;(mouse-x kr 0 4 0 0.1)))
+  (audition (out 0 (pan2
+                    (free-verb (moog-ff s y x 0) 0.5
+                               0.9
+                               0.5)
+                   0 1))))
+  
+
 ;; lorenz-l.help.scm
 #;(let* ((n (mul (white-noise ar) 0.1))
        (y (mouse-y kr 40 80 1 0.1))
@@ -78,7 +88,7 @@
 
 ;; like old telephone ring. uses key-state aaaa
 ; (let ([freq (mouse-x kr 600 2000 1 0.1)])
-(let ([freq (simple-mouse-x 600 1500)])
+#; (let ([freq (simple-mouse-x 600 1500)])
   (audition (out 0 
                  (mul (sin-osc ar 
                                (mul-add (lf-pulse ar 15 0 0.5) 200 freq)
