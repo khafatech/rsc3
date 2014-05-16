@@ -84,15 +84,16 @@
                   (send-synth fd "sin-inst" sin-instrument) ; (wave-instrument sin-osc))
                   (send-synth fd "saw-inst" saw-instrument)))
 
+(define (create-synth name node-id)
+  (send-msg (s-new0 name node-id 1 1))
+  ; don't make sound upon creation
+  (send-msg (n-run1 node-id 0))
+  node-id)
 
-(define (make-instrument ins)
-  (match ins
-    ['sin (let ([node-id (gen-node-id)])
-            (send-msg (s-new0 "sin-inst" node-id 1 1))
-            ; don't make sound upon creation
-            (send-msg (n-run1 node-id 0))
-            node-id)]
-    [else (error "unknown instrument used")]))
+(define (preset-instrument name)
+  (let ([node-id (gen-node-id)])
+    (create-synth name node-id)))
+
 
 (define (note-on inst freq track)
   (send-msg (n-set1 inst "freq" freq))
@@ -111,11 +112,11 @@
 
 ;; ======== test run ===========
 
-(define my-sin (make-instrument 'sin))
+(define my-sin (preset-instrument "sin-inst"))
 
 
 ;; example:
-
+(sleep 0.1)
 (note-on my-sin 500 1)
 
 ; (note-off my-sin)
