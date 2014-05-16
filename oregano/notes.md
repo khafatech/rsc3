@@ -14,6 +14,13 @@
 
 ### Installation/setup
 
+
+scsynth in
+	/Volumes/SuperCollider/SuperCollider/SuperCollider.app/Contents/Resources/scsynth
+
+or /Applications/...
+
+
 #### Ubuntu 12.10
 
 

@@ -6,7 +6,7 @@
 
 (require (prefix-in gui: racket/gui))
 
-(define frame (new gui:frame% [label "Example"]))
+(define frame (new gui:frame% [label "Sliders"]))
 
 ;; parent should be a frame
 (new gui:slider% [parent frame]
@@ -20,16 +20,16 @@
 
 (gui:send frame show #t)
 
-
 ;; hypothetical usage
 #;(add-filter track2 (lpf #:resonance .3
                         #:cutoff (slider 300 800 500)))
 
-(define (slider min-n max-n init)
+(define (slider name min-n max-n init)
+  ;; TODO - determine available bus
   (define bus-id 16)
   
   (new gui:slider% [parent frame]
-     [label "amp"]
+     [label name]
      [min-value min-n]
      [max-value max-n]
      [init-value init]
@@ -66,7 +66,7 @@
 (define sin-instrument
   (letc ([bus 0]
          [freq 440])
-        (out bus (mul (slider 100 800 200) (sin-osc ar freq 0)))))
+        (out bus (mul (slider "amplitude" 100 800 200) (sin-osc ar freq 0)))))
 
 (define saw-instrument
   (letc ([bus 0]
@@ -76,8 +76,7 @@
 
 ;; setup
 ;; show osc messages on server
-(with-sc3 (lambda (fd)
-            (send fd (dump-osc 1))))
+(send-msg (dump-osc 1))
 (with-sc3 reset)
 
 ;; send synthdefs
@@ -117,7 +116,7 @@
 
 ;; example:
 
-; (note-on my-sin 500 1)
+(note-on my-sin 500 1)
 
 ; (note-off my-sin)
 

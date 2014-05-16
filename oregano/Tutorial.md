@@ -47,7 +47,7 @@ The purpose of playing notes on different tracks is we can have different filter
 You can either use a preset instrument or define your own instrument
 
     ;; this uses the piano preset
-    (define my-piano (make-instrument 'piano))
+    (define my-piano (preset-instrument 'piano))
     
     ;; create a custom instrument
     ;; can use oscilators and envelopes
