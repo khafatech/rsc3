@@ -1562,6 +1562,11 @@
   (lambda (fd n u)
     (async fd (d-recv (encode-graphdef (synthdef n u))))))
 
+;; osc message -> ()
+(define (send-msg msg)
+  (with-sc3 (lambda (fd)
+              (send fd msg))))
+
 ;; port -> ugen -> ()
 (define play
   (lambda (fd u)
