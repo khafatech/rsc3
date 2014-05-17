@@ -9,6 +9,7 @@
 (require (prefix-in gui: racket/gui))
 
 (define frame (new gui:frame% [label "Sliders"]))
+(gui:send frame show #t)
 
 ;; parent should be a frame
 (new gui:slider% [parent frame]
@@ -20,7 +21,6 @@
      [callback (lambda (s event)
                    (send-msg (n-set1 1001 "freq" (gui:send s get-value))))])
 
-(gui:send frame show #t)
 
 ;; hypothetical usage
 #;(add-filter track2 (lpf #:resonance .3
@@ -39,6 +39,7 @@
      [callback (lambda (s event)
                    (send-msg
                     (c-set1 bus-id (/ (gui:send s get-value) 1000))))])
+  (send-msg (c-set1 bus-id (/ init 1000)))
   (in 1 kr bus-id))
 
 
@@ -140,7 +141,7 @@
 
 
 ;; example:
-(sleep 0.1)
+(sleep 1)
 ; (note-on my-sin 500 1)
 
 ; (note-off my-sin)
