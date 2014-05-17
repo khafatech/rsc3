@@ -8,5 +8,7 @@ sleep 1
 jack_connect -s default SuperCollider:out_1 system:playback_1
 jack_connect -s default SuperCollider:out_2 system:playback_2
 
+# go to scsynth
+fg
 
 

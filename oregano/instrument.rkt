@@ -4,66 +4,12 @@
 
 ;; --- gui stuff
 
-;; TODO - put in another file.
-
-(require (prefix-in gui: racket/gui))
-
-(define frame (new gui:frame% [label "Sliders"]))
-(gui:send frame show #t)
-
-;; parent should be a frame
-(new gui:slider% [parent frame]
-     [label "freq"]
-     [min-value 300]
-     [max-value 1000]
-     [init-value 400]
-     ;; callback receives the slider object and an event object
-     [callback (lambda (s event)
-                   (send-msg (n-set1 1001 "freq" (gui:send s get-value))))])
-
-
-;; hypothetical usage
-#;(add-filter track2 (lpf #:resonance .3
-                        #:cutoff (slider 300 800 500)))
-
-(define (slider name min-n max-n init)
-  ;; TODO - determine available bus
-  (define bus-id 16)
-  
-  (new gui:slider% [parent frame]
-     [label name]
-     [min-value min-n]
-     [max-value max-n]
-     [init-value init]
-     ;; callback receives the slider object and an event object
-     [callback (lambda (s event)
-                   (send-msg
-                    (c-set1 bus-id (/ (gui:send s get-value) 1000))))])
-  (send-msg (c-set1 bus-id (/ init 1000)))
-  (in 1 kr bus-id))
-
-
-(new gui:check-box%
-     [label "note-on"]
-     [parent frame]
-     [value #f]
-     [callback (lambda (element event)
-                   (if (gui:send element get-value)
-                       (send-msg (n-run1 1001 1))
-                       (send-msg (n-run1 1001 0))))])
-                      
+(require "gui.rkt")
 
 
 ; ------- end of gui stuff
 
 
-
-
-
-;; simplifies sending osc messages to server
-(define (send-msg msg)
-  (with-sc3 (lambda (fd)
-              (send fd msg))))
 
 (define current-node-id 1000)
 (define (gen-node-id)
@@ -79,7 +25,8 @@
 (define sin-instrument
   (letc ([bus 0]
          [freq 440])
-        (out bus (mul (slider "amplitude" 100 800 200) (sin-osc ar freq 0)))))
+        ;; TODO - remove slider
+        (out bus (mul (signal-slider "amplitude" 100 800 200) (sin-osc ar freq 0)))))
 
 (define saw-instrument
   (letc ([bus 0]
@@ -115,6 +62,9 @@
   (send-msg (n-run1 node-id 0))
   node-id)
 
+
+; === user instrument funcs ===
+
 (define (preset-instrument name)
   (let ([node-id (gen-node-id)])
     (create-synth name node-id)))
@@ -125,8 +75,14 @@
   (send-msg (n-set1 inst "bus" track))
   (send-msg (n-run1 inst 1)))
 
-(define (note-off inst)
+(define (inst-on inst)
+  (send-msg (n-run1 inst 1)))
+
+(define (inst-off inst)
   (send-msg (n-run1 inst 0)))
+
+(define (set-inst-param inst name val)
+  (send-msg (n-set1 inst name val)))
 
 #|
 
@@ -135,13 +91,25 @@
 
 |#
 
-;; ======== test run ===========
+
+;; ========  example useage ===========
 
 (define my-sin (preset-instrument "sin-inst"))
 
+(param-slider "change frequency" 300 1000 400
+                (lambda (val)
+                  (set-inst-param my-sin "freq" val)))
+
+(param-check-box "synth on" #f
+                 (lambda (v)
+                   (if v
+                       (inst-on my-sin)
+                       (inst-off my-sin))))
+
+(show-gui)
 
 ;; example:
-(sleep 1)
+(sleep 0.5)
 ; (note-on my-sin 500 1)
 
 ; (note-off my-sin)

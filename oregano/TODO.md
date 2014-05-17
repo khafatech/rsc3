@@ -23,8 +23,6 @@ Oregano will have these concepts/objects:
 
 - custom instruments
 
-
-
 - adding filters to tracks
 
 - ability to change filter parameters
