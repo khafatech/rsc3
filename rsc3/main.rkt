@@ -1567,6 +1567,14 @@
   (with-sc3 (lambda (fd)
               (send fd msg))))
 
+;; osc message -> ()
+;; waits for /done
+(define (send-async-msg msg)
+  (with-sc3 (lambda (fd)
+              (async fd msg))))
+
+
+
 ;; port -> ugen -> ()
 (define play
   (lambda (fd u)
