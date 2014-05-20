@@ -1,14 +1,13 @@
 #lang racket
+
+
 (require rsc3)
 
 
-;; --- gui stuff
+(provide (all-defined-out))
 
+;; TODO - remove. using "signal-slider" for testing
 (require "gui.rkt")
-
-
-; ------- end of gui stuff
-
 
 
 (define current-node-id 1000)
@@ -98,7 +97,7 @@
 
 
 ;; ========  example useage ===========
-
+#|
 (define my-sin (preset-instrument "sin-inst"))
 
 (param-slider "change frequency" 300 1000 400
@@ -119,5 +118,4 @@
 
 ; (note-off my-sin)
 
-
-
+|#
