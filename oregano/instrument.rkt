@@ -1,5 +1,5 @@
 #lang racket
-(require rsc3 rhs/rhs)
+(require rsc3)
 
 
 ;; --- gui stuff
@@ -39,7 +39,12 @@
         (out bus (moog-ff
                   (mul (saw ar freq) 0.1)
                   (mouse-y kr 200 30000 1 0.1) 3 0))))
-        
+
+;; TODO
+(define (make-instrument graph)
+  (letc ([bus 0])
+        (out bus graph)))
+
 ;; setup
 ;; show osc messages on server
 (send-msg (dump-osc 1))
