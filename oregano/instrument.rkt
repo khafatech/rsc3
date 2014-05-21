@@ -15,6 +15,10 @@
   (set! current-node-id (add1 current-node-id))
   current-node-id)
 
+(define custom-synth-num 1)
+(define (gen-synth-name)
+  (set! current-node-id (add1 current-node-id))
+  current-node-id)
 
 (define (wave-instrument wave-func)
   (letc ([bus 0]
@@ -41,8 +45,13 @@
 
 ;; TODO
 (define (make-instrument graph)
-  (letc ([bus 0])
-        (out bus graph)))
+  (let ([synthedef (letc ([bus 0])
+                          (out bus graph))]
+        [name (format "synth~a" current-node-id)])
+  
+    (with-sc3 (lambda (fd)
+                (send-synth fd name synthdef)))
+  ))
 
 ;; setup
 ;; show osc messages on server
