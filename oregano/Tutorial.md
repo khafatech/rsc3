@@ -46,7 +46,7 @@ The purpose of playing notes on different tracks is we can have different filter
 
 You can either use a preset instrument or define your own instrument
 
-```clj
+```scheme
 ;; this uses the piano preset
 (define my-piano (preset-instrument 'piano))
 
