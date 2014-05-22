@@ -45,18 +45,22 @@
 
 ;; TODO
 (define (make-instrument graph)
-  (let ([synthedef (letc ([bus 0])
+  (let ([sd (letc ([bus 0])
                           (out bus graph))]
         [name (format "synth~a" current-node-id)])
   
     (with-sc3 (lambda (fd)
-                (send-synth fd name synthdef)))
+                (send-synth fd name sd)))
+    
+    name
   ))
 
-;; setup
-;; show osc messages on server
-(send-msg (dump-osc 1))
-(with-sc3 reset)
+
+
+;; example of definst macro like overtone's definst
+#;(define-syntax-rule (define-instrument inst-name [[argname argdefault] ...] ugen)
+  (define (inst-name [argname argdefault] ...)
+    (+ argname ...)))
 
 (define perset-instrument-map
   `(("sin-inst" ,sin-instrument)
@@ -69,33 +73,38 @@
                    (send-synth fd (first pair) (second pair)))))
      perset-instrument-map)
 
+
+; === user instrument funcs ===
+
+(struct note (id [freq #:mutable]))
+
 (define (create-synth name node-id)
   (send-msg (s-new0 name node-id 1 1))
   ; don't make sound upon creation
   (send-msg (n-run1 node-id 0))
   node-id)
 
-
-; === user instrument funcs ===
-
 (define (preset-instrument name)
   (let ([node-id (gen-node-id)])
     (create-synth name node-id)))
 
 
-(define (note-on inst freq track)
-  (send-msg (n-set1 inst "freq" freq))
-  (send-msg (n-set1 inst "bus" track))
-  (send-msg (n-run1 inst 1)))
+(define (note-on the-note)
+  ;(send-msg (n-set1 (note-id the-note) "freq" (note-freq the-note)))
+  ;(send-msg (n-set1 inst "bus" track)) ; TODO
+  (send-msg (n-run1 (note-id the-note) 1)))
 
-(define (inst-on inst)
-  (send-msg (n-run1 inst 1)))
+(define (note-off the-note)
+  (send-msg (n-run1 (note-id the-note) 0)))
 
-(define (inst-off inst)
-  (send-msg (n-run1 inst 0)))
 
-(define (set-inst-param inst name val)
-  (send-msg (n-set1 inst name val)))
+(define (set-note-param the-note name val)
+  (if (eq? name "freq")
+      (set-note-freq! the-note val)
+      empty)
+  (send-msg (n-set1 (note-id the-note) name val)))
+
+
 
 #|
 
