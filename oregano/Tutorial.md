@@ -42,10 +42,15 @@ The purpose of playing notes on different tracks is we can have different filter
 
 ## Examples
 
+All these examples start with `(require oregano)`.
+
 ### 1. Playing a note using a preset instrument
 
+You can either use a preset instrument or define your own instrument. There are a few preset instruments: "sin-inst", "saw-inst", "moog-inst"
 
 ```scheme
+#lang racket
+(require oregano)
 
 ;; this plays the key 
 (define my-note (play-note "sin-inst" 440))
@@ -66,8 +71,17 @@ Or you can create a note object then play it.
 ```
 
 ### 2. Creating an instrument
+ A custom instrument is composed of three parts:
+- it's name. This is a string and is used when playing notes
+- Instrjument arguments and default values. You could change these paramers when a note is playing, in real time.
+- the signal. This can use SuperCollider ugens. (TODO link)
 
-You can either use a preset instrument or define your own instrument
+- some are:
+
+```scheme
+(saw ar freq)
+(sin-osc ar freq phrase)
+```
 
 ```scheme
 
@@ -81,20 +95,39 @@ You can either use a preset instrument or define your own instrument
 (define weird-note (play-note "my-inst" 440))
 
 ; change frequency
-(set-note-param my-note "freq" 808)
+(set-note-param weird-note "freq" 808)
 
 ; change modulation
-(set-note-param my-note "mod" 40)
-
+(set-note-param weird-note "mod" 40)
 
 ```
 
 
+### 3 Sliders
+
+
+You can easily create a slider for a specific note parameter. You have to provide the title, start value, end value, default value, and a callback function.
+
+For example, previous note, `weird-note`:
+
+```scheme
+(param-slider "change modulation" 1  100 40
+                (lambda (val)
+                  (set-note-param weird-note "mod" val)))
+
+;; show the slider
+(show-gui)
+```
+
+
+### Envelopes
+```scheme
 Didn't implement envelopes yet.
 ;; add envelope to instrument
 (define my-inst (preset-instrument "sine"
     (envelope A S D R))
-```
+
+
 
 ### 3. Playing a note using a custom instrument
 

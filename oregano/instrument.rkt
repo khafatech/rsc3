@@ -3,6 +3,8 @@
 
 (require rsc3)
 
+(provide
+ (all-from-out rsc3))
 
 (provide (all-defined-out))
 
@@ -30,7 +32,8 @@
   (letc ([bus 0]
          [freq 440])
         ;; TODO - remove slider
-        (out bus (mul (signal-slider "amplitude" 100 800 200) (sin-osc ar freq 0)))))
+        ;(out bus (mul (signal-slider "amplitude" 100 800 200) (sin-osc ar freq 0)))))
+        (out bus (mul 0.2 (sin-osc ar freq 0)))))
 
 (define saw-instrument
   (letc ([bus 0]
