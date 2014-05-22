@@ -42,13 +42,32 @@ The purpose of playing notes on different tracks is we can have different filter
 
 ## Examples
 
+### 2. Playing a note using a preset instrument
+
+
+```scheme
+
+;; this plays the key 
+(define my-note (play-note "sin-inst" 440))
+(sleep 1)
+;; stop playing note
+(note-off my-note)
+```
+
+Or you can create a note object then play it.
+
+(define my-note2 (note "sin-inst" 880))
+
+(note-on my-note2)
+(sleep 1)
+(note-off my-note2)
+
+
 ### 1. Creating an instrument
 
 You can either use a preset instrument or define your own instrument
 
 ```scheme
-;; this uses the piano preset
-(define my-piano (preset-instrument 'piano))
 
 ;; create a custom instrument
 ;; can use oscilators and envelopes
@@ -60,17 +79,19 @@ You can either use a preset instrument or define your own instrument
     (envelope A S D R))
 ```
 
-### 2. Playing a note
+### 2. Playing a note using a custom instrument
 
 Now that we have an instrument, we can use it to play notes on a specific track.
 
-    ;; this plays the key C#, octave 3 on track 2.
-    (note-on my-piano C#3 track2)
-    
-    ;; to stop playing
-    (note-off my-piano C#3 track2)
+```scheme
+;; this plays the key C#, octave 3 on track 2.
+(note-on my-piano C#3 track2)
 
-    ;; TODO - find a way to turn off a note, or make a note play for a specific time
+;; to stop playing
+(note-off my-piano C#3 track2)
+
+;; TODO - find a way to turn off a note, or make a note play for a specific time
+```
 
 
 ### 3. Add filters to a track
