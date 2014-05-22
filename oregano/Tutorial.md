@@ -74,12 +74,17 @@ You can either use a preset instrument or define your own instrument
 ;; create a custom instrument
 ;; can use oscilators and envelopes
 ;; "freq" is the frequency parameter
-(make-instrument "my-inst" ([freq 500] [modulaion 20])
-  (mul (sin-osc ar modulation 0)
+(make-instrument "my-inst" ([freq 500] [mod 20])
+  (mul (sin-osc ar mod 0)
        (sin-osc ar freq 0)))
 
+(define weird-note (play-note "my-inst" 440))
 
+; change frequency
 (set-note-param my-note "freq" 808)
+
+; change modulation
+(set-note-param my-note "mod" 40)
 
 
 ```
