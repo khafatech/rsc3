@@ -10,6 +10,7 @@
 (require "gui.rkt")
 
 
+
 (define current-node-id 1000)
 (define (gen-node-id)
   (set! current-node-id (add1 current-node-id))
@@ -44,18 +45,23 @@
                   (mouse-y kr 200 30000 1 0.1) 3 0))))
 
 ;; TODO
-(define (make-instrument graph)
+#;(define (make-instrument name graph)
   (let ([sd (letc ([bus 0])
-                          (out bus graph))]
-        [name (format "synth~a" current-node-id)])
-  
+                          (out bus ugen))]
+        ;[name (format "synth~a" current-node-id)]
+        )
     (with-sc3 (lambda (fd)
-                (send-synth fd name sd)))
-    
-    name
+                (send-synth fd name sd)))    
   ))
 
-
+(define-syntax-rule (make-instrument inst-name ([argname argdefault] ...) ugen)
+  (let ([sd (letc ([bus 0]
+                   [argname argdefault] ...)
+                  (out bus ugen))]
+        ;[name (format "synth~a" current-node-id)]
+        )
+    (with-sc3 (lambda (fd)
+                (send-synth fd inst-name sd)))))
 
 ;; example of definst macro like overtone's definst
 #;(define-syntax-rule (define-instrument inst-name [[argname argdefault] ...] ugen)
@@ -74,25 +80,41 @@
      perset-instrument-map)
 
 
-; === user instrument funcs ===
+
+
+; === user note funcs ===
 
 (struct note (id [freq #:mutable]))
 
-(define (create-synth name node-id)
+(define (create-synth name play-on-start)
+  (define node-id (gen-node-id))
   (send-msg (s-new0 name node-id 1 1))
   ; don't make sound upon creation
-  (send-msg (n-run1 node-id 0))
+  (if play-on-start
+      empty
+      (send-msg (n-run1 node-id 0)))
   node-id)
 
-(define (preset-instrument name)
+#;(define (preset-instrument name)
   (let ([node-id (gen-node-id)])
     (create-synth name node-id)))
 
+(define (make-note/option inst-name freq play-on-start)
+  (define node-id (create-synth inst-name play-on-start))
+  (note node-id freq))
+
+(define (play-note inst-name freq)
+  (make-note/option inst-name freq #t))
+
+(define (make-note inst-name freq)
+  (make-note/option inst-name freq #f))
+
+
 
 (define (note-on the-note)
-  ;(send-msg (n-set1 (note-id the-note) "freq" (note-freq the-note)))
   ;(send-msg (n-set1 inst "bus" track)) ; TODO
-  (send-msg (n-run1 (note-id the-note) 1)))
+  (send-msg (n-run1 (note-id the-note) 1))
+  (send-msg (n-set1 (note-id the-note) "freq" (note-freq the-note))))
 
 (define (note-off the-note)
   (send-msg (n-run1 (note-id the-note) 0)))

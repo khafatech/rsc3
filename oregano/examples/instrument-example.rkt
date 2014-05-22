@@ -3,22 +3,15 @@
 (require oregano)
 
 
-(define my-sin (preset-instrument "sin-inst"))
 
-(param-slider "change frequency" 300 1000 400
-                (lambda (val)
-                  (set-inst-param my-sin "freq" val)))
+(define my-note (play-note "sin-inst" 440))
+(sleep 1)
+;; stop playing note
+(note-off my-note)
 
-(param-check-box "synth on" #f
-                 (lambda (v)
-                   (if v
-                       (inst-on my-sin)
-                       (inst-off my-sin))))
 
-(show-gui)
 
-;; example:
-(sleep 0.5)
-; (note-on my-sin 500 1)
-
-; (note-off my-sin)
+(define my-note2 (make-note "sin-inst" 880))
+(note-on my-note2)
+(sleep 1)
+(note-off my-note2)

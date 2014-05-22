@@ -42,7 +42,7 @@ The purpose of playing notes on different tracks is we can have different filter
 
 ## Examples
 
-### 2. Playing a note using a preset instrument
+### 1. Playing a note using a preset instrument
 
 
 ```scheme
@@ -56,14 +56,16 @@ The purpose of playing notes on different tracks is we can have different filter
 
 Or you can create a note object then play it.
 
-(define my-note2 (note "sin-inst" 880))
+```scheme
+
+(define my-note2 (make-note "sin-inst" 880))
 
 (note-on my-note2)
 (sleep 1)
 (note-off my-note2)
+```
 
-
-### 1. Creating an instrument
+### 2. Creating an instrument
 
 You can either use a preset instrument or define your own instrument
 
@@ -72,14 +74,24 @@ You can either use a preset instrument or define your own instrument
 ;; create a custom instrument
 ;; can use oscilators and envelopes
 ;; "freq" is the frequency parameter
-(define-instrument my-custom-inst  (mul (sin 20) (sin "freq")))
+(make-instrument "my-inst" ([freq 500] [modulaion 20])
+  (mul (sin-osc ar modulation 0)
+       (sin-osc ar freq 0)))
 
+
+(set-note-param my-note "freq" 808)
+
+
+```
+
+
+Didn't implement envelopes yet.
 ;; add envelope to instrument
 (define my-inst (preset-instrument "sine"
     (envelope A S D R))
 ```
 
-### 2. Playing a note using a custom instrument
+### 3. Playing a note using a custom instrument
 
 Now that we have an instrument, we can use it to play notes on a specific track.
 
@@ -94,7 +106,7 @@ Now that we have an instrument, we can use it to play notes on a specific track.
 ```
 
 
-### 3. Add filters to a track
+### 4. Add filters to a track
 
 You can add filters to a specific track.
 
