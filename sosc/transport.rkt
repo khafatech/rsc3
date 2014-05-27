@@ -38,7 +38,7 @@
   (lambda (fd s)
     (let ((p (recv fd)))
       (cond
-       ((not p) (error "wait" "timed out"))
+       ((not p) (error "error" "Could not connect to the SuperCollider server"))
        ((not (string=? (car p) s)) (error "wait" "bad return packet" p s))
        (else p)))))
 
