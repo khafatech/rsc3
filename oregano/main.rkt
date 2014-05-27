@@ -3,18 +3,20 @@
 
 (require "instrument.rkt"
          "gui.rkt"
-         "sample.rkt")
+         "sample.rkt"
+         "system.rkt")
 
 ;; setup
 (require rsc3)
 
-;; TODO - run scsynth
+
+(run-super-collider)
+
 
 ;; show osc messages on server
 (send-msg (dump-osc 1))
-(with-sc3 reset)
+(reset)
 (sleep 0.1)
-
 
 (provide
  (all-from-out "instrument.rkt"
