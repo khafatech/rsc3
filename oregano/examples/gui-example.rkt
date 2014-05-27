@@ -6,18 +6,18 @@
 (display "in example.rkt")
 (sleep 0.1)
 
-(define my-sin (preset-instrument "sin-inst"))
+(define my-sin  (make-note "sin-inst" 880))
 
 
 (param-slider "change frequency" 300 1000 400
                 (lambda (val)
-                  (set-inst-param my-sin "freq" val)))
+                  (set-note-param my-sin "freq" val)))
 
 (param-check-box "synth on" #f
                  (lambda (v)
                    (if v
-                       (inst-on my-sin)
-                       (inst-off my-sin))))
+                       (note-on my-sin)
+                       (note-off my-sin))))
 
 (show-gui)
 
