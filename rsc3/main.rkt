@@ -1550,13 +1550,6 @@
     (send fd m)
     (wait fd "/done")))
 
-;; port -> ()
-(define reset
-  (lambda (fd)
-    (send fd (bundle -1 (list (g-free-all1 0)
-			      clear-sched
-			      (g-new1 1 0 0))))))
-
 ;; port -> string -> ugen -> ()
 (define send-synth
   (lambda (fd n u)
@@ -1599,6 +1592,16 @@
 
 ;; (socket -> a) -> a
 (define with-sc3 with-udp-sc3)
+
+
+;; port -> ()
+(define (reset)
+  (with-sc3 (lambda (fd)
+              (send fd (bundle -1 (list (g-free-all1 0)
+                                        clear-sched
+                                        (g-new1 1 0 0)))))))
+
+
 
 ;; ((socket -> a) -> a) -> (ugen -> ())
 (define audition-using
