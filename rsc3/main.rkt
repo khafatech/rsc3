@@ -1558,7 +1558,8 @@
 ;; osc message -> ()
 (define (send-msg msg)
   (with-sc3 (lambda (fd)
-              (send fd msg))))
+              (send fd msg)))
+              (void))
 
 ;; osc message -> ()
 ;; waits for /done
@@ -1599,7 +1600,8 @@
   (with-sc3 (lambda (fd)
               (send fd (bundle -1 (list (g-free-all1 0)
                                         clear-sched
-                                        (g-new1 1 0 0)))))))
+                                        (g-new1 1 0 0))))))
+  (void))
 
 
 
