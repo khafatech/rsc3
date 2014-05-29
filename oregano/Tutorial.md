@@ -58,7 +58,7 @@ You can either use a preset instrument or define your own instrument. There are 
 ;; stop playing note
 (note-off my-note)
 ```
-
+<!--
 Or you can create a note object then play it.
 
 ```scheme
@@ -69,6 +69,7 @@ Or you can create a note object then play it.
 (sleep 1)
 (note-off my-note2)
 ```
+-->
 
 ### 2. Creating an instrument
  A custom instrument is composed of three parts:
@@ -120,7 +121,47 @@ For example, previous note, `weird-note`:
 ```
 
 
+
+### 4. Add filters to a track
+
+You can add filters to a specific track.
+
+Add a reverb to track 0. (currently only track 0 works.)
+
+```scheme
+(make-instrument "phone-inst" ([freq 500])
+                 (mul (sin-osc ar (mul-add (lf-pulse ar 15 0 0.5) 200 freq) 0)
+                      (mouse-button kr 0 0.1 0.1)))
+
+;; click any mouse button to hear the note
+(define phone-note (play-note "phone-inst" 600))
+
+;; apply a reverb effect on track 0
+(reverb 0 0.5)
+
+(sleep 3)
+
+(moog-filter 0 800)
+
+```
+
+
+### mouse/x and mouse/y
+
+You can parameters to filters and instruments using the mouse.
+
+    (mouse/x start-value end-value)
+
+For example, if you want to control the cutoff frequency for a filter using the left-right position of the mouse.
+
+    (low-pass-filter 0 (mouse/x kr 200 500)))
+
+When the mouse is at the left of the screen, the frequency is 200, when the mouse is at the right, the frequency is 500.
+
+
+---
 ### Envelopes
+
 ```scheme
 Didn't implement envelopes yet.
 ;; add envelope to instrument
@@ -128,27 +169,6 @@ Didn't implement envelopes yet.
     (envelope A S D R))
 
 
-
-### 3. Playing a note using a custom instrument
-
-Now that we have an instrument, we can use it to play notes on a specific track.
-
-```scheme
-;; this plays the key C#, octave 3 on track 2.
-(note-on my-piano C#3 track2)
-
-;; to stop playing
-(note-off my-piano C#3 track2)
-
-;; TODO - find a way to turn off a note, or make a note play for a specific time
-```
-
-
-### 4. Add filters to a track
-
-You can add filters to a specific track.
-
-    (add-effect track3 (reverb 0.5 0.9))
 
 
 ## Functions
@@ -161,18 +181,6 @@ These can be used in defining instruments.
 
 - 
 
-### mouse-x and mouse-y
-
-You can parameters to filters and instruments using the mouse.
-
-    (mouse-x start-value end-value)
-
-For example, if you want to control the cutoff frequency for a filter using the left-right position of the mouse.
-
-    (add-effect track3 (low-pass-filter resonance 
-                                        (mouse-x kr 200 500)))
-
-When the mouse is at the left of the screen, the frequency is 200, when the mouse is at the right, the frequency is 500.
 
 ### List of Filters
 

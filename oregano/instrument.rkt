@@ -132,8 +132,14 @@
   (send-msg (n-set1 (note-id the-note) name val))
   (void))
 
-  
-  
+
+(define (mouse/x start end)
+  (mouse-x kr start end 0 0.1))
+
+(define (mouse/y start end)
+  (mouse-y kr start end 0 0.1))
+
+
   #|
 
 - to stop/run:

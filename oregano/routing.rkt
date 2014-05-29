@@ -1,6 +1,8 @@
 #lang racket
 
 (require rsc3)
+
+(provide (all-defined-out))
 #|
 tracks:
 
@@ -66,12 +68,16 @@ tracks:
   (define (name bus)
     (apply-effect bus ugen)))
 
-(define (reverb bus)
+(define (reverb bus ammount)
   (apply-effect bus
                 (free-verb (in 1 ar bus)
                            0.5
-                           (mouse-y kr 0 1 0 0.1)
+                           ammount ;(mouse-y kr 0 1 0 0.1)
                            0.5)))
+
+(define (low-pass-filter bus ammount)
+  (apply-effect bus
+                (lpf (in 1 ar bus) ammount)))
 
 ; example: apply reverb on bus 0
 ; (reverb 0)
@@ -84,5 +90,4 @@ tracks:
   (apply-effect bus
                 (comb-n (in 1 ar bus) delay-time delay-time decay-time)))
 
-; (add-effect track0 (reverb 0.3 6)
 

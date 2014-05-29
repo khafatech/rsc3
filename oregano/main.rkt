@@ -10,7 +10,7 @@
 (require rsc3)
 
 ;; FIXME - not running
-(display "Hello! from main.rkt\n")
+;(display "Hello! from main.rkt\n")
 ;(run-super-collider)
 
 
