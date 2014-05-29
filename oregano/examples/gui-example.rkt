@@ -4,9 +4,9 @@
 
 
 (display "in example.rkt")
-(sleep 0.1)
+;(sleep 0.1)
 
-(define my-sin  (make-note "sin-inst" 880))
+(define my-sin  (make-note "saw-inst" 880))
 
 
 (param-slider "change frequency" 300 1000 400

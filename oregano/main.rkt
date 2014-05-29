@@ -1,16 +1,17 @@
 #lang racket
 
-(require "instrument.rkt"
+(require "system.rkt"
+         "instrument.rkt"
          "gui.rkt"
-         "sample.rkt"
-         "system.rkt")
+         "sample.rkt"         
+         "routing.rkt")
 
 ;; setup
 (require rsc3)
 
 ;; FIXME - not running
 (display "Hello! from main.rkt\n")
-(run-super-collider)
+;(run-super-collider)
 
 
 ;; show osc messages on server
@@ -21,6 +22,7 @@
 (provide
  (all-from-out "instrument.rkt"
                "gui.rkt"
-               "sample.rkt"))
+               "sample.rkt"
+               "routing.rkt"))
  
 

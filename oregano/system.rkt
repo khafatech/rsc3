@@ -15,9 +15,10 @@
                  (process "./start_server_linux.sh")
                  (sleep 0.5)
                  (if (system "ps -e | grep scsynth > /dev/null")
-                     (display "OK")
-                     (display "Error")))))
+                     (display "OK\n")
+                     (display "Error\n")))))
     ('macosx 1)
     ('windows  1)
     (else 1)))
 
+(run-super-collider)

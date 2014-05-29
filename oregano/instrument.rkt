@@ -11,7 +11,7 @@
 ;; TODO - remove. using "signal-slider" for testing
 (require "gui.rkt")
 
-(run-super-collider)
+;(run-super-collider)
 
 
 (define current-node-id 1000)

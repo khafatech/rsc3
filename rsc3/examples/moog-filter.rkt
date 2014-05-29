@@ -26,7 +26,7 @@
 
 |#
 
-(with-sc3 reset)
+(reset)
 
 #|
 (let* ((x (mouse-x kr 220 440 0 0.1))
