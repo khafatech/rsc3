@@ -62,6 +62,10 @@ tracks:
 (define (apply-effect bus effect)
   (audition (replace-out bus effect)))
 
+#;(define-syntax-rule (define-effect name ugen)
+  (define (name bus)
+    (apply-effect bus ugen)))
+
 (define (reverb bus)
   (apply-effect bus
                 (free-verb (in 1 ar bus)
@@ -76,6 +80,9 @@ tracks:
   (apply-effect bus
     (moog-ff (in 1 ar bus) freq resonance opt)))
 
+(define (delay bus delay-time decay-time)
+  (apply-effect bus
+                (comb-n (in 1 ar bus) delay-time delay-time decay-time)))
 
 ; (add-effect track0 (reverb 0.3 6)
 
