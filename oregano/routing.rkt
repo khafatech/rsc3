@@ -1,5 +1,6 @@
 #lang racket
 
+(require rsc3)
 #|
 tracks:
 
@@ -49,7 +50,6 @@ tracks:
 ;; out-bus: output bus channel
 (define (make-effect-ugen effect-ugen in-bus out-bus)
   ; TODO
-  
   empty)
 
 ;; example effect ugen
@@ -57,15 +57,25 @@ tracks:
                             (mouse-y kr 0 1 0 0.1)
                             0.5)))
 
-;; internal function
-#;(define (make-freeverb-with-in-out in-bus out-bus)
-  (out out-bus (free-verb (in 1 ar in-bus) 0.5
-                          (mouse-y kr 0 1 0 0.1)
-                          0.5)))
+;; ======= Effects ==========
+
+(define (apply-effect bus effect)
+  (audition (replace-out bus effect)))
+
+(define (reverb bus)
+  (apply-effect bus
+                (free-verb (in 1 ar bus)
+                           0.5
+                           (mouse-y kr 0 1 0 0.1)
+                           0.5)))
+
+; example: apply reverb on bus 0
+; (reverb 0)
+
+(define (moog-filter bus freq [resonance 3] [opt 0])
+  (apply-effect bus
+    (moog-ff (in 1 ar bus) freq resonance opt)))
 
 
-
-
-
-
+; (add-effect track0 (reverb 0.3 6)
 
