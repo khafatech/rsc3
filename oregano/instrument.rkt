@@ -1,7 +1,7 @@
 #lang racket
 
 
-(require rsc3)
+(require rsc3 "system.rkt")
 
 (provide
  (all-from-out rsc3))
@@ -11,6 +11,7 @@
 ;; TODO - remove. using "signal-slider" for testing
 (require "gui.rkt")
 
+(run-super-collider)
 
 
 (define current-node-id 1000)
@@ -27,7 +28,7 @@
   (letc ([bus 0]
          [freq 440])
         (out bus (mul 0.2 (wave-func ar freq 0)))))
-  
+
 (define sin-instrument
   (letc ([bus 0]
          [freq 440])
@@ -47,15 +48,15 @@
                   (mul (saw ar freq) 0.1)
                   (mouse-y kr 200 30000 1 0.1) 3 0))))
 
-;; TODO
+;; other way
 #;(define (make-instrument name graph)
-  (let ([sd (letc ([bus 0])
-                          (out bus ugen))]
-        ;[name (format "synth~a" current-node-id)]
-        )
-    (with-sc3 (lambda (fd)
-                (send-synth fd name sd)))    
-  ))
+    (let ([sd (letc ([bus 0])
+                    (out bus ugen))]
+          ;[name (format "synth~a" current-node-id)]
+          )
+      (with-sc3 (lambda (fd)
+                  (send-synth fd name sd)))    
+      ))
 
 (define-syntax-rule (make-instrument inst-name ([argname argdefault] ...) ugen)
   (let ([sd (letc ([bus 0]
@@ -68,8 +69,8 @@
 
 ;; example of definst macro like overtone's definst
 #;(define-syntax-rule (define-instrument inst-name [[argname argdefault] ...] ugen)
-  (define (inst-name [argname argdefault] ...)
-    (+ argname ...)))
+    (define (inst-name [argname argdefault] ...)
+      (+ argname ...)))
 
 (define perset-instrument-map
   `(("sin-inst" ,sin-instrument)
@@ -77,34 +78,33 @@
     ("moog-inst" ,moog-instrument)))
 
 ;; send synthdefs
-(map (lambda (pair)
-       (with-sc3 (lambda (fd)
-                   (send-synth fd (first pair) (second pair)))))
-     perset-instrument-map)
+(for ([pair perset-instrument-map])
+  (with-sc3 (lambda (fd)
+              (send-synth fd (first pair) (second pair)))))
+
 
 
 
 
 ; === user note funcs ===
 
-(struct note (id [freq #:mutable]))
+(struct note (id [freq #:mutable]) #:transparent)
 
 (define (create-synth name play-on-start)
   (define node-id (gen-node-id))
   (send-msg (s-new0 name node-id 1 1))
+  ;; TODO - send in bundle. it run 0 may be sent after
   ; don't make sound upon creation
   (if play-on-start
       empty
       (send-msg (n-run1 node-id 0)))
   node-id)
 
-#;(define (preset-instrument name)
-  (let ([node-id (gen-node-id)])
-    (create-synth name node-id)))
 
 (define (make-note/option inst-name freq play-on-start)
-  (define node-id (create-synth inst-name play-on-start))
-  (note node-id freq))
+  (define id (create-synth inst-name play-on-start))
+  (send-msg (n-set1 id "freq" freq))
+  (note id freq))
 
 (define (play-note inst-name freq)
   (make-note/option inst-name freq #t))
@@ -117,30 +117,33 @@
 (define (note-on the-note)
   ;(send-msg (n-set1 inst "bus" track)) ; TODO
   (send-msg (n-run1 (note-id the-note) 1))
-  (send-msg (n-set1 (note-id the-note) "freq" (note-freq the-note))))
+  (send-msg (n-set1 (note-id the-note) "freq" (note-freq the-note)))
+  (void))
 
 (define (note-off the-note)
-  (send-msg (n-run1 (note-id the-note) 0)))
+  (send-msg (n-run1 (note-id the-note) 0))
+  (void))
 
 
 (define (set-note-param the-note name val)
   (if (eq? name "freq")
       (set-note-freq! the-note val)
       empty)
-  (send-msg (n-set1 (note-id the-note) name val)))
+  (send-msg (n-set1 (note-id the-note) name val))
+  (void))
 
-
-
-#|
+  
+  
+  #|
 
 - to stop/run:
   (send-msg (n-run1 1001 1))
 
 |#
-
-
-;; ========  example useage ===========
-#|
+  
+  
+  ;; ========  example useage ===========
+  #|
 (define my-sin (preset-instrument "sin-inst"))
 
 (param-slider "change frequency" 300 1000 400
@@ -162,3 +165,4 @@
 ; (note-off my-sin)
 
 |#
+  

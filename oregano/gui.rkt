@@ -67,13 +67,9 @@
        [callback (lambda (element event)
                    (func (gui:send element get-value)))]))
   
-#;(new gui:check-box%
-     [label "note-on"]
-     [parent frame]
-     [value #f]
-     [callback (lambda (element event)
-                   (if (gui:send element get-value)
-                       (send-msg (n-run1 1001 1))
-                       (send-msg (n-run1 1001 0))))])
-                      
+(define (note-button the-note name)
+  (new gui:button% [parent frame]
+       [label name]
+       [callback (lambda (s event)
+                        (display event))]))
 
