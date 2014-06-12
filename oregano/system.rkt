@@ -9,7 +9,7 @@
 
 
 (define (get-scsynth-path/osx)
-  (define path1 "/Applications/SuperCollider/SuperCollider/SuperCollider.app/Contents/Resources/scsynth")
+  (define path1 "/Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth")
   (define path2 "/Volumes/SuperCollider/SuperCollider/SuperCollider.app/Contents/Resources/scsynth")
   (cond [(file-exists? path1) path1]
          [(file-exists? path2) path2]
@@ -24,7 +24,7 @@
                (begin
                  (display "Starting SuperCollider...")
                  (process "./start_server_linux.sh")
-                 (sleep 0.5)
+                 (sleep 1)
                  (if (sc-running/unix?)
                      (display "OK\n")
                      (display "Error\n")))))
