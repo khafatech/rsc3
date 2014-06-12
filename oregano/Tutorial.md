@@ -159,6 +159,32 @@ For example, if you want to control the cutoff frequency for a filter using the 
 When the mouse is at the left of the screen, the frequency is 200, when the mouse is at the right, the frequency is 500.
 
 
+
+### Loading samples
+
+The syntax is
+
+* (load-sample file-name) ; returns a sample
+
+* (play-sample sample rate)
+
+`load-sample` returns a sample object which is passed to play-sample.
+
+The `rate`, an optional parameter, controls the frequency at which the sample is played. 1 means normal frequency. 2 is an octave above, and 0.5 is an octave below.
+
+Example:
+
+```scheme
+(define synth-hit1 (load-sample "/path/to/bass.wav"))
+
+(play-sample synth-hit1)
+
+(sleep 1)
+
+(play-sample synth-hit1 2)
+```
+
+
 ---
 ### Envelopes
 
@@ -193,12 +219,6 @@ These can be used in defining instruments.
 - delay
 
 - comb
-
-### Loading samples
-
-* (load-sample file-name)
-
-* (play-sample sample)
 
 
 

@@ -1,7 +1,7 @@
 #lang racket
 
 
-(require rsc3 "system.rkt")
+(require rsc3 sosc/sosc "system.rkt")
 
 (provide
  (all-from-out rsc3))
@@ -90,10 +90,11 @@
 
 (struct note (id [freq #:mutable]) #:transparent)
 
-(define (create-synth name play-on-start)
+(define (create-synth name play-on-start [start -1])
   (define node-id (gen-node-id))
   (send-msg (s-new0 name node-id 1 1))
   ;; TODO - send in bundle. it run 0 may be sent after
+  
   ; don't make sound upon creation
   (if play-on-start
       empty
@@ -112,6 +113,14 @@
 (define (make-note inst-name freq)
   (make-note/option inst-name freq #f))
 
+(define (play-note-at start dur inst-name freq)
+  (define node-id (gen-node-id))
+  (send-msg (bundle start (mcons (s-new0 inst-name node-id 1 1)
+                                  (mcons (n-set1 node-id "freq" freq) '()))))
+  (send-msg (bundle (+ start dur) (mcons
+                                    (n-run1 node-id 0) '())))
+  (void))
+                                
 
 
 (define (note-on the-note)
@@ -125,7 +134,7 @@
   (void))
 
 (define (delete-note the-note)
-  (send-msg (n-free (note-id the-note)))
+  (send-msg (n-free1 (note-id the-note)))
   (void))
   
 
@@ -137,6 +146,7 @@
   (void))
 
 
+  
 (define (mouse/x start end)
   (mouse-x kr start end 0 0.1))
 
