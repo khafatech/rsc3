@@ -1,5 +1,17 @@
 
 
+## Wed
+
+- envelopes
+  * learn how envgen works.
+  * make preset envelopes?
+
+- load samples
+
+- sequencing (at)
+
+
+
 
 ## DAW-like model
 
@@ -30,7 +42,7 @@ Oregano will have these concepts/objects:
 - playing a note from an instrument on a track.
   * [done] can play a note from an instrument on bus 0
 
-  * 
-
 - load sound files into buffers, and play them using notes.
   - create instruments 
+  
+

@@ -124,6 +124,10 @@
   (send-msg (n-run1 (note-id the-note) 0))
   (void))
 
+(define (delete-note the-note)
+  (send-msg (n-free (note-id the-note)))
+  (void))
+  
 
 (define (set-note-param the-note name val)
   (if (eq? name "freq")
@@ -165,10 +169,19 @@
 (show-gui)
 
 ;; example:
-(sleep 0.5)
-; (note-on my-sin 500 1)
 
-; (note-off my-sin)
+
+
+; (synth-on my-sin 500 1)
+
+; (synth-off my-sin)
+
+
+(note "weird-synth" 400)
+
+(play-note-at 50 mynote)
+
+(envelope A S D R)
+
 
 |#
-  
