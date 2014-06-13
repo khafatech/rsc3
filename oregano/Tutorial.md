@@ -73,8 +73,8 @@ Or you can create a note object then play it.
 
 ### 2. Creating an instrument
  A custom instrument is composed of three parts:
-- it's name. This is a string and is used when playing notes
-- Instrjument arguments and default values. You could change these paramers when a note is playing, in real time.
+- it name. This is a string and is used when playing notes
+- Instrument arguments and default values. You could change these parameters when a note is playing, in real time.
 - the signal. This can use SuperCollider ugens. (TODO link)
 
 - some are:
@@ -87,7 +87,7 @@ Or you can create a note object then play it.
 ```scheme
 
 ;; create a custom instrument
-;; can use oscilators and envelopes
+;; can use oscillators and envelopes
 ;; "freq" is the frequency parameter
 (make-instrument "my-inst" ([freq 500] [mod 20])
   (mul (sin-osc ar mod 0)
@@ -212,7 +212,7 @@ Didn't implement envelopes yet.
 
 These can be used in defining instruments.
 
-- sin, saw, tringle, square
+- sin, saw, triangle, square
 
 - 
 
