@@ -2,13 +2,13 @@
 
 ## Wed
 
-- envelopes
+- [ ] envelopes
   * learn how envgen works.
   * make preset envelopes?
 
-- load samples
+- [x] load samples
 
-- sequencing (at)
+- [ ] sequencing (at)
 
 
 

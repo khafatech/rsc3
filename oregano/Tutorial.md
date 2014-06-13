@@ -184,6 +184,15 @@ Example:
 (play-sample synth-hit1 2)
 ```
 
+### Play a note in the future
+
+Currently not working, or the start-time syntax is wrong.
+
+`(play-note start-time duration instrument frequency)`
+
+`(play-note-at 2 1 "sin-inst" 440)`
+
+
 
 ---
 ### Envelopes
