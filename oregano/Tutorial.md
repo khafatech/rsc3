@@ -81,7 +81,7 @@ Or you can create a note object then play it.
  A custom instrument is composed of three parts:
 - it name. This is a string and is used when playing notes
 - Instrument arguments and default values. You could change these parameters when a note is playing, in real time.
-- the signal. This can use SuperCollider ugens. (TODO link)
+- the signal. This can use [SuperCollider ugens](http://doc.sccode.org/Browse.html#UGens). The oregano ugen names are all lowercase, and instead of the AbcDef format, it's abc-def.
 
 - some are:
 
