@@ -17,7 +17,11 @@ Then follow these instructions per operating system.
 
 #### Windows
 
+TODO
+
 #### Mac OS X
+
+- Install SuperCollider in Applications
 
 
 ### 2. Installing oregano
