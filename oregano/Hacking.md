@@ -50,10 +50,15 @@ I also added a slider funciton that can be used directly in the definition of an
 
 I added functions that can be used to chain effects, such as reverb and low pass filters. An effect added after a previous effect will act on the output of the previus effect. To implement this, I originally planned on chaining nodes using SuperCollider's audio buses. However, I found a ugen that could do that called replace-out that provides this functionality. That is, replace-out can read, modify, and write to the same bus.
 
+### Scheduling notes
+
+Using the Bundle feature of the OSC protocol, I could schedule events to happen in the future. The function accepts the utc seconds and a fraction to denote milliseconds, duration, and the note to play.
 
 ## Cross platform issues
 
 SuperCollider has versions for Windows, Linux and OS X. On Windows and OS X, SuperCollider doesn't need dependencies, but on Linux, SuperCollider requires a Jack server to be running. Students will have to install Jack, which is a different procedure depending on their Linux distribution. It's one line in a terminal on a Debian based distribution such as Ubuntu.
+
+I added a function that starts the SuperCollider server if it's not already started whenever the library is initialized. Racket has functions to return the OS type, and I issue a system command to start the server based on the OS. For Linux, I wrote a script to also start the Jack audio server and connect SuperCollider's outputs to the system audio output.
 
 
 
