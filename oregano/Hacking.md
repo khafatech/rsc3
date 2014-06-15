@@ -24,7 +24,14 @@ One tricky part was a difference in the list representations between r6rs scheme
 
 ## Features added
 
-It would be hard for first year students to use rsc3 directly. 
+It would be hard for first year students to use rsc3 directly, so I created simplified functions to perform common tasks of creating and controlling sounds.
+
+### Instruments
+
+
+One main feature of SuperCollider is the Synthdef.
+
+Students could create instruments with parameters that could be changed in real-time.
 
 
 ## Outline

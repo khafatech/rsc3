@@ -115,6 +115,7 @@
 
 (define (play-note-at start dur inst-name freq)
   (define node-id (gen-node-id))
+  ;; TODO (if ((eq? start 0) 
   (send-msg (bundle start (mcons (s-new0 inst-name node-id 1 1)
                                   (mcons (n-set1 node-id "freq" freq) '()))))
   (send-msg (bundle (+ start dur) (mcons

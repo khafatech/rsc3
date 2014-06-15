@@ -23,7 +23,7 @@ or /Applications/...
 
 #### Ubuntu 12.10
 
-
+o
 Used [supercollider 3.6.6 ppa](https://launchpad.net/~supercollider/+archive/ppa) for ubuntu 12.10
 
 Jackd needs to use the alsa driver, no real time, no mem lock, Audio: Playback Only.
@@ -154,6 +154,13 @@ Rutz, H. H. (2010). "Rethinking the SuperCollider Client...". Proceedings of Sup
 
 - code to compile a synthdef: `src/overtone/sc/synth.clj`
 - code defines syntdef format: `src/overtone/sc/machinery/synthdef.clj`
+
+- using:
+in project page:
+    lein repl
+    (use 'overtone.core)
+    (connect-external-server 57110)
+
 
 
 ### RSC3 (Scheme)
