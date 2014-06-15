@@ -11,7 +11,9 @@ Then follow these instructions per operating system.
 
 #### Linux
 
-- install jack
+- install jack. On Debian based Linux distributions, type in a terminal:
+   
+    `sudo apt-get install jack-tools ant openjdk-6-jdk fftw3 qjackctl`
 
 #### Windows
 
