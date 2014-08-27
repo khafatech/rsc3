@@ -195,7 +195,7 @@ Example:
 Currently not working, or the start-time syntax is wrong.
 
 ```scheme
-(play-note start-utc-seconds duration instrument frequency)
+(play-note-at start-utc-seconds duration instrument frequency)
 
 ;; play 2 seconds in the future
 (play-note-at (+ 2 (current-seconds)) 1 "sin-inst" 440)
