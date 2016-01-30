@@ -31,6 +31,10 @@ Licensed under GPL (2 or 3? FIXME)
 ;; JBC, 2014-- looks like most of these library functions have
 ;; equivalents in Racket....
 
+;; quakehead: I'm assuming these functions are to handle the port of rsc3 from haskell to scheme.
+;; this table has basic list functions in haskell vs racket:
+;; https://artyom.me/learning-racket-1#interlude-list-functions
+;; copied here: https://gist.github.com/quakehead/42b25c8891565cf9f761
 
 ;; prelude.scm ;;;;;;;;;;;;;;;;;;;;;;
 
