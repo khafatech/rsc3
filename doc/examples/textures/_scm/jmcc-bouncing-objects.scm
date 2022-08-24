@@ -1,0 +1,16 @@
+; bouncing-objects (jmcc #2)
+(withSc3
+ (spawnUgen
+  (list 0.6 +inf.0)
+  (let* ((imp-frq (XLine (Add 5 (Rand -2 2)) 600 4 doNothing))
+         (imp-amp (XLine 0.09 0.000009 4 doNothing))
+         (imp (Mul (Impulse imp-frq 0) imp-amp))
+         (exc (Decay imp 0.001))
+         (flt-frq (RandN 4 400 8400))
+         (flt-amp (RandN 4 0 1))
+         (flt-rtm (RandN 4 0.01 0.11))
+         (flt (Klank exc 1 0 1 (klankDataMce flt-frq flt-amp flt-rtm)))
+         (loc (Pan2 flt (Rand -1 1) 1))
+         (e (Env '(1 1 0) '(3 0.001) (replicate 2 'linear) -1 -1))
+         (o (Mul loc (EnvGen 1 1 0 1 removeSynth e))))
+    (DelayN o 1 (Rand 0 1)))))

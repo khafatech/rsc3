@@ -1,0 +1,124 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{IdentitySet}
+a set according to identity@section{related}
+ Classes/List, Classes/Dictionary
+@section{categories}
+ Collections>Unordered
+
+@section{description}
+
+An IdentitySet is a collection of objects, no two of which are the same object (aka. "identical").
+Most of its methods are inherited (see link::Classes/Collection:: and link::Classes/Set:: classes).
+The contents of an IdentitySet are unordered. You must not depend on the order of items in an IdentitySet.
+For an ordered set, see link::Classes/OrderedIdentitySet::.
+
+IdentitySets are faster than Sets because testing for identity is much faster than testing for equality. Different classes may implement equality in different ways, but identity can be determined just by comparing the object addresses. This allows some methods of IdentitySet to be implemented
+by fast primitives.
+
+@section{INSTANCEMETHODS}
+ 
+
+@section{subsection}
+ Adding and Removing
+
+@section{method}
+ add
+Add anObject to the IdentitySet. An object which is equal to an object already in the IdentitySet will not be added.
+
+@racketblock[
+IdentitySet[1, 2, 3].add(4);
+IdentitySet[1, 2, 3].add(3);
+// the two strings are equal but not identical
+IdentitySet["abc", "def", "ghi"].add("def");
+// symbols are guaranteed to be identical if they are equal
+IdentitySet['abc', 'def', 'ghi'].add('def');
+IdentitySet['abc', 'def', 'ghi'].add('jkl');
+::
+
+]
+@section{method}
+ remove
+Remove anObject from the IdentitySet.
+
+@racketblock[
+IdentitySet[1, 2, 3].remove(3);
+::
+
+]
+@section{subsection}
+ Iteration
+
+@section{method}
+ do
+Evaluates function for each item in the IdentitySet. You must not depend on the order of items. The function is passed two arguments, the item and an integer index.
+
+@racketblock[
+IdentitySet[1, 2, 3, 300].do { |item, i| item.postln };
+::
+
+]
+@section{subsection}
+ Finding an element
+
+@section{method}
+ findMatch
+Returns item if it is in the collection, otherwise returns nil.
+
+@racketblock[
+a = IdentitySet[1, 2, 3, 300];
+a.findMatch(1);
+a.findMatch(1.5);
+::
+
+]
+@section{EXAMPLES}
+ 
+
+
+@racketblock[
+// scanFor is fairly efficient. compare the following benchmarks:
+
+// comparison of array indexing and identity set lookup
+(
+f = { |n=4|
+	var x, y, i;
+	x = (0..n);
+	y = x.as(IdentitySet);
+	i = x.choose;
+	bench { 100.do { x[i] } };
+	bench { 100.do { y.scanFor(i) } };
+}
+);
+
+f.(4)
+f.(8)
+f.(100)
+f.(10000)
+::
+
+]
+
+@racketblock[
+// you can use IdentitySet to efficiently remove identical duplicates from an array:
+
+(
+var e, f, g, h;
+e = "such"; f = "fallacy"; g = "is"; h = "common";
+a = [e, e, f, g, e, h, e];
+);
+a.as(IdentitySet);	// convert to set
+a.as(Set).as(Array);	// and convert back
+
+// note that the following behaves differently:
+a = [ "such", "such", "fallacy", "is", "such", "common", "such" ]
+a.as(IdentitySet);	// convert to set. All elements are still here.
+			// Different strings may look the same, but be different objects.
+
+// To remove equals in stead of identicals, use Set:
+a.as(Set);
+::
+]
+
+

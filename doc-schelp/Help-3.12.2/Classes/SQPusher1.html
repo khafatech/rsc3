@@ -1,0 +1,225 @@
+<html><head><title>SQPusher1</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>SQPusher1</h1>
+<div id='summary'>Squarepusher-inspired breakbeat cutting</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/bbcutprocs/SQPusher.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/bbcutprocs/SQPusher.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/BBCutProc.html">BBCutProc</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-initSQPusher1'>initSQPusher1</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-chooseblock'>chooseblock</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>This cut procedure is derived from some analysis of the manic breaks work of Squarepusher, aka Tom Jenkinson. His innovation was to push the tempo range to around 200 bpm, and to create constantly varying beats with highly musical jazz inflected drum programming.
+<p> His original work was with sampler/drum machine+sequencer but he uses many effects units and nowadays a laptop in his live shows. To my knowledge, all his programming is by hand, without algorithm.   This is an automated routine inspired by his style, which is obviously my take on things and in no way to represent the great variety of great compositions Tom has created. The routine was inspired by transcribing drum patterns from Alive in Japan (disc 2, do you know squarepusher, warpcd97 2002).
+<p> Note that the original Squarepusher material is created by specifying all the individual drum hits- this routine simulates that sequencing in one single line by cutting up a breakbeat sample, so it works on a sense of rhythmic aggregate, not an analysis of relative positions of kick/snare/hat. <h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>activity: 0.1</span>, <span class='argstr'>fillfreq: 4</span>, <span class='argstr'>fillscramble: 0</span>, <span class='argstr'>sqweights</span>, <span class='argstr'>bpsd: 0.5</span>)</h3>
+<div class='method'>
+<p>Create a SQPusher1 object with the given parameters.
+<p>Note that this cut procedure always works in 4/4 with one bar phrases. <h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>activity<td class='argumentdesc'>
+<p>Chance of semiquavers rather than quavers.<tr><td class='argumentname'>fillfreq<td class='argumentdesc'>
+<p>There are two types of bar, normal based on activity from the above parameter, and fills based on musical motifs lifted from Squarepusher tracks. The fills occur every fourth bar by default,  but change their frequency with this parameter. <tr><td class='argumentname'>fillscramble<td class='argumentdesc'>
+<p>chance of a fill being scrambled, rather than played back exactly as stored. <tr><td class='argumentname'>sqweights<td class='argumentdesc'>
+<p>The chance of a semiquaver bias at each quaver of the bar. Used in combination with the activity parameter to make cut sequences for normal non fill bars. <tr><td class='argumentname'>bpsd<td class='argumentdesc'>
+<p>beats per sub division. Sets a primitive cut size resolution for choose offset messages. </table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initSQPusher1' href='./../Overviews/Methods.html#initSQPusher1'>initSQPusher1</a> (<span class='argstr'>ac: 0.1</span>, <span class='argstr'>ff: 4</span>, <span class='argstr'>fs: 0</span>, <span class='argstr'>sw</span>)</h3>
+<div class='method'>
+<p></div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-chooseblock' href='./../Overviews/Methods.html#chooseblock'>chooseblock</a> </h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+
+<p>Use your rawest noisest breaks to hear this properly. You won't have all the breaks I use below. Start with something that is running quick so repitching doesn't cause too much chipmunkiness, or double the beats per sample value in BBCutBuffer. 
+<p>Otherwise you'll need to use CutBuf3 to preserve the original pitch and reslice. <pre class='code prettyprint lang-sc'>(   //defaults
+var sf;
+
+Routine.run({
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break2.aiff",4);
+
+s.sync;
+
+//3.33bps= 200 bpm
+BBCut2(CutBuf1(sf),SQPusher1.new).play(3.33);
+
+});
+)
+
+(   //fast cuts, half speed sample
+var sf;
+
+Routine.run({
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",16);
+
+s.sync;
+
+//3.33bps= 200 bpm
+BBCut2(CutBuf1(sf),SQPusher1.new).play(3.33);
+
+});
+)
+
+
+//UI controls
+(
+var sf;
+var w,offset, activity;
+    
+w = SCWindow("panel", Rect.new(200,200,230,130));
+offset=DDSlider( w, Rect.new(0,0,200,40), "offset", 0.0, 1.0, 'linear', 0.01, 0.0);
+activity=DDSlider( w, Rect.new(0,50,200,40), "activity", 0.0, 1.0, 'linear', 0.01, 0.0);
+
+w.front;    
+
+Routine.run({
+sf= BBCutBuffer("sounds/Sounds/BOGDAN/dillbeat1",8);
+
+s.sync;
+
+//3.33bps= 200 bpm
+BBCut2(CutBuf1(sf, offset),SQPusher1(activity)).play(3.33);
+
+});
+
+
+)
+
+
+//preserved original pitch via CutBuf3
+(
+var sf;
+
+Routine.run({
+sf= BBCutBuffer("sounds/Sounds/BOGDAN/dillbeat1",8);
+
+s.sync;
+
+//3.33bps= 200 bpm
+BBCut2(CutBuf3(sf),SQPusher1.new).play(3.33);
+});
+)
+
+
+
+
+(   //two at once- sounds great on my machine at least! 
+var sf, clock;
+
+clock= ExternalClock(3.4).play;
+
+Routine.run({
+sf=BBCutBuffer.array(["sounds/Sounds/bogdan/dillbeat1","sounds/Sounds/bogdanunused/bogdanbeat1"],[8,8]);
+
+s.sync;
+
+BBCut2(CutBuf1(sf[0],0.3),SQPusher1(0.4)).play(clock);
+BBCut2(CutBuf1(sf[1],0.45),SQPusher1(0.3)).play(clock);
+
+});
+
+)
+
+
+(   //two run off same routine
+var sf, clock;
+
+clock= ExternalClock(3.4).play;
+
+Routine.run({
+sf=BBCutBuffer.array(["sounds/Sounds/bogdan/dillbeat1","sounds/Sounds/bogdanunused/bogdanbeat1"],[8,8]);
+
+s.sync;
+BBCut2([CutBuf1(sf[0],0.3),CutBuf1(sf[1],0.45)],SQPusher1(0.4)).play(clock);
+
+});
+
+)
+
+
+
+(   //virtuoso rhythms
+var sf;
+
+Routine.run({
+sf=BBCutBuffer("sounds/a11wlk01.wav",8);
+
+s.sync;
+
+BBCut2(
+[[CutBuf2(sf,0.2,0.7,0.3), CutMixer(0,1.0,1.0,-0.5)],
+[CutBuf2(sf,0.5,0.8,0.1), CutMixer(0,1.0,1.0,0.5)]],
+SQPusher1(0.5,1, 1.0)
+).play(4.5);
+
+});
+)
+
+
+(   //alternate normal and fill bars, always scramble fills, sometimes silent 
+var sf;
+
+Routine.run({
+sf= BBCutBuffer("sounds/Sounds/BOGDAN/dillbeat1",8);
+
+s.sync;
+
+BBCut2([CutBuf2(sf, 0.3, dutycycle: 0.7), CutMixer(0,1.0,{if(0.2.coin,{0},{1})},{1.0.rand2})],SQPusher1(0.3,2, 1.0)).play(3.5);
+});
+)
+
+
+
+(   //SQPusher FX
+var sf;
+
+Routine.run({
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break2.aiff",4);
+
+s.sync;
+BBCut2([CutBuf2(sf,0.3,SQPushFXPitch2.new(0.96,pbchance:0.8)),CutMixer(0,1.0,SQPushFXAmp2.new(0.15),0.0)],SQPusher1(0.4, 3, 0.4)).play(3.4);
+
+});
+)
+
+
+(   //SQPusher fx at original pitch of sample using BBCSKnownOffsets
+var sf;
+
+Routine.run({
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break2.aiff",4);
+
+s.sync;
+
+BBCut2([CutBuf3(sf,0.3,pbsfunc:SQPushFXPitch2.new(0.96,pbchance:0.8)),CutMixer(0,1.0,SQPushFXAmp2.new(0.15),0.0)],SQPusher1(0.4, 3, 0.4)).play(3.4);
+
+});
+
+)</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/SQPusher1.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/SQPusher1.schelp</a><br>link::Classes/SQPusher1::<br>sc version: 3.8.0</div></div></body></html>

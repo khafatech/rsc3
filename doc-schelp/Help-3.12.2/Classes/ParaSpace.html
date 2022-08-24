@@ -1,0 +1,611 @@
+<html><head><title>ParaSpace</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Undocumented classes'>Undocumented classes</a></div>
+<h1>ParaSpace</h1>
+<div id='summary'>(Undocumented class)</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/ixiViews/classes/ParaSpace.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/ixiViews/classes/ParaSpace.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/Object.html">Object</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+<li class='toc2'><a href='#Undocumented%20class%20methods'>Undocumented class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+</ul></ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-bounds'>bounds</a> </li>
+<li class='toc3'><a href='#-clearSpace'>clearSpace</a> </li>
+<li class='toc3'><a href='#-connectAction'>connectAction</a> </li>
+<li class='toc3'><a href='#-createConnection'>createConnection</a> </li>
+<li class='toc3'><a href='#-createNode'>createNode</a> </li>
+<li class='toc3'><a href='#-createNode1'>createNode1</a> </li>
+<li class='toc3'><a href='#-deleteConnection'>deleteConnection</a> </li>
+<li class='toc3'><a href='#-deleteConnections'>deleteConnections</a> </li>
+<li class='toc3'><a href='#-deleteNode'>deleteNode</a> </li>
+<li class='toc3'><a href='#-findNode'>findNode</a> </li>
+<li class='toc3'><a href='#-getNodeColor'>getNodeColor</a> </li>
+<li class='toc3'><a href='#-getNodeLoc'>getNodeLoc</a> </li>
+<li class='toc3'><a href='#-getNodeLoc1'>getNodeLoc1</a> </li>
+<li class='toc3'><a href='#-getNodeSize'>getNodeSize</a> </li>
+<li class='toc3'><a href='#-getNodeStates'>getNodeStates</a> </li>
+<li class='toc3'><a href='#-getNodeString'>getNodeString</a> </li>
+<li class='toc3'><a href='#-initParaSpace'>initParaSpace</a> </li>
+<li class='toc3'><a href='#-keyDownAction'>keyDownAction</a> </li>
+<li class='toc3'><a href='#-lazyRefresh'>lazyRefresh</a> </li>
+<li class='toc3'><a href='#-nodeDownAction'>nodeDownAction</a> </li>
+<li class='toc3'><a href='#-nodeOverAction'>nodeOverAction</a> </li>
+<li class='toc3'><a href='#-nodeTrackAction'>nodeTrackAction</a> </li>
+<li class='toc3'><a href='#-nodeUpAction'>nodeUpAction</a> </li>
+<li class='toc3'><a href='#-paraNodes'>paraNodes</a> </li>
+<li class='toc3'><a href='#-reconstruct'>reconstruct</a> </li>
+<li class='toc3'><a href='#-refresh'>refresh</a> </li>
+<li class='toc3'><a href='#-setBackgrColor'>setBackgrColor</a> </li>
+<li class='toc3'><a href='#-setBackgrDrawFunc'>setBackgrDrawFunc</a> </li>
+<li class='toc3'><a href='#-setFillColor'>setFillColor</a> </li>
+<li class='toc3'><a href='#-setFont'>setFont</a> </li>
+<li class='toc3'><a href='#-setFontColor'>setFontColor</a> </li>
+<li class='toc3'><a href='#-setMouseOverState'>setMouseOverState</a> </li>
+<li class='toc3'><a href='#-setNodeColor'>setNodeColor</a> </li>
+<li class='toc3'><a href='#-setNodeLoc'>setNodeLoc</a> </li>
+<li class='toc3'><a href='#-setNodeLoc1'>setNodeLoc1</a> </li>
+<li class='toc3'><a href='#-setNodeLoc1Action'>setNodeLoc1Action</a> </li>
+<li class='toc3'><a href='#-setNodeLocAction'>setNodeLocAction</a> </li>
+<li class='toc3'><a href='#-setNodeSize'>setNodeSize</a> </li>
+<li class='toc3'><a href='#-setNodeStates'>setNodeStates</a> </li>
+<li class='toc3'><a href='#-setNodeString'>setNodeString</a> </li>
+<li class='toc3'><a href='#-setOutlineColor'>setOutlineColor</a> </li>
+<li class='toc3'><a href='#-setSelectFillColor'>setSelectFillColor</a> </li>
+<li class='toc3'><a href='#-setSelectStrokeColor'>setSelectStrokeColor</a> </li>
+<li class='toc3'><a href='#-setShape'>setShape</a> </li>
+</ul></ul><li class='toc1'><a href='#Help%20template'>Help template</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>This class is missing documentation.<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h3><a class='anchor' name='Undocumented%20class%20methods'>Undocumented class methods</a></h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>w</span>, <span class='argstr'>bounds</span>)</h3>
+<h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-bounds' href='./../Overviews/Methods.html#bounds'>bounds</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-clearSpace' href='./../Overviews/Methods.html#clearSpace'>clearSpace</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-connectAction' href='./../Overviews/Methods.html#connectAction'>connectAction</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-createConnection' href='./../Overviews/Methods.html#createConnection'>createConnection</a> (<span class='argstr'>node1</span>, <span class='argstr'>node2</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-createNode' href='./../Overviews/Methods.html#createNode'>createNode</a> (<span class='argstr'>x</span>, <span class='argstr'>y</span>, <span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-createNode1' href='./../Overviews/Methods.html#createNode1'>createNode1</a> (<span class='argstr'>argX</span>, <span class='argstr'>argY</span>, <span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deleteConnection' href='./../Overviews/Methods.html#deleteConnection'>deleteConnection</a> (<span class='argstr'>node1</span>, <span class='argstr'>node2</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deleteConnections' href='./../Overviews/Methods.html#deleteConnections'>deleteConnections</a> (<span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deleteNode' href='./../Overviews/Methods.html#deleteNode'>deleteNode</a> (<span class='argstr'>nodenr</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-findNode' href='./../Overviews/Methods.html#findNode'>findNode</a> (<span class='argstr'>x</span>, <span class='argstr'>y</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getNodeColor' href='./../Overviews/Methods.html#getNodeColor'>getNodeColor</a> (<span class='argstr'>index</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getNodeLoc' href='./../Overviews/Methods.html#getNodeLoc'>getNodeLoc</a> (<span class='argstr'>index</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getNodeLoc1' href='./../Overviews/Methods.html#getNodeLoc1'>getNodeLoc1</a> (<span class='argstr'>index</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getNodeSize' href='./../Overviews/Methods.html#getNodeSize'>getNodeSize</a> (<span class='argstr'>index</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getNodeStates' href='./../Overviews/Methods.html#getNodeStates'>getNodeStates</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getNodeString' href='./../Overviews/Methods.html#getNodeString'>getNodeString</a> (<span class='argstr'>index</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initParaSpace' href='./../Overviews/Methods.html#initParaSpace'>initParaSpace</a> (<span class='argstr'>w</span>, <span class='argstr'>argbounds</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-keyDownAction' href='./../Overviews/Methods.html#keyDownAction'>keyDownAction</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-lazyRefresh' href='./../Overviews/Methods.html#lazyRefresh'>lazyRefresh</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-nodeDownAction' href='./../Overviews/Methods.html#nodeDownAction'>nodeDownAction</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-nodeOverAction' href='./../Overviews/Methods.html#nodeOverAction'>nodeOverAction</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-nodeTrackAction' href='./../Overviews/Methods.html#nodeTrackAction'>nodeTrackAction</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-nodeUpAction' href='./../Overviews/Methods.html#nodeUpAction'>nodeUpAction</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-paraNodes' href='./../Overviews/Methods.html#paraNodes'>paraNodes</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-paraNodes' href='./../Overviews/Methods.html#paraNodes'>paraNodes</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-reconstruct' href='./../Overviews/Methods.html#reconstruct'>reconstruct</a> (<span class='argstr'>aFunc</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-refresh' href='./../Overviews/Methods.html#refresh'>refresh</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setBackgrColor' href='./../Overviews/Methods.html#setBackgrColor'>setBackgrColor</a>_ (<span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setBackgrDrawFunc' href='./../Overviews/Methods.html#setBackgrDrawFunc'>setBackgrDrawFunc</a> = <span class='argstr'>func</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setFillColor' href='./../Overviews/Methods.html#setFillColor'>setFillColor</a>_ (<span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setFont' href='./../Overviews/Methods.html#setFont'>setFont</a> = <span class='argstr'>f</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setFontColor' href='./../Overviews/Methods.html#setFontColor'>setFontColor</a> = <span class='argstr'>fc</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setMouseOverState' href='./../Overviews/Methods.html#setMouseOverState'>setMouseOverState</a> = <span class='argstr'>state</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeColor' href='./../Overviews/Methods.html#setNodeColor'>setNodeColor</a>_ (<span class='argstr'>index</span>, <span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeLoc' href='./../Overviews/Methods.html#setNodeLoc'>setNodeLoc</a>_ (<span class='argstr'>index</span>, <span class='argstr'>argX</span>, <span class='argstr'>argY</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeLoc1' href='./../Overviews/Methods.html#setNodeLoc1'>setNodeLoc1</a>_ (<span class='argstr'>index</span>, <span class='argstr'>argX</span>, <span class='argstr'>argY</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeLoc1Action' href='./../Overviews/Methods.html#setNodeLoc1Action'>setNodeLoc1Action</a>_ (<span class='argstr'>index</span>, <span class='argstr'>argX</span>, <span class='argstr'>argY</span>, <span class='argstr'>action</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeLocAction' href='./../Overviews/Methods.html#setNodeLocAction'>setNodeLocAction</a>_ (<span class='argstr'>index</span>, <span class='argstr'>argX</span>, <span class='argstr'>argY</span>, <span class='argstr'>action</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeSize' href='./../Overviews/Methods.html#setNodeSize'>setNodeSize</a>_ (<span class='argstr'>index</span>, <span class='argstr'>size</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeStates' href='./../Overviews/Methods.html#setNodeStates'>setNodeStates</a> = <span class='argstr'>array</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setNodeString' href='./../Overviews/Methods.html#setNodeString'>setNodeString</a>_ (<span class='argstr'>index</span>, <span class='argstr'>string</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setOutlineColor' href='./../Overviews/Methods.html#setOutlineColor'>setOutlineColor</a> = <span class='argstr'>color</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setSelectFillColor' href='./../Overviews/Methods.html#setSelectFillColor'>setSelectFillColor</a>_ (<span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setSelectStrokeColor' href='./../Overviews/Methods.html#setSelectStrokeColor'>setSelectStrokeColor</a>_ (<span class='argstr'>color</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setShape' href='./../Overviews/Methods.html#setShape'>setShape</a>_ (<span class='argstr'>argshape</span>, <span class='argstr'>refresh: true</span>)</h3>
+<h2><a class='anchor' name='Help%20template'>Help template</a></h2>
+
+<p>Copy and paste the text below and save to HelpSource/Classes/ParaSpace.schelp<pre class='code prettyprint lang-sc'>TITLE:: ParaSpace
+summary:: (put short description here)
+categories:: Undocumented classes
+related:: Classes/SomeRelatedClass, Reference/SomeRelatedStuff, etc.
+
+DESCRIPTION::
+(put long description here)
+
+
+CLASSMETHODS::
+
+METHOD:: new
+(describe method here)
+
+ARGUMENT:: w
+(describe argument here)
+
+ARGUMENT:: bounds
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+
+INSTANCEMETHODS::
+
+METHOD:: setShape
+(describe method here)
+
+ARGUMENT:: argshape
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setBackgrColor
+(describe method here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: getNodeLoc
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: getNodeString
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: lazyRefresh
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: nodeUpAction
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: createNode1
+(describe method here)
+
+ARGUMENT:: argX
+(describe argument here)
+
+ARGUMENT:: argY
+(describe argument here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: createNode
+(describe method here)
+
+ARGUMENT:: x
+(describe argument here)
+
+ARGUMENT:: y
+(describe argument here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setMouseOverState
+(describe method here)
+
+ARGUMENT:: state
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: deleteConnection
+(describe method here)
+
+ARGUMENT:: node1
+(describe argument here)
+
+ARGUMENT:: node2
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: getNodeStates
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeSize
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: size
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: deleteNode
+(describe method here)
+
+ARGUMENT:: nodenr
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: getNodeColor
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setSelectFillColor
+(describe method here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: nodeTrackAction
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: connectAction
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeLoc
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: argX
+(describe argument here)
+
+ARGUMENT:: argY
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: initParaSpace
+(describe method here)
+
+ARGUMENT:: w
+(describe argument here)
+
+ARGUMENT:: argbounds
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeStates
+(describe method here)
+
+ARGUMENT:: array
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setOutlineColor
+(describe method here)
+
+ARGUMENT:: color
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: createConnection
+(describe method here)
+
+ARGUMENT:: node1
+(describe argument here)
+
+ARGUMENT:: node2
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setFont
+(describe method here)
+
+ARGUMENT:: f
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: reconstruct
+(describe method here)
+
+ARGUMENT:: aFunc
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: nodeDownAction
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: nodeOverAction
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeLocAction
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: argX
+(describe argument here)
+
+ARGUMENT:: argY
+(describe argument here)
+
+ARGUMENT:: action
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeColor
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setFontColor
+(describe method here)
+
+ARGUMENT:: fc
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setFillColor
+(describe method here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setBackgrDrawFunc
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: deleteConnections
+(describe method here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: getNodeSize
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: findNode
+(describe method here)
+
+ARGUMENT:: x
+(describe argument here)
+
+ARGUMENT:: y
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: refresh
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeLoc1Action
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: argX
+(describe argument here)
+
+ARGUMENT:: argY
+(describe argument here)
+
+ARGUMENT:: action
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeLoc1
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: argX
+(describe argument here)
+
+ARGUMENT:: argY
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setNodeString
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+ARGUMENT:: string
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: bounds
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: getNodeLoc1
+(describe method here)
+
+ARGUMENT:: index
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: clearSpace
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: keyDownAction
+(describe method here)
+
+ARGUMENT:: func
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: setSelectStrokeColor
+(describe method here)
+
+ARGUMENT:: color
+(describe argument here)
+
+ARGUMENT:: refresh
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: paraNodes
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+
+EXAMPLES::
+
+code::
+(some example code)
+::
+</pre>
+<div class='doclink'>link::Classes/ParaSpace::<br>sc version: 3.8.0</div></div></body></html>

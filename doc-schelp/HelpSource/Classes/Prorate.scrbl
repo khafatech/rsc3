@@ -1,0 +1,84 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{Prorate}
+ divide stream proportionally@section{related}
+  Classes/Pattern
+@section{categories}
+  Streams-Patterns-Events>Patterns>Math
+
+@section{ClassMethods}
+ 
+
+@section{method}
+ new
+
+@section{argument}
+ proportion
+a pattern that returns either numbers (divides the pattern into pairs) or arrays of size n which are used to split up the input into n parts.
+
+@section{argument}
+ pattern
+a numerical pattern.
+
+@section{Examples}
+ 
+
+
+@racketblock[
+// divide 1 into various proportions
+(
+a = Prorate(Pseq([0.35, 0.5, 0.8]), 1);
+x = a.asStream;
+x.nextN(8)
+)
+
+// divide a pattern into various proportions
+(
+a = Prorate(Pseq([0.35, 0.5, 0.8]), Prand([20, 1], inf));
+x = a.asStream;
+x.nextN(8)
+)
+
+
+// divide 1 into several parts
+(
+a = Prorate(Pseq([[1, 2], [5, 7], [4, 8, 9]]).collect(_.normalizeSum), 1);
+x = a.asStream;
+x.nextN(8)
+)
+
+
+// sound example
+
+(
+SynthDef(\help_sinegrain,
+	{ arg out=0, freq=440, sustain=0.05;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, sustain, 0.2), doneAction: Done.freeSelf);
+		Out.ar(out, SinOsc.ar(freq, 0, env))
+	}).add;
+)
+
+(
+var a, x;
+a = Prorate(
+	Prand([2/3, 1/3, [0.3, 0.3, 0.4], [0.6, 0.4]], inf),
+	Pseq([1, 2, 1, 3, 12], inf)
+);
+
+3.do {
+	{
+	var x = a.asStream;
+	var freq = rrand(72, 84).midicps;
+		loop {
+			Synth(\help_sinegrain, [\freq, freq]);
+			(0.25 * x.next).wait;
+		}
+	}.fork;
+};
+)
+::
+]
+
+

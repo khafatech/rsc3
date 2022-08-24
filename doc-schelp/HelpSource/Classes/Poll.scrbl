@@ -1,0 +1,121 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{Poll}
+@section{categories}
+  UGens>Info
+ Print the current output value of a UGen@section{related}
+  Classes/SendTrig, Classes/OSCFunc
+
+@section{description}
+
+
+Print the current output value of a UGen, useful for debugging SynthDefs.
+
+@section{WARNING}
+  Printing values from the Server in intensive for the CPU. Poll should be used for debugging purposes.::
+
+@section{classmethods}
+ 
+@section{private}
+  categories, new, new1
+
+@section{method}
+  ar, kr
+@section{argument}
+ trig
+a non-positive to positive transition telling Poll to return a value
+@section{argument}
+ in
+the signal you want to poll
+@section{argument}
+ label
+a string or symbol to be printed with the polled value
+@section{argument}
+ trigid
+if greater then 0, a '/tr' message is sent back to the client (similar to SendTrig)
+
+@section{returns}
+  its in signal (and is therefore transparent).
+
+@section{instancemethods}
+ 
+@section{private}
+  checkInputs, init
+
+@section{examples}
+ 
+
+@racketblock[
+s.boot;
+
+{ Poll.kr(Impulse.kr(10), Line.kr(0, 1, 1), \test) }.play(s);
+
+// multichannel expansion:
+
+{ Poll.kr(Impulse.kr([10, 5]), Line.kr(0, [1, 5], [1, 2]), [\test, \test2]) }.play(s);
+
+
+
+// using the poll message:
+
+{ SinOsc.ar(375, 0, 1).poll(Impulse.ar(20), \test2) }.play(s);
+
+// if no arguments are given, the poll is done every 0.1 sec.
+{  Line.kr(0, 1, 1).poll }.play(s);
+
+
+// send a '/tr' message back to the client. This can be useful if the server runs on another
+// computer than the client, i.e. the post messages by the server cannot be read locally.
+
+o = OSCFunc({arg msg; msg.postln;}, '/tr', s.addr);
+
+{Poll.ar(Impulse.ar(5), Line.ar(0, 1, 1), \test2, 1234)}.play(s);
+{SinOsc.ar(220, 0, 1).poll(Impulse.ar(15), "test", 1234)}.play(s);
+
+o.free;
+s.quit;
+
+
+
+
+// This example will kill the server (by outputting NaN).
+// Poll.ar will help us spot why it's happening.
+// Warning: You may need to reboot your server after running this.
+(
+{
+var cutoff, son;
+cutoff = LFPar.kr(0.2, 0, 500, 500);
+son = LPF.ar(WhiteNoise.ar, cutoff);
+
+// Using Poll to debug by spitting out a value if the output hits NaN
+Poll.ar(if((son<=0)||(son>=0), 0, 1), cutoff, "Cutoff value which causes NaN:");
+
+son;
+
+}.play(s);
+)
+
+
+// This example polls when someone hits the trigger
+(
+x = {|t_poll=0|
+var minfreq, maxfreq, son;
+minfreq = LFNoise2.ar(0.25, 100, 110);
+maxfreq = LFNoise2.ar(0.25, 200, 220);
+
+son = Gendy1.ar(minfreq: minfreq, maxfreq: maxfreq, mul: 0.1);
+
+Poll.kr(t_poll, [minfreq, maxfreq], ["minfreq", "maxfreq"]);
+
+son;
+
+}.play(s);
+)
+
+x.set(\t_poll, 1); // Hit this whenever you want to know what the parameters are
+::
+
+]
+
+

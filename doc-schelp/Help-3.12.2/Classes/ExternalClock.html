@@ -1,0 +1,120 @@
+<html><head><title>ExternalClock</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>ExternalClock</h1>
+<div id='summary'>Externally driven scheduling</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/eventscheduling/ExternalClock.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/eventscheduling/ExternalClock.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/Object.html">Object</a></div>
+<div id='subclasses'>Subclasses: <a href="../Classes/ServerClock.html">ServerClock</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-addprovider'>addprovider</a> </li>
+<li class='toc3'><a href='#-getMaterial'>getMaterial</a> </li>
+<li class='toc3'><a href='#-initExternalClock'>initExternalClock</a> </li>
+<li class='toc3'><a href='#-lastBeat'>lastBeat</a> </li>
+<li class='toc3'><a href='#-lastBeatTime'>lastBeatTime</a> </li>
+<li class='toc3'><a href='#-lastTempo'>lastTempo</a> </li>
+<li class='toc3'><a href='#-play'>play</a> </li>
+<li class='toc3'><a href='#-removeprovider'>removeprovider</a> </li>
+<li class='toc3'><a href='#-sched'>sched</a> </li>
+<li class='toc3'><a href='#-stop'>stop</a> </li>
+<li class='toc3'><a href='#-tempo'>tempo</a> </li>
+<li class='toc3'><a href='#-tempoclock'>tempoclock</a> </li>
+<li class='toc3'><a href='#-tick'>tick</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>Wrapper for a TempoClock that deals with the special scheduling queue required for externally driven scheduling. Subclasses of ExternalClock may deal with the case of a ServerClock (server side clock, as for instance from beat tracking UGens), or control from external applications. 
+<p>Because of Server latency, perceptual attack time of events and timing groove deviations, the next beat's worth of music must be generated before that beat, and cannot be rescheduled with changes of tempo. You add instances (individual bbcutters, patterns etc) to the clock. 
+<p>Note that the scheduler compensates for latency- it is built for real-time reactions, so the latency is taken into account to avoid network jitter in communicating with the Server, but there is no delay from the required time of an event. Also, perceptual attack time and time deviations (possibly due to groove/expressive timing) of events are factored in. PAT necessitates pre-scheduling, expressive timing can go either way. 
+<p>warnings of undefined behaviour:
+<p>Tempo is assumed in a moderate range 1-4 bps say. 
+<p>s.latency must be small, ie 0.05 sec. 
+<p>Using with Patterns- you can play EventStreams only. See EventStreamPlayer2 class file. 
+<p>Using as a general scheduler: this scheduler assumes that everything it schedules is an Event that has a \play field, within which is a Function. For default Events this will be the same result as Event.play. For your own special Events you require at least (play:{"something".postln;}) <h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>tempoclock</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>tempoclock<td class='argumentdesc'>
+<p>A TempoClock object. If a SimpleNumber gets passed in, a new TempoClock is created at that bps. The default is to use TempoClock.default;</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-addprovider' href='./../Overviews/Methods.html#addprovider'>addprovider</a> (<span class='argstr'>provider</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getMaterial' href='./../Overviews/Methods.html#getMaterial'>getMaterial</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initExternalClock' href='./../Overviews/Methods.html#initExternalClock'>initExternalClock</a> (<span class='argstr'>tc</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-lastBeat' href='./../Overviews/Methods.html#lastBeat'>lastBeat</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-lastBeatTime' href='./../Overviews/Methods.html#lastBeatTime'>lastBeatTime</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-lastTempo' href='./../Overviews/Methods.html#lastTempo'>lastTempo</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-play' href='./../Overviews/Methods.html#play'>play</a> (<span class='argstr'>quant: 0</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-removeprovider' href='./../Overviews/Methods.html#removeprovider'>removeprovider</a> (<span class='argstr'>array</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-sched' href='./../Overviews/Methods.html#sched'>sched</a> (<span class='argstr'>list</span>, <span class='argstr'>lastref</span>, <span class='argstr'>provider</span>, <span class='argstr'>alive</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-stop' href='./../Overviews/Methods.html#stop'>stop</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-tempo' href='./../Overviews/Methods.html#tempo'>tempo</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-tempo' href='./../Overviews/Methods.html#tempo'>tempo</a> = <span class='argstr'>val</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-tempoclock' href='./../Overviews/Methods.html#tempoclock'>tempoclock</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-tick' href='./../Overviews/Methods.html#tick'>tick</a> </h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>s=Server.default;
+
+s.latency=0.05;
+
+c=ExternalClock(TempoClock(2.1)).play;
+
+//playExt= play on External Clock
+p=Pbind.new.playExt(c); 
+
+q= Pbind(\dur,Pseq([0.25,0.25,0.5],inf),\freq,Pseq([330,330,550],inf),\sustain, 0.1).playExt(c);
+
+q.mute;
+q.unmute;
+
+p.stop;
+q.stop;
+
+~buffers= BBCutBuffer.array([Platform.resourceDir +/+ "sounds/break.aiff",Platform.resourceDir +/+ "sounds/break2.aiff"],[8,4]);
+    
+//will be added to run on this clock as soon as made    
+a=BBCut2(CutBuf2(~buffers[0],0.3), BBCutProc11.new).play(c);
+
+b=BBCut2(CutBuf2(~buffers[1],0.5,dutycycle:0.4), BBCutProc11.new).play(c);
+
+//stream cut audio in
+g=BBCut2(CutStream1(8), ChooseCutProc(0.5,4)).play(c);
+
+
+//remove the first from the clock- don't worry if there are FAILURE messages, some latency queued OSC messages
+//are still waiting that were already sent to the server, they shouldn't cause too much trouble
+a.end
+
+c.tempoclock.tempo_(1.5);
+
+b.end
+
+//remove everything and terminate TempoClock
+c.stop;</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/ExternalClock.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/ExternalClock.schelp</a><br>link::Classes/ExternalClock::<br>sc version: 3.8.0</div></div></body></html>

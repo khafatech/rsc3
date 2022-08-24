@@ -1,0 +1,486 @@
+<html><head><title>Vowel</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Convenience'>Convenience</a></div>
+<h1>Vowel</h1>
+<div id='summary'>convenience class to store and manipulate formant information</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Vowel/Vowel.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Vowel/Vowel.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Classes/Formlet.html">Formlet</a>, <a href="./../Classes/Formant.html">Formant</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*formLib'>formLib</a> </li>
+<li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc3'><a href='#*basicNew'>basicNew</a> </li>
+<li class='toc3'><a href='#*compose'>compose</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+<li class='toc2'><a href='#Undocumented%20class%20methods'>Undocumented class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*initLib'>initLib</a> </li>
+<li class='toc3'><a href='#*load'>load</a> </li>
+</ul></ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-freqs'>freqs</a> </li>
+<li class='toc3'><a href='#-dBs'>dBs</a> </li>
+<li class='toc3'><a href='#-widths'>widths</a> </li>
+<li class='toc3'><a href='#-amps'>amps</a> </li>
+<li class='toc3'><a href='#-rqs'>rqs</a> </li>
+<li class='toc3'><a href='#-midinotes'>midinotes</a> </li>
+<li class='toc3'><a href='#-addFormants'>addFormants</a> </li>
+<li class='toc3'><a href='#-removeFormants'>removeFormants</a> </li>
+<li class='toc3'><a href='#-ampAt'>ampAt</a> </li>
+<li class='toc3'><a href='#-plot'>plot</a> </li>
+<li class='toc3'><a href='#-asArray'>asArray</a> </li>
+<li class='toc3'><a href='#-asEvent'>asEvent</a> </li>
+<li class='toc3'><a href='#-asKeyValuePairs'>asKeyValuePairs</a> </li>
+<li class='toc3'><a href='#-addControls'>addControls</a> </li>
+<li class='toc3'><a href='#-+'>+</a> </li>
+<li class='toc3'><a href='#--'>-</a> </li>
+<li class='toc3'><a href='#-*'>*</a> </li>
+<li class='toc3'><a href='#-/'>/</a> </li>
+<li class='toc3'><a href='#-blend'>blend</a> </li>
+<li class='toc3'><a href='#-brightenRel'>brightenRel</a> </li>
+<li class='toc3'><a href='#-brightenLin'>brightenLin</a> </li>
+<li class='toc3'><a href='#-brightenExp'>brightenExp</a> </li>
+<li class='toc3'><a href='#-asKlankRef'>asKlankRef</a> </li>
+<li class='toc3'><a href='#-printOn'>printOn</a> </li>
+<li class='toc3'><a href='#-storeArgs'>storeArgs</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-asFlatArray'>asFlatArray</a> </li>
+<li class='toc3'><a href='#-performBinaryOpOnSimpleNumber'>performBinaryOpOnSimpleNumber</a> </li>
+<li class='toc3'><a href='#-performBinaryOpOnVowel'>performBinaryOpOnVowel</a> </li>
+<li class='toc3'><a href='#-save'>save</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>A Vowel contains and handles data to describe formants that allow to distinguish the vowel sounds \a, \e, \i, \o, \u for the registers \bass, \tenor, \counterTenor, \alto and \soprano. The current implementation uses formant data that originally appeared in the C-sound Manual:  <a href="http://www.csounds.com/manual/html/MiscFormants.html">http://www.csounds.com/manual/html/MiscFormants.html</a>
+<p>2011 -- Florian Grond, Till Bovermann
+<p>Supported by: the Ambient Intelligence Group, CITEC ( <a href="http://www.techfak.uni-bielefeld.de/ags/ami">http://www.techfak.uni-bielefeld.de/ags/ami</a> ) Bielefeld University, and the TAI Studio ( <a href="http://TAI-Studio.org">http://TAI-Studio.org</a> ), Department of Media, Aalto University, Helsinki. Many thanks go to Alberto de Campo and and Julian Rohrhuber.<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*formLib' href='./../Overviews/Methods.html#formLib'>formLib</a> </h3>
+<div class='method'>
+<p>holds formant information<pre class='code prettyprint lang-sc'>Vowel.formLib.at(\a)
+Vowel.formLib.at(\a, \bass)
+Vowel.formLib.at(\a, \bass, \freq)
+Vowel.formLib.postTree;</pre>
+<h4>Returns:</h4>
+<div class='returnvalue'>
+<p>a Dictionary</div></div><h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>vowel: 'a'</span>, <span class='argstr'>register: 'bass'</span>)</h3>
+<div class='method'>
+<p>creates a new instance of Vowel<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>vowel<td class='argumentdesc'>
+<p>select a vowel by the symbols \a, \e, \i, \o, \u. default value is 'a'.<tr><td class='argumentname'>register<td class='argumentdesc'>
+<p>select a register by the symbols \bass, \tenor, \counterTenor, \alto, \soprano. Default value is 'bass'.</table><h4>Returns:</h4>
+<div class='returnvalue'>
+<p>a Vowel</div><h4>Discussion:</h4>
+<pre class='code prettyprint lang-sc'>Vowel(); // defaults to A bass
+Vowel(\a, \bass); 
+Vowel(\e, \tenor); 
+Vowel(\i, \counterTenor); 
+Vowel(\o, \alto); 
+Vowel(\u, \soprano); 
+
+{Formants.ar(100, Vowel(\e, \bass)) * 0.1 }.play
+{Formants.ar(200, Vowel(\o, \alto)) * 0.1 }.play
+{Formants.ar(300, Vowel(\i, \soprano)) * 0.1 }.play</pre>
+
+<p>The class exhibits multichannel expansion behaviour<pre class='code prettyprint lang-sc'>{Formants.ar(100, Vowel([\e, \o], [\bass])) * 0.1 }.play
+{Formants.ar(100, Vowel(\e, [\bass,\alto])) * 0.1 }.play
+{Formants.ar(100, Vowel([\e, \o], [\bass,\alto])) * 0.1 }.play</pre>
+</div><h3 class='cmethodname'><span class='methprefix'>*</span><a name='*basicNew' href='./../Overviews/Methods.html#basicNew'>basicNew</a> (<span class='argstr'>freqs</span>, <span class='argstr'>dBs</span>, <span class='argstr'>widths</span>)</h3>
+<div class='method'>
+<p>You can also explicitly set the formants<pre class='code prettyprint lang-sc'>Vowel.basicNew([ 300, 400, 2700, 3800, 4950 ], [ 0, -16, -35, -40, -6 ], [ 50, 10, 170, 180, 200 ])</pre>
+<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>freqs<td class='argumentdesc'>
+<p>an array of freqs<tr><td class='argumentname'>dBs<td class='argumentdesc'>
+<p>an array of dBs<tr><td class='argumentname'>widths<td class='argumentdesc'>
+<p>an array of widths in Hz</table><h4>Returns:</h4>
+<div class='returnvalue'>
+<p>a Vowel</div></div><h3 class='cmethodname'><span class='methprefix'>*</span><a name='*compose' href='./../Overviews/Methods.html#compose'>compose</a> (<span class='argstr'>vowelNames</span>, <span class='argstr'>registers</span>, <span class='argstr'>weights</span>)</h3>
+<div class='method'>
+<p>compose your own vowel based on the ones defined in formTable. Wraps when argument lengths differ (as in channel expansion).<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>vowelNames<td class='argumentdesc'>
+<p>an array describing the vowels' character: \a, \e, \i, \o, \u.<tr><td class='argumentname'>registers<td class='argumentdesc'>
+<p>an array describing the vowels' voice: \bass, \tenor, \counter, \alt, \sopran.<tr><td class='argumentname'>weights<td class='argumentdesc'>
+<p>an array describing the vowels' weight relative to the others. Should be a normalized sum.</table><h4>Returns:</h4>
+<div class='returnvalue'>
+<p>a Vowel</div><h4>Discussion:</h4>
+<pre class='code prettyprint lang-sc'>Vowel.compose([\a,\e,\i], [\bass,\soprano,\alto], [0.2, 0.3, 0.5]);
+Vowel.compose([\a,\e], [\soprano], [9, 4].normalizeSum);
+Vowel.compose([\a], [\tenor, \counterTenor, \soprano], [1, 4, 2].normalizeSum);
+
+(
+{ var v = Vowel.compose(
+    [\a, \e, \i], 
+    [\soprano, \bass, \tenor, \counterTenor, \alto], 
+    ({10.rand}!5).normalizeSum
+);
+Formants.ar(50 + 300.rand, v) * 0.1; 
+}.play;
+)</pre>
+</div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h3><a class='anchor' name='Undocumented%20class%20methods'>Undocumented class methods</a></h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*initLib' href='./../Overviews/Methods.html#initLib'>initLib</a> </h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*load' href='./../Overviews/Methods.html#load'>load</a> (<span class='argstr'>path</span>)</h3>
+<h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-freqs' href='./../Overviews/Methods.html#freqs'>freqs</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-freqs' href='./../Overviews/Methods.html#freqs'>freqs</a> = value</h3>
+<div class='method'>
+<p>Array of freqs, one for each formant.<pre class='code prettyprint lang-sc'>v = Vowel(\e, \tenor)
+v.freqs
+v.freqs_({|i| 100 * (i+1) }!5)
+v.freqs</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-dBs' href='./../Overviews/Methods.html#dBs'>dBs</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-dBs' href='./../Overviews/Methods.html#dBs'>dBs</a> = value</h3>
+<div class='method'>
+<p>Array of dBs, <pre class='code prettyprint lang-sc'>v = Vowel(\u, \counterTenor)
+v.dBs
+v.dBs_({|i| -10 * (i) }!5)
+v.dBs</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-widths' href='./../Overviews/Methods.html#widths'>widths</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-widths' href='./../Overviews/Methods.html#widths'>widths</a> = value</h3>
+<div class='method'>
+<p>array of widths in Hz, one for each formant.<pre class='code prettyprint lang-sc'>v = Vowel(\o, \soprano)
+v.widths
+v.widths_({ 500.rand }!5)
+v.widths</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-amps' href='./../Overviews/Methods.html#amps'>amps</a> </h3>
+<div class='method'>
+<p>array of amps in dB, one for each formant.</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-rqs' href='./../Overviews/Methods.html#rqs'>rqs</a> </h3>
+<div class='method'>
+<p>array of rQ values, one for each formant.</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-midinotes' href='./../Overviews/Methods.html#midinotes'>midinotes</a> </h3>
+<div class='method'>
+<p>array of midinotes, one for each formant.</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-addFormants' href='./../Overviews/Methods.html#addFormants'>addFormants</a> (<span class='argstr'>freq: 0</span>, <span class='argstr'>db: 1</span>, <span class='argstr'>width: -100</span>)</h3>
+<div class='method'>
+<p><pre class='code prettyprint lang-sc'>v = Vowel()
+v.addFormants([3000,4000], -6, [200, 200])
+
+{Formants.ar(100, v) * 0.1 }.play
+{Formants.ar(100, Vowel()) * 0.1}.play
+        
+{[Formants.ar(100, Vowel()) * 0.1, Formants.ar(100, v) * 0.1 ]}.play
+
+v.removeFormants([5,6])</pre>
+<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>freq<td class='argumentdesc'><tr><td class='argumentname'>db<td class='argumentdesc'><tr><td class='argumentname'>width<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-removeFormants' href='./../Overviews/Methods.html#removeFormants'>removeFormants</a> (<span class='argstr'>index</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>index<td class='argumentdesc'>
+<p>index of the formant to remove</table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-ampAt' href='./../Overviews/Methods.html#ampAt'>ampAt</a> (<span class='argstr'>freq</span>, <span class='argstr'>filterOrder: 1</span>)</h3>
+<div class='method'>
+<p>get amp value for freq according to order of filter<pre class='code prettyprint lang-sc'>Vowel(\u).ampAt(100);    
+    
+~range = {|i|i*2}!2000;    
+Vowel(\u).ampAt(~range  ).plot;
+Vowel(\u).ampAt(~range  ).ampdb.plot(minval: -100, maxval: 0);    
+
+Vowel(\u).ampAt(~range, 0.5  ).plot;
+Vowel(\u).ampAt(~range, 0.5  ).ampdb.plot(minval: -100, maxval: 0);
+
+Vowel(\u).ampAt(~range, 3  ).plot;
+Vowel(\u).ampAt(~range,  3 ).ampdb.plot(minval: -100, maxval: 0);
+
+Vowel(\u).ampAt(~range, [3,1,0.5,2]  ).plot
+Vowel(\u).ampAt(~range,  [3,1,0.5,2]  ).ampdb.plot(minval: -100, maxval: 0)</pre>
+<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>freq<td class='argumentdesc'><tr><td class='argumentname'>filterOrder<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-plot' href='./../Overviews/Methods.html#plot'>plot</a> (<span class='argstr'>fmin: 0</span>, <span class='argstr'>fmax: 6000</span>, <span class='argstr'>fstep: 2</span>, <span class='argstr'>order: 1</span>)</h3>
+<div class='method'>
+<p>plot the frequency spectrum of the vowel.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>fmin<td class='argumentdesc'><tr><td class='argumentname'>fmax<td class='argumentdesc'><tr><td class='argumentname'>fstep<td class='argumentdesc'><tr><td class='argumentname'>order<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-asArray' href='./../Overviews/Methods.html#asArray'>asArray</a> </h3>
+<div class='method'>
+<p>serialise the vowel into an array<h4>Returns:</h4>
+<div class='returnvalue'>
+<p>an arrays of [ freqs, dBs, widths ]</div></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-asEvent' href='./../Overviews/Methods.html#asEvent'>asEvent</a> </h3>
+<div class='method'>
+<p>convert into an Event</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-asKeyValuePairs' href='./../Overviews/Methods.html#asKeyValuePairs'>asKeyValuePairs</a> (<span class='argstr'>id: ""</span>)</h3>
+<div class='method'>
+<p>convert into an array of key value pairs<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>id<td class='argumentdesc'>
+<p>optional argument added to each key</table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-addControls' href='./../Overviews/Methods.html#addControls'>addControls</a> (<span class='argstr'>id: ""</span>, <span class='argstr'>rate: 'kr'</span>, <span class='argstr'>lag</span>)</h3>
+<div class='method'>
+<p>creates controls in the wrapping synth such that the vowel's parameters can be controlled seamlessly from the language.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>id<td class='argumentdesc'>
+<p>Optional. If more than one vowel need to be controlled inside one Synth, this id can be used to differentiate them from each other. <tr><td class='argumentname'>rate<td class='argumentdesc'>
+<p>either \kr or \ar<tr><td class='argumentname'>lag<td class='argumentdesc'>
+<p>array of lag times</table><h4>Discussion:</h4>
+<pre class='code prettyprint lang-sc'>(
+x = SynthDef(\vowel, {|freq = 420|
+    Out.ar(0, 
+        Formants.ar(freq.lag(0.1), Vowel(\a).addControls(lag: 1)) * 0.01
+    )
+}).play
+)
+        
+x.setn(*([\freq, exprand(100, 1000)] ++ Vowel(\u, \soprano).asKeyValuePairs));
+x.setn(*([\freq, exprand(100, 500)] ++ Vowel(\e, \bass).asKeyValuePairs));
+x.setn(*([\freq, exprand(400, 1000)] ++ Vowel(\a, \soprano).asKeyValuePairs));</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-+' href='./../Overviews/Methods.html#+'>+</a> (<span class='argstr'>that</span>, <span class='argstr'>adverb</span>)</h3>
+<div class='method'>
+<p>plus<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>that<td class='argumentdesc'><tr><td class='argumentname'>adverb<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='--' href='./../Overviews/Methods.html#-'>-</a> (<span class='argstr'>that</span>, <span class='argstr'>adverb</span>)</h3>
+<div class='method'>
+<p>minus<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>that<td class='argumentdesc'><tr><td class='argumentname'>adverb<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-*' href='./../Overviews/Methods.html#*'>*</a> (<span class='argstr'>that</span>, <span class='argstr'>adverb</span>)</h3>
+<div class='method'>
+<p>multiply<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>that<td class='argumentdesc'><tr><td class='argumentname'>adverb<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-/' href='./../Overviews/Methods.html#/'>/</a> (<span class='argstr'>that</span>, <span class='argstr'>adverb</span>)</h3>
+<div class='method'>
+<p>divide<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>that<td class='argumentdesc'><tr><td class='argumentname'>adverb<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-blend' href='./../Overviews/Methods.html#blend'>blend</a> (<span class='argstr'>that</span>, <span class='argstr'>blendFrac: 0.5</span>)</h3>
+<div class='method'>
+<p>blends two vowels by linear interpolation between of midinotes, widths and dBs.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>that<td class='argumentdesc'>
+<p>a Vowel<tr><td class='argumentname'>blendFrac<td class='argumentdesc'>
+<p>coefficient. Range from 0.0 (this) to 1.0 (that). </table><h4>Returns:</h4>
+<div class='returnvalue'>
+<p>a new instance of Vowel</div></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-brightenRel' href='./../Overviews/Methods.html#brightenRel'>brightenRel</a> (<span class='argstr'>bright: 1</span>, <span class='argstr'>refFormant: 0</span>)</h3>
+<div class='method'>
+<p>lift the upper formants by multiplying their dBs with a factor.  The sum of all dBs remains fixed.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>bright<td class='argumentdesc'>
+<p>coefficient to brighten the vowel. Typical ranges are from 1 (no change) to 3.<tr><td class='argumentname'>refFormant<td class='argumentdesc'>
+<p>reference formant, whose amplitude remains unchanged. Default value is 0 (first formant)</table><h4>Discussion:</h4>
+
+<p>NOTE: If the coefficient bright is &gt; 1 and the refFormant is &gt; 0, the resulting signal may raise to a very big amplitude.<pre class='code prettyprint lang-sc'>Vowel().brightenRel(1  ).dBs.postln; 
+Vowel().brightenRel(0.1).dBs.postln;
+Vowel().brightenRel(1.5).dBs.postln;
+
+// refFormant = 0 loud on the left
+{Formants.ar(100, Vowel().brightenRel(MouseX.kr(0, 2), 0 )) * 0.1}.play
+// refFormant = 1
+{Formants.ar(100, Vowel().brightenRel(MouseX.kr(0, 2), 1 )) * 0.1}.play
+// refFormant = 2
+{Formants.ar(100, Vowel().brightenRel(MouseX.kr(0, 2), 2 )) * 0.1}.play
+// refFormant = 3
+{Formants.ar(100, Vowel().brightenRel(MouseX.kr(0, 2), 3 )) * 0.1}.play
+// refFormant = 4 loud on the right
+{Formants.ar(100, Vowel().brightenRel(MouseX.kr(0, 2), 4 )) * 0.1}.play</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-brightenLin' href='./../Overviews/Methods.html#brightenLin'>brightenLin</a> (<span class='argstr'>bright: 1</span>, <span class='argstr'>refFormant: 0</span>)</h3>
+<div class='method'>
+<p>allows to lift the upper formants by multiplying their dBs. the sum of all dBs remains constant.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>bright<td class='argumentdesc'>
+<p>coefficient to brighten the vowel. Typical ranges are from 1 (no change) to 3.<tr><td class='argumentname'>refFormant<td class='argumentdesc'>
+<p>reference formant, whose amplitude remains unchanged. Default value is 0 (first formant)</table><h4>Discussion:</h4>
+<pre class='code prettyprint lang-sc'>Vowel().brightenLin(-1).dBs.postln; 
+Vowel().brightenLin( 0).dBs.postln;
+Vowel().brightenLin( 1).dBs.postln;
+
+// refFormant = 0 loud on the left
+{Formants.ar(100, Vowel().brightenLin(MouseX.kr(0, 20), 0 )) * 0.1}.play
+// refFormant = 1
+{Formants.ar(100, Vowel().brightenLin(MouseX.kr(0, 20), 1 )) * 0.1}.play
+// refFormant = 2
+{Formants.ar(100, Vowel().brightenLin(MouseX.kr(0, 20), 2 )) * 0.1}.play
+// refFormant = 3
+{Formants.ar(100, Vowel().brightenLin(MouseX.kr(0, 20), 3 )) * 0.1}.play
+// refFormant = 4 loud on the right
+{Formants.ar(100, Vowel().brightenLin(MouseX.kr(0, 20), 4 )) * 0.1}.play</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-brightenExp' href='./../Overviews/Methods.html#brightenExp'>brightenExp</a> (<span class='argstr'>bright: 1</span>)</h3>
+<div class='method'>
+<p>allows to relatively lift the upper formants by keeping the sum of gains of all formants constant.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>bright<td class='argumentdesc'>
+<p>coefficient to brighten the vowel. Typical ranges are from 1 (no change) to 3.</table><h4>Discussion:</h4>
+<pre class='code prettyprint lang-sc'>Vowel().brightenExp(1).dBs.postln; 
+Vowel().brightenExp(0.1).dBs.postln;
+Vowel().brightenExp(1.5).dBs.postln;
+
+{Formants.ar(100, Vowel(\a, \bass).brightenExp(MouseX.kr(0,5)))  * 0.1 }.play;</pre>
+</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-asKlankRef' href='./../Overviews/Methods.html#asKlankRef'>asKlankRef</a> (<span class='argstr'>baseFreq: 440</span>, <span class='argstr'>numPartials: 13</span>, <span class='argstr'>ring: 1</span>)</h3>
+<div class='method'>
+<p>(describe method here)<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>baseFreq<td class='argumentdesc'>
+<p>undocumented<tr><td class='argumentname'>numPartials<td class='argumentdesc'><tr><td class='argumentname'>ring<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-printOn' href='./../Overviews/Methods.html#printOn'>printOn</a> (<span class='argstr'>stream</span>)</h3>
+<div class='method'>
+<p>prettyprint support<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>stream<td class='argumentdesc'></table></div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-storeArgs' href='./../Overviews/Methods.html#storeArgs'>storeArgs</a> </h3>
+<div class='method'>
+<p>archival support</div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-asFlatArray' href='./../Overviews/Methods.html#asFlatArray'>asFlatArray</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-performBinaryOpOnSimpleNumber' href='./../Overviews/Methods.html#performBinaryOpOnSimpleNumber'>performBinaryOpOnSimpleNumber</a> (<span class='argstr'>aSelector</span>, <span class='argstr'>aNumber</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-performBinaryOpOnVowel' href='./../Overviews/Methods.html#performBinaryOpOnVowel'>performBinaryOpOnVowel</a> (<span class='argstr'>aSelector</span>, <span class='argstr'>aVowel</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-save' href='./../Overviews/Methods.html#save'>save</a> (<span class='argstr'>path</span>, <span class='argstr'>timbre: 'mytimbre'</span>, <span class='argstr'>register: 'myregister'</span>)</h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+
+<p>In SynthDefs:<pre class='code prettyprint lang-sc'>(
+SynthDef(\vowblend,{|freq = 100, b1 = 0.5, b2 = 0.5, b3 = 0.5, b4 = 0.5 bright = 0, pan = 0|
+    var va = Vowel(\a, \bass),
+        ve = Vowel(\e, \tenor),
+        vi = Vowel(\i, \counterTenor),
+        vo = Vowel(\o, \alto),
+        vu = Vowel(\u, \soprano),
+        sig;
+       
+        sig =  Formants.ar(
+            freq, 
+            va
+                .blend(ve, b1)
+            .blend(vi, b2)
+            .blend(vo, b3)
+            .blend(vu, b4)
+            .brightenExp(bright, 1) 
+        ) 
+        * EnvGen.kr(Env.perc, 3.0, doneAction: 2);
+
+    Out.ar(0,  Pan2.ar(sig, pan, 0.1));
+}).add
+)
+
+
+(
+Task({  32.do({ arg i; 
+    Synth(\vowblend, [    
+        \pan, i.linlin(0,32, -1, 1 ),
+        \freq, i.linlin(0,32, 30, 66 ).midicps,
+        \b1, 2.rand,
+        \b2, 2.rand, 
+        \b3, 2.rand,
+        \b4, 2.rand, 
+        \bright,  1.5.rand
+    ]); 
+    0.25.wait
+
+});}).play
+)</pre>
+
+<p>using addControls to create buses <pre class='code prettyprint lang-sc'>(
+x = SynthDef(\test, {
+    Out.ar(0, 
+        Formants.ar(420, Vowel(\a).addControls(3)) * 0.01
+    )
+}).play
+)
+
+x.inspect
+
+x.setn(*Vowel(\i).asKeyValuePairs(3));</pre>
+
+<p>JITLib style:<pre class='code prettyprint lang-sc'>NdefMixer(s);
+
+Ndef(\vowel, {Formants.ar(200, Vowel(\a, \soprano))  * 0.01 }).play
+
+(
+Ndef(\vowel, {
+    Formants.ar(200, 
+        Vowel(\o, \soprano)
+            .blend(Vowel(\i, \tenor), SinOsc.kr(10).range(0,1))) * 0.01
+}).play
+)
+
+
+(
+Ndef(\vowel, {
+    Formants.ar(LFNoise0.kr(10).exprange(100, 400), 
+        Vowel(\o, \soprano)
+            .brightenExp(SinOsc.kr(2).range(0,1), 1),
+        unfold: true
+    ).mean * 0.01
+}).play
+)
+
+
+Ndef(\vowel, {
+    Formants.ar(200, Vowel(\a, \soprano).addControls(4)) * 0.01
+}).play
+
+Ndef(\vowel).setn(*Vowel(\e, \bass).asKeyValuePairs(4).flatten)
+Ndef(\vowel).setn(*Vowel(\u).asKeyValuePairs(4).flatten)
+
+
+Ndef(\vowel, {
+    Formants.ar(200, Vowel(\a, \soprano), unfold: true).scramble.keep(2) * 0.1
+}).play
+
+Ndef(\vowel).free(2)
+
+Ndef(\vowel).fadeTime = 4;
+
+(
+Ndef(\vowel, {
+    Formants.ar([1, 2, 4] * 240 * {LFNoise1.kr(5, 0.003, 1)}!3, Vowel(\a, [\bass, \tenor, \soprano]), 
+        freqMods: LFNoise1.ar(4*[0.1, 0.2, 0.3, 0.4, 0.5].scramble, 0.1,         ampMods: [1, 1, 1, 0]
+)).sum * 0.1
+}).play
+)</pre>
+
+<p>Fun.<pre class='code prettyprint lang-sc'>( // CPU demanding 
+~freqs = {|i| 50 * 1.5.pow(i) }!9;
+~numChan = 2;
+r = Routine{
+    var sustain = 8, transition = 3, overlap = 4;
+    var period = 1.5 * 2.sqrt;
+    var harms, amps;
+    0.5.wait;
+    inf.do{
+        harms = {|i| (i+1) * ~freqs.choose }!60;
+        amps  = Vowel([\a,\e,\i,\o,\u].choose,[\bass,\tenor,\counterTenor,\alto,\soprano].choose).ampAt(harms);
+        { PanAz.ar(~numChan, DynKlank.ar( `[~freqs,amps,amps],
+            Decay.ar(Impulse.ar( exp(1)/5.0 ), SinOsc.kr( pi/9.0, 1.0.rand ).range(0.05,0.7) )   ) *
+            EnvGen.kr(Env.new([-40,-20, -30,-40].dbamp, [2/5.0, 1/5.0,2/5.0],'exponential'), 1.0, timeScale: 35, levelScale: 0.1, doneAction: 2) ,SinOsc.kr(0.5, 1.0.rand) )}.play;
+        period.wait;
+    }
+};
+r.play;
+)
+r.stop;    //stop spawning new synths
+
+
+(
+Ndef(\vowel).fadeTime = 5;
+Ndef(\vowel, {
+    var freqs, dBs, widths, out;
+    var baseFreq = LFNoise0.kr([5, 10] * 0.1).round(0.1).exprange(50, 200) * [2, 1.01];
+    #freqs, dBs, widths =  (Vowel(\i, \soprano).blend(Vowel(\o, \bass), LFNoise1.kr(0.1265))).blend(Vowel(\e, \bass), LFNoise1.kr(10)).asArray;
+    
+    //freqs = freqs * SinOsc.ar([0.1, 0.2, 0.3, 0.4].scramble, Rand(), 0.1, 1);
+    freqs = freqs * LFNoise1.ar([0.1, 0.2, 0.3, 0.4].scramble, 0.1, 1);
+    
+    out = [freqs, widths, dBs.dbamp].flop.collect{ |args| 
+        Formant.ar(baseFreq, *args); 
+    }.flop;
+
+    out = out.collect{|vocal|
+        Splay.ar(vocal)
+    }.sum.postln;
+
+    out
+        * LFPulse.ar([9, 9.01], 0, 0.4).range(0, 1).lag(0.01, 0.5) 
+        * LFPulse.ar(0.1, [0, 0.35], [0.9, 0.8]).lag(0.01)
+
+ * 0.1
+
+}).play
+)</pre>
+
+<p><div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Vowel/HelpSource/Classes/Vowel.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Vowel/HelpSource/Classes/Vowel.schelp</a><br>link::Classes/Vowel::<br>sc version: 3.8.0</div></div></body></html>

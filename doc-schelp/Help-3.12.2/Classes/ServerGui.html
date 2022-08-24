@@ -1,0 +1,76 @@
+<!doctype html><html lang='en'><head><title>ServerGui | SuperCollider 3.12.2 Help</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../codemirror.css' type='text/css' />
+<link rel='stylesheet' href='./../editor.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../lib/jquery.min.js'></script>
+<script src='./../lib/codemirror-5.39.2.min.js' type='text/javascript'></script>
+<script src='./../lib/codemirror-addon-simple-5.39.2.min.js' type='text/javascript'></script>
+<script>
+var helpRoot = './..';
+var scdoc_title = 'ServerGui';
+var scdoc_sc_version = '3.12.2';
+</script>
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='qrc:///qtwebchannel/qwebchannel.js' type='text/javascript'></script>
+</head>
+<body onload='fixTOC()'>
+<div id='toc'>
+<div id='toctitle'>ServerGui:</div>
+<span class='toc_search'>Filter: <input id='toc_search'></span><ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-writeName'>writeName</a> </li>
+<li class='toc3'><a href='#-guiBody'>guiBody</a> </li>
+<li class='toc3'><a href='#-output'>output</a> </li>
+<li class='toc3'><a href='#-input'>input</a> </li>
+<li class='toc3'><a href='#-meters'>meters</a> </li>
+<li class='toc3'><a href='#-tail'>tail</a> </li>
+<li class='toc3'><a href='#-update'>update</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+</ul></ul></div><div id='menubar'></div>
+<div class='contents'>
+<div class='header'>
+<div id='label'>
+<span id='folder'>Classes (extension)</span>
+ | <span id='categories'><a href='./../Browse.html#Libraries'>Libraries</a>&#8201;&gt;&#8201;<a href='./../Browse.html#Libraries>crucial'>crucial</a>&#8201;&gt;&#8201;<a href='./../Browse.html#Libraries>crucial>GUI'>GUI</a></span>
+</div><h1>ServerGui<span id='superclasses'> : <a href="../Classes/ObjectGui.html">ObjectGui</a> : <a href="../Classes/SCViewHolder.html">SCViewHolder</a> : <a href="../Classes/Object.html">Object</a></span>
+<div class='extension-indicator-ctr' title='This help file originates from a third-party quark or plugin for SuperCollider.'><img class='extension-indicator-icon' alt='Extension' src='./../images/plugin.png'><span class='extension-indicator-text'>Extension</span></div></h1>
+<div id='summary'>an alternate small server view</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/ServerTools/ServerGui.sc' title='/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/ServerTools/ServerGui.sc'>ServerGui.sc</a></div><div id='related'>See also: <a href="./../Classes/Server.html">Server</a>, <a href="./../Classes/ServerErrorGui.html">ServerErrorGui</a></div>
+</div>
+<h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>This is more compact and conforms to the .gui convention in that it can be placed on any window or view.
+<p>Its an MVC design so there can be many of them for a single server and they can be closed and will clean up after themselves.<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-writeName' href='./../Overviews/Methods.html#writeName'>writeName</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-guiBody' href='./../Overviews/Methods.html#guiBody'>guiBody</a>(<span class='argstr'>layout</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>layout<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-output' href='./../Overviews/Methods.html#output'>output</a>(<span class='argstr'>layout</span>, <span class='argstr'>width: 140</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>layout<td class='argumentdesc'><tr><td class='argumentname'>width<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-input' href='./../Overviews/Methods.html#input'>input</a>(<span class='argstr'>layout</span>, <span class='argstr'>width: 140</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>layout<td class='argumentdesc'><tr><td class='argumentname'>width<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-meters' href='./../Overviews/Methods.html#meters'>meters</a>(<span class='argstr'>layout</span>, <span class='argstr'>bounds</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>layout<td class='argumentdesc'><tr><td class='argumentname'>bounds<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-tail' href='./../Overviews/Methods.html#tail'>tail</a>(<span class='argstr'>layout</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>layout<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-update' href='./../Overviews/Methods.html#update'>update</a>(<span class='argstr'>changer</span>, <span class='argstr'>what</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>changer<td class='argumentdesc'><tr><td class='argumentname'>what<td class='argumentdesc'></table></div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/HelpSource/Classes/ServerGui.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/HelpSource/Classes/ServerGui.schelp</a><br>link::Classes/ServerGui::<br></div></div><script src='./../editor.js' type='text/javascript'></script>
+</body></html>

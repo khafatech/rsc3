@@ -1,0 +1,221 @@
+<html><head><title>CutBuf3</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>CutBuf3</h1>
+<div id='summary'>BBCut2 buffer playback with modulatable grain parameters</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/cutsynths/CutBuf3.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/cutsynths/CutBuf3.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/CutSynth.html">CutSynth</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-atk'>atk</a> </li>
+<li class='toc3'><a href='#-bbcutbuf'>bbcutbuf</a> </li>
+<li class='toc3'><a href='#-curve'>curve</a> </li>
+<li class='toc3'><a href='#-deviationmult'>deviationmult</a> </li>
+<li class='toc3'><a href='#-dutycycle'>dutycycle</a> </li>
+<li class='toc3'><a href='#-initCutBuf2'>initCutBuf2</a> </li>
+<li class='toc3'><a href='#-offset'>offset</a> </li>
+<li class='toc3'><a href='#-pbsfunc'>pbsfunc</a> </li>
+<li class='toc3'><a href='#-posttrim'>posttrim</a> </li>
+<li class='toc3'><a href='#-pretrim'>pretrim</a> </li>
+<li class='toc3'><a href='#-rel'>rel</a> </li>
+<li class='toc3'><a href='#-renderBlock'>renderBlock</a> </li>
+<li class='toc3'><a href='#-setup'>setup</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>Playback for a segmented buffer, with individual grains spawned for each event. Cuts play back any events within their scope. The scheduling system for bbcut2 takes account of groove based time deviations from quantised template positions for the events, and perceptual attack times. Note that FX units may switch exactly on the cuts, which may or may not match up with the event playback. There are options to constrain the amount of groove deviation. 
+<p>Because CutBuf3 works by scheduling individual events in a soundfile, there is no repitch for different tempi. So you may get different plkayback speeds from a CutBuf2 or 1- ie, with CutBuf3 you should hear the sample's original pitch at whatever tempo you explore. <h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>bbcutbuf</span>, <span class='argstr'>offset</span>, <span class='argstr'>deviationmult</span>, <span class='argstr'>pretrim</span>, <span class='argstr'>posttrim</span>, <span class='argstr'>pbsfunc</span>, <span class='argstr'>dutycycle</span>, <span class='argstr'>atk</span>, <span class='argstr'>rel</span>, <span class='argstr'>curve</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>bbcutbuf<td class='argumentdesc'>
+<p>An instance of BBCutBuffer representing the buffer to be cut-up.<tr><td class='argumentname'>offset<td class='argumentdesc'>
+<p>A parameter to be passed to any cut playback position determining routine. The default chooseoffset method is in BBCutBuffer and the parameter is a single number from 0.0 to 1.0 giving the chance of a jump to a random event in the source. You can pass an Array in that has two parameters, being [randomoffsetchance, quantise grid of offsetcutting in beats]. Ie, [0.3, 0.5] would have a 30% chance of jumping to a random eighth note position. <tr><td class='argumentname'>deviationmult<td class='argumentdesc'>
+<p>Multiplies the groove based time deviations of events. Set to 0.0 for rigid quantise based playback, 1.0 for full original timing properties. <tr><td class='argumentname'>pretrim<td class='argumentdesc'>
+<p>If playing back a cut, play any events within the cut even if there tming deviation puts them ahead of the cut start. Ie, play anticipatory events. <tr><td class='argumentname'>posttrim<td class='argumentdesc'>
+<p>The same for events whose deviation puts them after the end of the cut, but whose quantised position is within the cut. <tr><td class='argumentname'>pbsfunc<td class='argumentdesc'>
+<p>Playback speed (rate) control for each cut. This can be a constant, or some other object that responds to .value, which is called for every repeat in a block. The first argument is the repeat number in the block, and the second argument is the block itself. If pbsfunc responds to .updateblock, that will also be called every block with the current block passed as an argument.<tr><td class='argumentname'>dutycycle<td class='argumentdesc'>
+<p>Ratio of duration to inter-onset-interval (IOI). 0.5 would mean that the duration of grains is only half the length between cut start times. <tr><td class='argumentname'>atk<td class='argumentdesc'>
+<p>Enveloping parameter for attack speed of an event grain, in seconds. You may set to zero to play back source events exactly as in the original, assuming the source is proprely segmented and there are no clicks. <tr><td class='argumentname'>rel<td class='argumentdesc'>
+<p>Enveloping parameter for release speed in seconds.<tr><td class='argumentname'>curve<td class='argumentdesc'>
+<p>Envelope curve parameter. 
+<p>The cut synthesis arguments apart from bbcutbuf can have more complex objects than SimpleNumbers passed in. You can pass in anything which responds to value (like a Function) or even objects which respond to the updateblock method such as CutPBS1 (see examples below). </table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-atk' href='./../Overviews/Methods.html#atk'>atk</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-atk' href='./../Overviews/Methods.html#atk'>atk</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-bbcutbuf' href='./../Overviews/Methods.html#bbcutbuf'>bbcutbuf</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-bbcutbuf' href='./../Overviews/Methods.html#bbcutbuf'>bbcutbuf</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-curve' href='./../Overviews/Methods.html#curve'>curve</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-curve' href='./../Overviews/Methods.html#curve'>curve</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deviationmult' href='./../Overviews/Methods.html#deviationmult'>deviationmult</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deviationmult' href='./../Overviews/Methods.html#deviationmult'>deviationmult</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-dutycycle' href='./../Overviews/Methods.html#dutycycle'>dutycycle</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-dutycycle' href='./../Overviews/Methods.html#dutycycle'>dutycycle</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initCutBuf2' href='./../Overviews/Methods.html#initCutBuf2'>initCutBuf2</a> (<span class='argstr'>bcb</span>, <span class='argstr'>off</span>, <span class='argstr'>dm</span>, <span class='argstr'>pt</span>, <span class='argstr'>pstt</span>, <span class='argstr'>pf</span>, <span class='argstr'>dc</span>, <span class='argstr'>ap</span>, <span class='argstr'>rp</span>, <span class='argstr'>c</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-offset' href='./../Overviews/Methods.html#offset'>offset</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-offset' href='./../Overviews/Methods.html#offset'>offset</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pbsfunc' href='./../Overviews/Methods.html#pbsfunc'>pbsfunc</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pbsfunc' href='./../Overviews/Methods.html#pbsfunc'>pbsfunc</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-posttrim' href='./../Overviews/Methods.html#posttrim'>posttrim</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-posttrim' href='./../Overviews/Methods.html#posttrim'>posttrim</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pretrim' href='./../Overviews/Methods.html#pretrim'>pretrim</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pretrim' href='./../Overviews/Methods.html#pretrim'>pretrim</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-rel' href='./../Overviews/Methods.html#rel'>rel</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-rel' href='./../Overviews/Methods.html#rel'>rel</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-renderBlock' href='./../Overviews/Methods.html#renderBlock'>renderBlock</a> (<span class='argstr'>block</span>, <span class='argstr'>clock</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setup' href='./../Overviews/Methods.html#setup'>setup</a> </h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>s=Server.default;
+
+
+//default segmentation into eighth note events applied to the buffer 
+
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(2.1));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+
+s.sync; //this forces a wait for the Buffer to load
+
+BBCut2(CutBuf3(sf,0.3), BBCutProc11.new).play(clock);
+});
+
+)
+
+
+//segment into even 16ths, apply swing on event playback, dutycycle manipulation, no enveloping
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(1.8));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8, 0.25); //segment into 16ths so 16th swing works
+
+s.sync; //this forces a wait for the Buffer to load
+
+sf.setgroove; //defaults to UK garage swing
+
+BBCut2(CutBuf3(sf,0.3,0.0,true,true,1.0,1.0,0.0,0.0,0), BBCutProc11.new).play(clock);
+});
+
+)
+
+
+
+//passing in event positions, event lengths will be taken as distance between event onsets
+//demonstrating repitch, keeping all anticipations and postevents with original groove deviation   
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(3.1));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break2.aiff",4, [ 0, 16789, 28721, 37166, 41389, 49042, 56783 ]);
+
+s.sync; //this forces a wait for the Buffer to load
+
+BBCut2(CutBuf3(sf,0.3,1.0, false, false), BBCutProc11.new).play(clock);
+});
+
+)
+
+
+
+//preserving time deviations but events realigned to a UK garage swing grid
+//also shows interaction with FX unit
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(2.8));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break2.aiff",4, [ 0, 16789, 28721, 37166, 41389, 49042, 56783 ]); //segment into 16ths so 16th swing works
+
+s.sync; //this forces a wait for the Buffer to load
+
+sf.setgroove; //defaults to UK garage swing
+
+BBCut2([CutBuf3(sf,0.3,1.0,false,false,1.0,1.0,0.0,0.0,0),CutComb1.new], ChooseCutProc(1.0,2)).play(clock);
+});
+
+)
+
+
+//use the GUI to find onsets for a loaded sample- use post to output the data array  
+Segmentation.new //also see the help file for this GUI
+
+
+//you could substitute your data here, remember to change the sound filename too
+(
+~data=[ [ 380, 0.21049886621315, 0.005 ], [ 9663, 0.16013605442177, 0.005 ], [ 16725, 0.28975056689342, 0.005 ], [ 29503, 0.085555555555556, 0.005 ], [ 33276, 0.067482993197279, 0.005 ], [ 41243, 0.18616780045351, 0.005 ], [ 49453, 0.29065759637188, 0.005 ], [ 62271, 0.085532879818594, 0.005 ], [ 66043, 0.081360544217687, 0.005 ], [ 74014, 0.18480725623583, 0.005 ], [ 82164, 0.28897959183673, 0.005 ], [ 94908, 0.08421768707483, 0.005 ], [ 98622, 0.096734693877551, 0.005 ], [ 106492, 0.2931746031746, 0.005 ], [ 119421, 0.08562358276644, 0.005 ], [ 123197, 0.0740589569161, 0.005 ] ];
+)
+
+//passing in event data in general form  
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(2.1));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8, ~data);
+
+s.sync; //this forces a wait for the Buffer to load
+
+BBCut2(CutBuf3(sf,0.3,1.0, false, true), BBCutProc11.new).play(clock);
+});
+)
+
+
+/////////////////////////////////////////////////////////////////////
+//test code for finding events for wraparound cuts 
+//default segmentation into eighth note events applied to the buffer 
+f= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+a=f.findevents(7,8.4).postln;
+b=f.trimevents(7,8.4,a,true, true,2);
+//////////////////////////////////////////////////////////////////////</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/CutBuf3.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/CutBuf3.schelp</a><br>link::Classes/CutBuf3::<br>sc version: 3.8.0</div></div></body></html>

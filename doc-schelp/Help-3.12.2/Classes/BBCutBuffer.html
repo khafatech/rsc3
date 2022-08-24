@@ -1,0 +1,117 @@
+<html><head><title>BBCutBuffer</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>BBCutBuffer</h1>
+<div id='summary'>A buffer in BBCut2</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/core/BBCutBuffer.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/core/BBCutBuffer.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/Buffer.html">Buffer</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc3'><a href='#*array'>array</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+<li class='toc2'><a href='#Undocumented%20class%20methods'>Undocumented class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*defaultPAT'>defaultPAT</a> </li>
+</ul></ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-beatlength'>beatlength</a> </li>
+<li class='toc3'><a href='#-bps'>bps</a> </li>
+<li class='toc3'><a href='#-chooseoffset'>chooseoffset</a> </li>
+<li class='toc3'><a href='#-convertoffset'>convertoffset</a> </li>
+<li class='toc3'><a href='#-eventlengths'>eventlengths</a> </li>
+<li class='toc3'><a href='#-eventpats'>eventpats</a> </li>
+<li class='toc3'><a href='#-events'>events</a> </li>
+<li class='toc3'><a href='#-eventstarts'>eventstarts</a> </li>
+<li class='toc3'><a href='#-findevents'>findevents</a> </li>
+<li class='toc3'><a href='#-groovepos'>groovepos</a> </li>
+<li class='toc3'><a href='#-length'>length</a> </li>
+<li class='toc3'><a href='#-onsetsinbeats'>onsetsinbeats</a> </li>
+<li class='toc3'><a href='#-quantised'>quantised</a> </li>
+<li class='toc3'><a href='#-setgroove'>setgroove</a> </li>
+<li class='toc3'><a href='#-timedeviations'>timedeviations</a> </li>
+<li class='toc3'><a href='#-trimevents'>trimevents</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>Holds data on a buffer including any segmentation (event positions). Derived from the Buffer class and has methods for choosing playback segments.<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>filename</span>, <span class='argstr'>beatlength: 8</span>, <span class='argstr'>eventlist</span>, <span class='argstr'>action</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>filename<td class='argumentdesc'>
+<p>File location of a soundfile to load. Default path is to the SC3 source folder. <tr><td class='argumentname'>beatlength<td class='argumentdesc'>
+<p>Number of beats in the soundfile, also used to estimate the source tempo in beats per second. <tr><td class='argumentname'>eventlist<td class='argumentdesc'>
+<p>Array giving a segmentation of the sound file measured in sample frames. The class can construct one for you if you pass in a granularity, ie 0.5 for eighth note cuts imposed throughout the soundfile length- see below. If left nil the default is an even segmentation in eighth notes. <tr><td class='argumentname'>action<td class='argumentdesc'>
+<p>A function to be evaluated when the buffer is done loading. This instance of BBCutBuffer is passed as an argument.</table></div><h3 class='cmethodname'><span class='methprefix'>*</span><a name='*array' href='./../Overviews/Methods.html#array'>array</a> (<span class='argstr'>filenames</span>, <span class='argstr'>beatlengths</span>, <span class='argstr'>eventlists</span>, <span class='argstr'>action</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>filenames<td class='argumentdesc'>
+<p>Array of sound file locations to load<tr><td class='argumentname'>beatlengths<td class='argumentdesc'>
+<p>Number of beats in the soundfile, also used to estimate the source tempo in beats per second. <tr><td class='argumentname'>eventlists<td class='argumentdesc'>
+<p>Array of Arrays of event positions. <tr><td class='argumentname'>action<td class='argumentdesc'>
+<p>A function to be evaluated when all buffers are done loading. This instance of BBCutBuffer is passed as an argument.</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h3><a class='anchor' name='Undocumented%20class%20methods'>Undocumented class methods</a></h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*defaultPAT' href='./../Overviews/Methods.html#defaultPAT'>defaultPAT</a></h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*defaultPAT' href='./../Overviews/Methods.html#defaultPAT'>defaultPAT</a> = value</h3>
+<h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-beatlength' href='./../Overviews/Methods.html#beatlength'>beatlength</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-beatlength' href='./../Overviews/Methods.html#beatlength'>beatlength</a> = <span class='argstr'>b: 4</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-bps' href='./../Overviews/Methods.html#bps'>bps</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-bps' href='./../Overviews/Methods.html#bps'>bps</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-chooseoffset' href='./../Overviews/Methods.html#chooseoffset'>chooseoffset</a> (<span class='argstr'>block</span>, <span class='argstr'>offsetparam: 0</span>, <span class='argstr'>beatorframe: 0</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-convertoffset' href='./../Overviews/Methods.html#convertoffset'>convertoffset</a> (<span class='argstr'>block</span>, <span class='argstr'>beatorframe: 0</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-eventlengths' href='./../Overviews/Methods.html#eventlengths'>eventlengths</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-eventpats' href='./../Overviews/Methods.html#eventpats'>eventpats</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-events' href='./../Overviews/Methods.html#events'>events</a> = <span class='argstr'>eventlist</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-eventstarts' href='./../Overviews/Methods.html#eventstarts'>eventstarts</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-findevents' href='./../Overviews/Methods.html#findevents'>findevents</a> (<span class='argstr'>start</span>, <span class='argstr'>dur</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-groovepos' href='./../Overviews/Methods.html#groovepos'>groovepos</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-length' href='./../Overviews/Methods.html#length'>length</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-length' href='./../Overviews/Methods.html#length'>length</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-onsetsinbeats' href='./../Overviews/Methods.html#onsetsinbeats'>onsetsinbeats</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-quantised' href='./../Overviews/Methods.html#quantised'>quantised</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setgroove' href='./../Overviews/Methods.html#setgroove'>setgroove</a> (<span class='argstr'>groovefunc</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-timedeviations' href='./../Overviews/Methods.html#timedeviations'>timedeviations</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-trimevents' href='./../Overviews/Methods.html#trimevents'>trimevents</a> (<span class='argstr'>start</span>, <span class='argstr'>dur</span>, <span class='argstr'>input</span>, <span class='argstr'>pre</span>, <span class='argstr'>post</span>, <span class='argstr'>tempo</span>)</h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>//run one line at a time
+f= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+
+Post &lt;&lt; [\length,f.length, \beatlength, f.beatlength, \events, f.eventstarts] &lt;&lt; nl;
+
+
+f= BBCutBuffer.array([Platform.resourceDir +/+ "sounds/break.aiff",Platform.resourceDir +/+ "sounds/break2.aiff"],[8,4],[[0,10000],[3500,6700,9000]]);
+
+f.do({ arg val; Post &lt;&lt; [\length,val.length, \beatlength, val.beatlength, \events, val.eventstarts] &lt;&lt; nl;});
+
+
+//will only select playback positions from the events list given above, using an offset choice function
+(   
+BBCut2(CutGroup([CutBuf1(f[1],{arg buffer; buffer.eventstarts.choose}), CutBPF1(1000,drqfunc:0.5)]), ChooseCutProc(0.125,4)).play(2)
+)
+
+//change the event positions allowed
+f[1].events_([10000,20000,40000]);</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/BBCutBuffer.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/BBCutBuffer.schelp</a><br>link::Classes/BBCutBuffer::<br>sc version: 3.8.0</div></div></body></html>
