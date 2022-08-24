@@ -13,30 +13,8 @@ Licensed under GPL (2 or 3? FIXME)
 
 |#
 
-(require rnrs)
 
 (provide (all-defined-out))
-
-
-;; to fix rnrs compatibility
-
-#|
-(define exact inexact->exact)
-
-(define inexact exact->inexact)
-
-(define mod remainder)
-|#
-
-;; JBC, 2014-- looks like most of these library functions have
-;; equivalents in Racket....
-
-;; quakehead: I'm assuming these functions are to handle the port of rsc3 from haskell to scheme.
-;; this table has basic list functions in haskell vs racket:
-;; https://artyom.me/learning-racket-1#interlude-list-functions
-;; copied here: https://gist.github.com/quakehead/42b25c8891565cf9f761
-
-;; prelude.scm ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; enumFromThenTo :: a -> a -> a -> [a]
 (define enum-from-then-to
@@ -54,46 +32,12 @@ Licensed under GPL (2 or 3? FIXME)
   (lambda (i j)
     (enum-from-then-to i (succ i) j)))
 
-;; even :: (Integral a) => a -> Bool
-(define even
-  even?)
-
-;; odd :: (Integral a) => a -> Bool
-(define odd
-  odd?)
-
-;; pred :: a -> a
-(define pred
-  (lambda (x)
-    (- x 1)))
-
-;; signum :: Num a => a -> a
-(define signum
-  (lambda (x)
-    (cond ((> x 0) 1)
-          ((< x 0) -1)
-          (else 0))))
-
 ;; succ :: a -> a
 (define succ
   (lambda (x)
     (+ x 1)))
 
-;; undefined :: a
-(define undefined
-  (lambda ()
-    (error "undefined" "undefined")))
-
-
-
 ;; tuple.scm ;;;;;;;;;;;;
-
-
-;; curry :: ((a, b) -> c) -> a -> b -> c
-(define curry
-  (lambda (f)
-    (lambda (x y)
-      (f (tuple2 x y)))))
 
 (struct duple (p q))
 
@@ -109,15 +53,7 @@ Licensed under GPL (2 or 3? FIXME)
 (define tuple2
   duple)
 
-;; uncurry :: (a -> b -> c) -> (a, b) -> c
-(define uncurry
-  (lambda (f)
-    (lambda (xy)
-      (f (fst xy) (snd xy)))))
-
-
 ;; data/ord.scm ;;;;;;;;;;;;;;;;
-
 
 ;; data Ordering = LT | EQ | GT
 
@@ -139,21 +75,13 @@ Licensed under GPL (2 or 3? FIXME)
     (if (< x y) x y)))
 
 
-
 ;; data/function.scm ;;;;;;;;;;;;;;;;;;
-
 
 ;; (.) :: (b -> c) -> (a -> b) -> a -> c
 (define compose
   (lambda (f g)
     (lambda (x)
       (f (g x)))))
-
-;; const :: a -> b -> a
-(define const
-  (lambda (x)
-    (lambda (_)
-      x)))
 
 ;; flip :: (a -> b -> c) -> b -> a -> c
 (define flip
@@ -166,8 +94,6 @@ Licensed under GPL (2 or 3? FIXME)
   (lambda (x)
     x))
 
-
-
 ;; data/list.scm ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; all :: (a -> Bool) -> [a] -> Bool
@@ -177,31 +103,12 @@ Licensed under GPL (2 or 3? FIXME)
         #t
         (and (f (head l)) (all f (tail l))))))
 
-;; and :: [Bool] -> Bool
-(define all-true
-  (lambda (l)
-    (if (null? l)
-        #t
-        (and (head l) (all-true (tail l))))))
-
-;; any :: (a -> Bool) -> [a] -> Bool
-(define any
-  (lambda (f l)
-    (if (null? l)
-        #f
-        (or (f (head l)) (any f (tail l))))))
-
 ;; (++) :: [a] -> [a] -> [a]
 (define append2
   (lambda (a b)
     (if (null? a)
         b
         (cons (head a) (append2 (tail a) b)))))
-
-;; break :: (a -> Bool) -> [a] -> ([a],[a])
-(define break
-  (lambda (p l)
-    (span (compose not p) l)))
 
 ;; concat :: [[a]] -> [a]
 (define concat
@@ -243,10 +150,6 @@ Licensed under GPL (2 or 3? FIXME)
             (drop-while p (tail l))
             l))))
 
-;; elem :: (Eq a) => a -> [a] -> Bool
-(define elem
-  (lambda (x l)
-    (any (lambda (y) (equal? x y)) l)))
 
 ;; elemIndex :: Eq a => a -> [a] -> Maybe Int
 (define elem-index
@@ -403,19 +306,10 @@ Licensed under GPL (2 or 3? FIXME)
           (head l)
           (last xs)))))
 
-;; mlength :: [a] -> Int
-(define mlength
-  (lambda (l)
-    (if (null? l)
-        0
-        (+ 1 (length (tail l))))))
-
-
 
 ;; list1 :: a -> [a]
 (define list1
-  (lambda (x)
-    (cons x nil)))
+  list)
 
 ;; list2 :: a -> a -> [a]
 (define list2
@@ -517,24 +411,7 @@ Licensed under GPL (2 or 3? FIXME)
 
 ;; nil :: [a]
 (define nil
-  (list))
-
-;; notElem :: (Eq a) => a -> [a] -> Bool
-(define not-elem
-  (lambda (x l)
-    (all (lambda (y) (not (equal? x y))) l)))
-
-;; null :: [a] -> Bool
-#;(define null?
-  (lambda (x)
-    (equal? x nil)))
-
-;; or :: [Bool] -> Bool
-(define any-true
-  (lambda (l)
-    (if (null? l)
-        #f
-        (or (head l) (any-true (tail l))))))
+  null)
 
 ;; partition :: (a -> Bool) -> [a] -> ([a], [a])
 (define partition*
@@ -646,10 +523,6 @@ Licensed under GPL (2 or 3? FIXME)
               (tuple2 (cons (head l) (fst r)) (snd r)))
             (tuple2 nil l)))))
 
-;; splitAt :: Int -> [a] -> ([a],[a])
-(define split-at
-  (lambda (n l)
-    (tuple2 (take n l) (drop n l))))
 
 ;; sum :: (Num a) => [a] -> a
 (define sum
@@ -659,12 +532,6 @@ Licensed under GPL (2 or 3? FIXME)
 ;; tail :: [a] -> [a]
 (define tail cdr)
 
-;; take :: Int -> [a] -> [a]
-(define take
-  (lambda (n l)
-    (cond ((<= n 0) nil)
-          ((null? l) nil)
-          (else (cons (head l) (take (- n 1) (tail l)))))))
 
 ;; takeWhile :: (a -> Bool) -> [a] -> [a]
 (define take-while
@@ -696,27 +563,6 @@ Licensed under GPL (2 or 3? FIXME)
                           (transpose (cons xs
                                            (map1 (protect tail) xss))))))))))
 
-;; unfoldr :: (b -> Maybe (a, b)) -> b -> [a]
-(define unfoldr
-  (lambda (f x)
-    (let ((r (f x)))
-      (if r
-          (cons (fst r) (unfoldr f (snd r)))
-          nil))))
-
-;; (unfoldr (lambda (b) (if (= b 0) #f (tuple2 b (- b 1)))) 10)
-;; => (10 9 8 7 6 5 4 3 2 1)
-
-;; union :: (Eq a) => [a] -> [a] -> [a]
-(define union
-  (lambda (a b)
-    (union-by equal? a b)))
-
-;; unionBy :: (a -> a -> Bool) -> [a] -> [a] -> [a]
-(define union-by
-  (lambda (f xs ys)
-    (let ((g (lambda (x y) (delete-by f y x))))
-      (append2 xs (foldl g (nub-by f ys) xs)))))
 
 ;; zip :: [a] -> [b] -> [(a, b)]
 (define zip
@@ -760,15 +606,6 @@ Licensed under GPL (2 or 3? FIXME)
 
 ;; data/tree.scm ;;;;;;;;;;;;;;
 
-;; Tree a -> [a]
-(define flatten
-  (letrec ((f (lambda (t r)
-		(cond ((null? t) r)
-		      ((pair? t) (f (head t) (f (tail t) r)))
-		      (else (cons t r))))))
-    (lambda (t)
-      (f t nil))))
-
 ;; Tree a -> [[a]]
 (define levels
   (lambda (t)
@@ -778,10 +615,8 @@ Licensed under GPL (2 or 3? FIXME)
 	  (cons (fst lr) (levels (concat (snd lr))))))))
 
 
-
 (module+ test
   (require rackunit)
   (check-equal? (drop 2 '(1 2 3 4 5 6)) '(3 4 5 6))
   (check-equal? (transpose '((1 2) (3 4))) '((1 3) (2 4)))
   )
-

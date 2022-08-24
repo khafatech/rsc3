@@ -1,17 +1,28 @@
 #lang racket
 
-(require
-  rnrs
-  rhs/rhs
-  sosc/bytevector
-  sosc/transport
-  sosc/sosc
-  (prefix-in srfi: srfi/27)
-  (prefix-in srfi: srfi/19))
+(require (only-in rnrs exact mod)  ;; last remnants of rnrs
+         rhs/rhs
+         (prefix-in sosc: "../sosc/sosc.rkt") ;; local testing
+         ;;(prefix-in sosc: sosc/sosc)
+         ;;(prefix-in sosc: sosc/bytevector)
+         ;;(prefix-in sosc: sosc/transport)
+         ;;(prefix-in sosc: sosc/ip)
+         (prefix-in srfi: srfi/19)) ;; time functions (possibly use racket/date)
 
 ;; TODO - export only useful funcs
-(provide (all-defined-out)
-         send)
+(provide (all-defined-out))
+
+
+;; verbose messages
+(define verbose?  (make-parameter #f))
+(define loglevel (make-parameter 0))
+
+(define (verbose str #:level (n 0) . fmt )
+  (when (and (verbose?) (<= n (loglevel)))
+    (if (empty? fmt)
+        (printf str)
+        (apply printf str fmt))))
+
 
 ;; [a] -> int -> [a]
 (define extend
@@ -86,8 +97,8 @@
 (define s:clip
   (lambda (a b n)
     (cond ((< n a) a)
-	  ((> n b) b)
-	  (else n))))
+          ((> n b) b)
+          (else n))))
 
 ;; number a => a -> a
 (define s:squared
@@ -177,7 +188,7 @@
   (lambda (degree scale steps)
     (let ((scale-n (length scale)))
       (+ (* steps (quotient degree scale-n))
-	 (list-ref scale (exact (mod degree scale-n)))))))
+         (list-ref scale (exact (mod degree scale-n)))))))
 
 ;; int -> [any] -> [any]
 (define without
@@ -188,13 +199,14 @@
 (define consecutive?
   (lambda (l)
     (let ((x (head l))
-	  (xs (tail l)))
+          (xs (tail l)))
       (or (null? xs)
-	  (and (= (+ x 1) (head xs))
-	       (consecutive? xs))))))
+          (and (= (+ x 1) (head xs))
+               (consecutive? xs))))))
 ;; int -> uid
-(define-record-type uid
-  (fields n))
+(struct uid(n)
+        #:transparent
+        #:constructor-name make-uid)
 
 ;; () -> uid
 (define unique-uid
@@ -204,16 +216,19 @@
       (make-uid n))))
 
 ;; string -> int -> control
-(define-record-type control
-  (fields name index))
+(struct control (name index)
+        #:transparent
+        #:constructor-name make-control)
 
 ;; string -> float -> rate -> float -> control*
-(define-record-type control*
-  (fields name default rate lag))
+(struct control* (name default rate lag)
+        #:transparent
+        #:constructor-name make-control*)
 
 ;; string -> [float] -> [float] -> [controls] -> [ugens] -> graphdef
-(define-record-type graphdef
-  (fields name constants defaults controls ugens))
+(struct graphdef (name constants defaults controls ugens)
+        #:transparent
+        #:constructor-name make-graphdef)
 
 ;; graphdef -> int -> ugen
 (define graphdef-ugen
@@ -231,12 +246,14 @@
     (list-ref (graphdef-constants g) n)))
 
 ;; int -> int -> input
-(define-record-type input
-  (fields ugen port))
+(struct input (ugen port)
+        #:transparent
+        #:constructor-name make-input)
 
 ;; [ugen] -> mce
-(define-record-type mce
-  (fields proxies))
+(struct mce (proxies)
+        #:transparent
+        #:constructor-name make-mce)
 
 ;; ugen -> ugen -> mce
 (define mce2
@@ -265,7 +282,7 @@
      ((mce? u) (mce-proxies u))
      ((mrg? u) (let ((rs (mce-channels (mrg-left u))))
                  (cons (make-mrg (head rs) (mrg-right u)) rs)))
-     (else (list1 u)))))
+     (else (list u)))))
 
 ;; mce -> int -> ugen
 (define mce-channel
@@ -273,17 +290,18 @@
     (list-ref (mce-proxies u) n)))
 
 ;; ugen -> ugen -> mrg
-(define-record-type mrg
-  (fields left right))
+(struct mrg (left right)
+        #:transparent
+        #:constructor-name make-mrg)
 
 ;; [ugen] -> mrg
 (define mrg-n
   (lambda (xs)
     (if (null? xs)
-	(error "mrg-n" "nil input list" xs)
-	(if (null? (tail xs))
-	    (head xs)
-	    (mrg2 (head xs) (mrg-n (tail xs)))))))
+        (error "mrg-n" "nil input list" xs)
+        (if (null? (tail xs))
+            (head xs)
+            (mrg2 (head xs) (mrg-n (tail xs)))))))
 
 ;; ugen -> ugen -> mrg
 (define mrg2
@@ -300,16 +318,19 @@
     (make-mrg a (make-mrg b (make-mrg c d)))))
 
 ;; rate -> output
-(define-record-type output
-  (fields rate))
+(struct output (rate)
+        #:transparent
+        #:constructor-name make-output)
 
 ;; ugen -> int -> proxy
-(define-record-type proxy
-  (fields ugen port))
+(struct proxy (ugen port)
+        #:transparent
+        #:constructor-name make-proxy)
 
 ;; int -> rate
-(define-record-type rate
-  (fields value))
+(struct rate (value)
+        #:transparent
+        #:constructor-name make-rate)
 
 ;; rate
 (define ir
@@ -331,27 +352,27 @@
 (define rate-of
   (lambda (o)
     (cond ((number? o) ir)
-	  ((control*? o) (control*-rate o))
-	  ((ugen? o) (ugen-rate o))
-	  ((proxy? o) (rate-of (proxy-ugen o)))
-	  ((mce? o) (rate-select (map1 rate-of (mce-proxies o))))
-	  ((mrg? o) (rate-of (mrg-left o)))
-	  (else (error "rate-of" "illegal value" o)))))
+          ((control*? o) (control*-rate o))
+          ((ugen? o) (ugen-rate o))
+          ((proxy? o) (rate-of (proxy-ugen o)))
+          ((mce? o) (rate-select (map rate-of (mce-proxies o))))
+          ((mrg? o) (rate-of (mrg-left o)))
+          (else (error "rate-of" "illegal value" o)))))
 
 ;; rate -> int
 (define rate-to-ordinal
   (lambda (r)
     (cond ((eq? r ir) 0)
-	  ((eq? r kr) 1)
-	  ((eq? r ar) 2)
-	  ((eq? r dr) 3)
-	  (else (error "rate-to-ordinal" "illegal rate")))))
+          ((eq? r kr) 1)
+          ((eq? r ar) 2)
+          ((eq? r dr) 3)
+          (else (error "rate-to-ordinal" "illegal rate")))))
 
 ;; rate -> rate -> rate
 (define rate-select*
   (lambda (a b)
     (let ((a* (rate-to-ordinal a))
-	  (b* (rate-to-ordinal b)))
+          (b* (rate-to-ordinal b)))
       (if (> a* b*) a b))))
 
 ;; [rate] -> rate
@@ -360,8 +381,9 @@
     (foldl1 rate-select* l)))
 
 ;; string -> rate -> [ugen] -> [output] -> int -> uid -> ugen
-(define-record-type ugen
-  (fields name rate inputs outputs special id))
+(struct ugen (name rate inputs outputs special id)
+        #:transparent
+        #:constructor-name make-ugen)
 
 ;; ugen -> int -> output
 (define ugen-output
@@ -372,21 +394,21 @@
 (define ugen-transform
   (lambda (u f)
     (let ((n (ugen-name u))
-	  (r (ugen-rate u))
-	  (i (ugen-inputs u))
-	  (o (ugen-outputs u))
-	  (s (ugen-special u))
-	  (d (ugen-id u)))
+          (r (ugen-rate u))
+          (i (ugen-inputs u))
+          (o (ugen-outputs u))
+          (s (ugen-special u))
+          (d (ugen-id u)))
       (f n r i o s d))))
 
 ;; any -> bool
 (define input*?
   (lambda (i)
     (or (number? i)
-	(control*? i)
-	(ugen? i)
-	(proxy? i)
-	(mce? i)
+        (control*? i)
+        (ugen? i)
+        (proxy? i)
+        (mce? i)
         (mrg? i))))
 
 ;; ugen -> bool
@@ -396,11 +418,11 @@
      u
      (lambda (n r i o s d)
        (and (string? n)
-	    (rate? r)
-	    (and (list? i) (all input*? i))
-	    (and (list? o) (all output? o))
-	    (integer? s)
-	    (uid? d))))))
+            (rate? r)
+            (and (list? i) (all input*? i))
+            (and (list? o) (all output? o))
+            (integer? s)
+            (uid? d))))))
 
 ;; int -> (() -> ugen) -> mce
 (define clone*
@@ -414,23 +436,23 @@
 ;; control -> [bytevector]
 (define encode-control
   (lambda (c)
-    (list2 (encode-pstr (control-name c))
-           (encode-i16 (control-index c)))))
+    (list2 (sosc:encode-pstr (control-name c))
+           (sosc:encode-i16 (control-index c)))))
 
 ;; input -> [bytevector]
 (define encode-input
   (lambda (i)
-    (list2 (encode-i16 (input-ugen i))
-           (encode-i16 (input-port i)))))
+    (list2 (sosc:encode-i16 (input-ugen i))
+           (sosc:encode-i16 (input-port i)))))
 
 ;; output -> [bytevector]
 (define encode-output
   (lambda (o)
-    (encode-u8 (rate-value (output-rate o)))))
+    (sosc:encode-u8 (rate-value (output-rate o)))))
 
 ;; [bytevector]
 (define scgf
-  (map encode-u8 (map char->integer (string->list "SCgf"))))
+  (map sosc:encode-u8 (map char->integer (string->list "SCgf"))))
 
 ;; ugen -> [bytevector]
 (define encode-ugen
@@ -439,36 +461,36 @@
      u
      (lambda (n r i o s d)
        (list
-	(encode-pstr n)
-	(encode-u8 (rate-value r))
-	(encode-i16 (length i))
-	(encode-i16 (length o))
-	(encode-i16 s)
-	(map1 encode-input i)
-	(map1 encode-output o))))))
+        (sosc:encode-pstr n)
+        (sosc:encode-u8 (rate-value r))
+        (sosc:encode-i16 (length i))
+        (sosc:encode-i16 (length o))
+        (sosc:encode-i16 s)
+        (map encode-input i)
+        (map encode-output o))))))
 
 ;; graphdef -> bytevector
-(define encode-graphdef
-  (lambda (g)
-    (flatten-bytevectors
-     (let ((n (graphdef-name g))
-	   (c (graphdef-constants g))
-	   (d (graphdef-defaults g))
-	   (k (graphdef-controls g))
-	   (u (graphdef-ugens g)))
-       (list
-	scgf
-	(encode-i32 0)
-	(encode-i16 1)
-	(encode-pstr n)
-	(encode-i16 (length c))
-	(map1 encode-f32 c)
-	(encode-i16 (length d))
-	(map1 encode-f32 d)
-	(encode-i16 (length k))
-	(map1 encode-control k)
-	(encode-i16 (length u))
-	(map1 encode-ugen u))))))
+(define (encode-graphdef g)
+  (verbose "encode-graphdef: ~a~n" g)
+  (sosc:flatten-bytevectors
+   (let ((n (graphdef-name g))
+         (c (graphdef-constants g))
+         (d (graphdef-defaults g))
+         (k (graphdef-controls g))
+         (u (graphdef-ugens g)))
+     (list
+      scgf
+      (sosc:encode-i32 0)
+      (sosc:encode-i16 1)
+      (sosc:encode-pstr n)
+      (sosc:encode-i16 (length c))
+      (map sosc:encode-f32 c)
+      (sosc:encode-i16 (length d))
+      (map sosc:encode-f32 d)
+      (sosc:encode-i16 (length k))
+      (map encode-control k)
+      (sosc:encode-i16 (length u))
+      (map encode-ugen u)))))
 
 ;; syntax for binding control values
 (define-syntax letc
@@ -477,7 +499,7 @@
      expr)
     ((_ ((name default) ...) expr)
      (let ((name (make-control* (symbol->string (quote name)) default kr 0))
-	   ...)
+           ...)
        expr))))
 
 ;; node = ugen | proxy | control* | float
@@ -486,18 +508,18 @@
 (define construct-ugen
   (lambda (name rate? inputs mce? outputs special id)
     (let* ((inputs* (if mce?
-			(append2 inputs (mce-channels mce?))
-			inputs))
-	   (rate (if rate?
-		     rate?
-		     (rate-select (map1 rate-of inputs*))))
-	   (u (make-ugen
-	       name
-	       rate
-	       inputs*
-	       (replicate outputs (make-output rate))
-	       special
-	       id)))
+                        (append2 inputs (mce-channels mce?))
+                        inputs))
+           (rate (if rate?
+                     rate?
+                     (rate-select (map rate-of inputs*))))
+           (u (make-ugen
+               name
+               rate
+               inputs*
+               (replicate outputs (make-output rate))
+               special
+               id)))
       (proxify (mce-expand u)))))
 
 ;; ugen -> [node]
@@ -506,9 +528,9 @@
     (cond
      ((ugen? u) (cons u (concat-map graph-nodes (ugen-inputs u))))
      ((proxy? u) (cons u (graph-nodes (proxy-ugen u))))
-     ((control*? u) (list1 u))
-     ((number? u) (list1 u))
-     ((mce? u) (concat (map1 graph-nodes (mce-proxies u))))
+     ((control*? u) (list u))
+     ((number? u) (list u))
+     ((mce? u) (concat (map graph-nodes (mce-proxies u))))
      ((mrg? u) (append2 (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
      (else (error "graph-nodes" "illegal value" u)))))
 
@@ -531,15 +553,15 @@
 (define ugen-close
   (lambda (u nn cc uu)
     (if (not (ugen-valid? u))
-	(error "ugen-close" "invalid ugen" u)
-	(make-ugen (ugen-name u)
-		   (ugen-rate u)
-		   (map1 (lambda (i)
-			   (input*-to-input i nn cc uu))
-			 (ugen-inputs u))
-		   (ugen-outputs u)
-		   (ugen-special u)
-		   (ugen-id u)))))
+        (error "ugen-close" "invalid ugen" u)
+        (make-ugen (ugen-name u)
+                   (ugen-rate u)
+                   (map (lambda (i)
+                          (input*-to-input i nn cc uu))
+                        (ugen-inputs u))
+                   (ugen-outputs u)
+                   (ugen-special u)
+                   (ugen-id u)))))
 
 ;; ugen -> ugen
 (define prepare-root
@@ -555,33 +577,33 @@
   (lambda (name pre-u)
     (let* ((u (prepare-root pre-u))
            (nn (graph-constants u))
-	   (cc (graph-controls* u))
-	   (uu (graph-ugens u))
-	   (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
+           (cc (graph-controls* u))
+           (uu (graph-ugens u))
+           (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
       (make-graphdef
        name
        nn
-       (map1 control*-default cc)
-       (map1 (lambda (c) (control*-to-control c cc)) cc)
-       (map1 (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
+       (map control*-default cc)
+       (map (lambda (c) (control*-to-control c cc)) cc)
+       (map (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
 
 ;; [control] -> ugen
 (define implicit-ugen
   (lambda (cc)
     (make-ugen "Control"
-	       kr
-	       nil
-	       (map1 make-output (replicate (length cc) kr))
-	       0
-	       (make-uid 0))))
+               kr
+               nil
+               (map make-output (replicate (length cc) kr))
+               0
+               (make-uid 0))))
 
 ;; node -> [node] -> int
 (define calculate-index
   (lambda (n nn)
     (let ((i (find-index (lambda (e) (equal? e n)) nn)))
       (if (not i)
-	  (error "calculate-index" "not located" n nn)
-	  i))))
+          (error "calculate-index" "not located" n nn)
+          i))))
 
 ;; float -> [node] -> input
 (define number-to-input
@@ -607,7 +629,7 @@
 (define proxy-to-input
   (lambda (p uu)
     (make-input (calculate-index (proxy-ugen p) uu)
-		(proxy-port p))))
+                (proxy-port p))))
 
 ;; node -> [node] -> [control] -> [ugen] -> input
 (define input*-to-input
@@ -643,7 +665,7 @@
 (define mce-transpose
   (lambda (u)
     (make-mce
-     (map1 make-mce (transpose (map1 mce-channels (mce-channels u)))))))
+     (map make-mce (transpose (map mce-channels (mce-channels u)))))))
 
 ;; ugen -> bool
 (define mce-required?
@@ -665,15 +687,15 @@
      u
      (lambda (n r i o s d)
        (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
-	      (m (maximum (map1 mce-degree (filter mce? i))))
-	      (e (lambda (i) (mce-extend m i)))
-	      (i* (transpose (map1 e i))))
-	 (make-mce (map1 f i*)))))))
+              (m (maximum (map mce-degree (filter mce? i))))
+              (e (lambda (i) (mce-extend m i)))
+              (i* (transpose (map e i))))
+         (make-mce (map f i*)))))))
 
 ;; node -> node|mce
 (define mce-expand
   (lambda (u)
-    (cond ((mce? u) (make-mce (map1 mce-expand (mce-proxies u))))
+    (cond ((mce? u) (make-mce (map mce-expand (mce-proxies u))))
           ((mrg? u) (make-mrg (mce-expand (mrg-left u)) (mrg-right u)))
           (else (if (mce-required? u)
                     (mce-transform u)
@@ -683,14 +705,14 @@
 (define proxify
   (lambda (u)
     (cond
-     ((mce? u) (make-mce (map1 proxify (mce-proxies u))))
+     ((mce? u) (make-mce (map proxify (mce-proxies u))))
      ((mrg? u) (make-mrg (proxify (mrg-left u)) (mrg-right u)))
      ((ugen? u) (let* ((o (ugen-outputs u))
-		       (n (mlength o)))
-		  (if (< n 2)
-		      u
-		      (make-mce (map1 (lambda (i) (make-proxy u i))
-				      (enum-from-to 0 (- n 1)))))))
+                       (n (length o)))
+                  (if (< n 2)
+                      u
+                      (make-mce (map (lambda (i) (make-proxy u i))
+                                     (enum-from-to 0 (- n 1)))))))
      (else (error "proxify" "illegal ugen" u)))))
 
 ;; int -> maybe (float -> float) -> (node -> node)
@@ -698,19 +720,19 @@
   (lambda (s f)
     (lambda (a)
       (if (and (number? a)
-	       f)
-	  (f a)
-	  (construct-ugen "UnaryOpUGen" #f (list1 a) #f 1 s (make-uid 0))))))
+               f)
+          (f a)
+          (construct-ugen "UnaryOpUGen" #f (list a) #f 1 s (make-uid 0))))))
 
 ;; int -> maybe (float -> float -> float) -> (node -> node -> node)
 (define mk-binary-operator
   (lambda (s f)
     (lambda (a b)
       (if (and (number? a)
-	       (number? b)
-	       f)
-	  (f a b)
-	  (construct-ugen "BinaryOpUGen" #f (list2 a b) #f 1 s (make-uid 0))))))
+               (number? b)
+               f)
+          (f a b)
+          (construct-ugen "BinaryOpUGen" #f (list2 a b) #f 1 s (make-uid 0))))))
 
 ;; string -> [symbol] -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter
@@ -725,10 +747,10 @@
     ((_ m (i ...))
      (lambda (nc i ...)
        (if (not (integer? nc))
-	   (error "mk-filter-n" "illegal channel count" 'n nc)
-	   #f)
+           (error "mk-filter-n" "illegal channel count" 'n nc)
+           #f)
        (let ((l (list i ...)))
-	 (construct-ugen m #f l #f nc 0 (make-uid 0)))))))
+         (construct-ugen m #f l #f nc 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter-mce
@@ -751,7 +773,7 @@
     ((_ m (i ...) o k)
      (lambda (i ...)
        (let ((l (list i ...)))
-	 (construct-ugen m (rate-of (list-ref l k)) l #f o 0 (make-uid 0)))))))
+         (construct-ugen m (rate-of (list-ref l k)) l #f o 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int ~> (rate -> ugen ... -> ugen)
 (define-syntax mk-oscillator
@@ -766,10 +788,10 @@
     ((_ m (i ...))
      (lambda (nc r i ...)
        (if (not (integer? nc))
-	   (error "mk-oscillator-n" "illegal channel count:" 'n nc)
-	   #f)
+           (error "mk-oscillator-n" "illegal channel count:" 'n nc)
+           #f)
        (let ((l (list i ...)))
-	 (construct-ugen m r l #f nc 0 (make-uid 0)))))))
+         (construct-ugen m r l #f nc 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int ~> (rate -> ugen ... -> ugen)
 (define-syntax mk-oscillator-mce
@@ -811,10 +833,10 @@
     ((_ m (i ...) r)
      (lambda (nc i ...)
        (if (not (integer? nc))
-	   (error "mk-specialized-n" "illegal channel count:" 'n nc)
-	   #f)
+           (error "mk-specialized-n" "illegal channel count:" 'n nc)
+           #f)
        (let ((l (list i ...)))
-	 (construct-ugen m r l #f nc 0 (make-uid 0)))))))
+         (construct-ugen m r l #f nc 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized-id
@@ -1338,228 +1360,242 @@
 (define linear 0)
 (define exponential 1)
 
+;; server messages
 (define quit
-  (message "/quit" nil))
+  (sosc:message "/quit" nil))
 
 (define notify
   (lambda (i)
-    (message "/notify" (list i))))
+    (verbose "/notify: ~a~n" i)
+    (sosc:message "/notify" (list i))))
 
 (define status
-  (message "/status" nil))
+  (sosc:message "/status" nil))
 
 (define dump-osc
   (lambda (i)
-    (message "/dumpOSC" (list i))))
+    (verbose "/dumpOSC: ~a~n" i)
+    (sosc:message "/dumpOSC" (list i))))
 
 (define sync
   (lambda (i)
-    (message "/sync" (list i))))
+    (verbose "/sync: ~a~n" i)
+    (sosc:message "/sync" (list i))))
 
 (define clear-sched
-  (message "/clearSched" nil))
+  (sosc:message "/clearSched" nil))
 
 (define d-recv
   (lambda (b)
-    (message "/d_recv" (list b))))
+    (verbose "/d_recv ~n length: ~a~n"
+             (length (bytes->list b)))
+    (verbose 2 "/d_recv ~n raw: ~a~n bytes: ~a~n"
+             b (bytes->list b))
+    (sosc:message "/d_recv" (list b))))
 
 (define d-load
   (lambda (s)
-    (message "/d_load" (list s))))
+    (verbose "/d_load ~a~n" s)
+    (sosc:message "/d_load" (list s))))
 
 (define d-load-dir
   (lambda (s)
-    (message "/d_loadDir" (list s))))
+    (verbose "/d_loadDir ~a~n" s)
+    (sosc:message "/d_loadDir" (list s))))
 
 (define d-free1
   (lambda (s)
-    (message "/d_free" (list s))))
+    (verbose "/d_free ~a~n" s)
+    (sosc:message "/d_free" (list s))))
 
 (define n-free1
   (lambda (i)
-    (message "/n_free" (list i))))
+    (verbose "/n_free ~a~n" i)
+    (sosc:message "/n_free" (list i))))
 
 (define n-run1
   (lambda (i j)
-    (message "/n_run" (list i j))))
+    (verbose "/d_run ~a, ~a~n" i j)
+    (sosc:message "/n_run" (list i j))))
 
 (define n-set
   (lambda (i xys)
+    (verbose "/n_set ~a, ~a~n" i xys)
     (let ((z (concat-map (lambda (xy) (list (fst xy) (snd xy))) xys)))
-      (message "/n_set" (cons i z)))))
+      (sosc:message "/n_set" (cons i z)))))
 
 (define n-set1
   (lambda (i s f)
-    (message "/n_set" (list i s f))))
+    (sosc:message "/n_set" (list i s f))))
 
 (define n-setn1
   (lambda (i s fs)
-    (message "/n_setn" (cons i (cons s (cons (length fs) fs))))))
+    (sosc:message "/n_setn" (cons i (cons s (cons (length fs) fs))))))
 
 (define n-fill1
   (lambda (i s j f)
-    (message "/n_fill" (list i s j f))))
+    (sosc:message "/n_fill" (list i s j f))))
 
-(define n-map1
+(define n-map
   (lambda (i s j)
-    (message "/n_map" (list i s j))))
+    (sosc:message "/n_map" (list i s j))))
 
 (define n-mapn1
   (lambda (i s j k)
-    (message "/n_mapn" (list i s j k))))
+    (sosc:message "/n_mapn" (list i s j k))))
 
 (define n-before
   (lambda (i j)
-    (message "/n_before" (list i j))))
+    (sosc:message "/n_before" (list i j))))
 
 (define n-query
   (lambda (i)
-    (message "/n_query" (list i))))
+    (sosc:message "/n_query" (list i))))
 
 (define n-trace
   (lambda (i)
-    (message "/n_trace" (list i))))
+    (sosc:message "/n_trace" (list i))))
 
 (define s-new0
   (lambda (s i j k)
-    (message "/s_new" (list s i j k))))
+    (sosc:message "/s_new" (list s i j k))))
 
 (define s-new1
   (lambda (s i j k t f)
-    (message "/s_new" (list s i j k t f))))
+    (sosc:message "/s_new" (list s i j k t f))))
 
 (define s-new2
   (lambda (s i j k t1 f1 t2 f2)
-    (message "/s_new" (list s i j k t1 f1 t2 f2))))
+    (sosc:message "/s_new" (list s i j k t1 f1 t2 f2))))
 
 (define s-new
   (lambda (s i j k cs)
-    (message "/s_new" (append2 (list s i j k) cs))))
+    (sosc:message "/s_new" (append2 (list s i j k) cs))))
 
 (define s-get1
   (lambda (i j)
-    (message "/s_get" (list i j))))
+    (sosc:message "/s_get" (list i j))))
 
 (define s-getn1
   (lambda (i s j)
-    (message "/s_getn" (list i s j))))
+    (sosc:message "/s_getn" (list i s j))))
 
 (define s-noid
   (lambda (i)
-    (message "/s_noid" (list i))))
+    (sosc:message "/s_noid" (list i))))
 
 (define g-new1
   (lambda (i j k)
-    (message "/g_new" (list i j k))))
+    (sosc:message "/g_new" (list i j k))))
 
 (define g-head1
   (lambda (i j)
-    (message "/g_head" (list i j))))
+    (sosc:message "/g_head" (list i j))))
 
 (define g-tail1
   (lambda (i j)
-    (message "/g_tail" (list i j))))
+    (sosc:message "/g_tail" (list i j))))
 
 (define g-free-all1
   (lambda (i)
-    (message "/g_freeAll" (list i))))
+    (sosc:message "/g_freeAll" (list i))))
 
 (define g-deep-free1
   (lambda (i)
-    (message "/g_deepFree" (list i))))
+    (sosc:message "/g_deepFree" (list i))))
 
 (define b-alloc
   (lambda (id frames channels)
-    (message "/b_alloc" (list id frames channels))))
+    (verbose "/b_alloc ~a, ~a, ~a~n" id frames channels)
+    (sosc:message "/b_alloc" (list id frames channels))))
 
 (define b-alloc-read
   (lambda (id path frame n)
-    (message "/b_allocRead" (list id path frame n))))
+    (sosc:message "/b_allocRead" (list id path frame n))))
 
 (define b-read
   (lambda (id path frame n bframe flag)
-    (message "/b_read" (list id path frame n bframe flag))))
+    (sosc:message "/b_read" (list id path frame n bframe flag))))
 
 (define b-write
   (lambda (id path header type frames start flag)
-    (message "/b_write" (list id path header type frames start flag))))
+    (sosc:message "/b_write" (list id path header type frames start flag))))
 
 (define b-free
   (lambda (i)
-    (message "/b_free" (list i))))
+    (sosc:message "/b_free" (list i))))
 
 (define b-zero
   (lambda (i)
-    (message "/b_zero" (list i))))
+    (sosc:message "/b_zero" (list i))))
 
 (define b-set1
   (lambda (i j f)
-    (message "/b_set" (list i j f))))
+    (sosc:message "/b_set" (list i j f))))
 
 (define b-setn1
   (lambda (i j fs)
-    (message "/b_setn" (cons i (cons j (cons (length fs) fs))))))
+    (sosc:message "/b_setn" (cons i (cons j (cons (length fs) fs))))))
 
 (define b-fill1
   (lambda (i j k f)
-    (message "/b_fill" (list i j k f))))
+    (sosc:message "/b_fill" (list i j k f))))
 
 (define b-close
   (lambda (i)
-    (message "/b_close" (list i))))
+    (sosc:message "/b_close" (list i))))
 
 (define b-query1
   (lambda (i)
-    (message "/b_query" (list i))))
+    (sosc:message "/b_query" (list i))))
 
 (define b-get1
   (lambda (i j)
-    (message "/b_get" (list i j))))
+    (sosc:message "/b_get" (list i j))))
 
 (define b-getn1
   (lambda (i j k)
-    (message "/b_getn" (list i j k))))
+    (sosc:message "/b_getn" (list i j k))))
 
 (define b-gen1
   (lambda (i s fs)
-    (message "/b_gen" (cons i (cons s fs)))))
+    (sosc:message "/b_gen" (cons i (cons s fs)))))
 
 (define c-set1
   (lambda (i f)
-    (message "/c_set" (list i f))))
+    (sosc:message "/c_set" (list i f))))
 
 (define c-setn1
   (lambda (i fs)
-    (message "/c_setn" (cons i (cons (length fs) fs)))))
+    (sosc:message "/c_setn" (cons i (cons (length fs) fs)))))
 
 (define c-fill1
   (lambda (i j f)
-    (message "/c_fill" (list i j f))))
+    (sosc:message "/c_fill" (list i j f))))
 
 (define c-get1
   (lambda (i)
-    (message "/c_get" (list i))))
+    (sosc:message "/c_get" (list i))))
 
 (define c-getn1
   (lambda (i j)
-    (message "/c_getn" (list i j))))
+    (sosc:message "/c_getn" (list i j))))
 
 ;; port -> osc -> ()
-(define async
-  (lambda (fd m)
-    (send fd m)
-    (wait fd "/done")))
+(define (async fd m)
+  (sosc:send fd m)
+  (sosc:wait fd "/done"))
 
 ;; port -> string -> ugen -> ()
-(define send-synth
-  (lambda (fd n u)
-    (async fd (d-recv (encode-graphdef (synthdef n u))))))
+(define (send-synth fd n u)
+  (verbose "send-synth~n fd:~a~n n:~a~n u:~a~n" fd n u)
+  (async fd (d-recv (encode-graphdef (synthdef n u)))))
 
 ;; osc message -> ()
 (define (send-msg msg)
   (with-sc3 (lambda (fd)
-              (send fd msg)))
-              (void))
+              (sosc:send fd msg)))
+  (void))
 
 ;; osc message -> ()
 ;; waits for /done
@@ -1573,22 +1609,22 @@
 (define play
   (lambda (fd u)
     (send-synth fd "anonymous" u)
-    (send fd (s-new0 "anonymous" -1 1 1))))
+    (sosc:send fd (s-new0 "anonymous" -1 1 1))))
 
 ;; (socket -> a) -> a
 (define with-udp-sc3
   (lambda (f)
-    (let* ((fd (udp:open "127.0.0.1" 57110))
-	   (r (f fd)))
-      (udp:close fd)
+    (let* ((fd (sosc:udp:open "127.0.0.1" 57110))
+           (r (f fd)))
+      (sosc:udp:close fd)
       r)))
 
 ;; (socket -> a) -> a
 (define with-tcp-sc3
   (lambda (f)
-    (let* ((fd (tcp:open "127.0.0.1" 57110))
-	   (r (f fd)))
-      (tcp:close fd)
+    (let* ((fd (sosc:tcp:open "127.0.0.1" 57110))
+           (r (f fd)))
+      (sosc:tcp:close fd)
       r)))
 
 ;; (socket -> a) -> a
@@ -1596,11 +1632,13 @@
 
 
 ;; port -> ()
-(define (reset)
-  (with-sc3 (lambda (fd)
-              (send fd (bundle -1 (list (g-free-all1 0)
-                                        clear-sched
-                                        (g-new1 1 0 0))))))
+(define (reset fd)
+  (with-sc3
+   (lambda (fd)
+     (sosc:send fd
+                (sosc:bundle -1 (list (g-free-all1 0)
+                                      clear-sched
+                                      (g-new1 1 0 0))))))
   (void))
 
 
@@ -1611,7 +1649,7 @@
     (lambda (u)
       (f
        (lambda (fd)
-	 (play fd u))))))
+         (play fd u))))))
 
 ;; ugen -> ()
 (define audition (audition-using with-udp-sc3))
@@ -1620,27 +1658,27 @@
 ;; [string]
 (define status-fields
   (list "# UGens                     "
-	"# Synths                    "
-	"# Groups                    "
-	"# Instruments               "
-	"% CPU (Average)             "
-	"% CPU (Peak)                "
-	"Sample Rate (Nominal)       "
-	"Sample Rate (Actual)        "))
+        "# Synths                    "
+        "# Groups                    "
+        "# Instruments               "
+        "% CPU (Average)             "
+        "% CPU (Peak)                "
+        "Sample Rate (Nominal)       "
+        "Sample Rate (Actual)        "))
 
 ;; osc -> [string]
-(define status-format
-  (lambda (r)
-    (cons "***** SuperCollider Server Status *****"
-	  (zip-with string-append
-		    status-fields
-		    (map1 number->string (tail (tail r)))))))
+(define (status-format r)
+  (printf "server status: ~a~n" r)
+  (cons "***** SuperCollider Server Status *****"
+        (zip-with string-append
+                  status-fields
+                  (map number->string (cddr r)))))
 
 ;; port -> [string]
 (define server-status
   (lambda (fd)
-    (send fd status)
-    (let ((r (wait fd "/status.reply")))
+    (sosc:send fd status)
+    (let ((r (sosc:wait fd "/status.reply")))
       (status-format r))))
 
 ;; port -> ()
@@ -1653,8 +1691,8 @@
 ;; port -> int -> number
 (define server-status-field
   (lambda (fd n)
-    (send fd status)
-    (let ((r (wait fd "/status.reply")))
+    (sosc:send fd status)
+    (let ((r (sosc:wait fd "/status.reply")))
       (list-ref r n))))
 
 ;; port -> float
@@ -1673,13 +1711,13 @@
     (cond
      ((string? c)
       (cond ((string=? c "step") 0.0)
-	    ((string=? c "linear") 1.0)
-	    ((string=? c "exponential") 2.0)
-	    ((string=? c "sine") 3.0)
-	    ((string=? c "welch") 4.0)
-	    ((string=? c "squared") 6.0)
-	    ((string=? c "cubed") 7.0)
-	    (else (error "curve-to-shape" "string" c))))
+            ((string=? c "linear") 1.0)
+            ((string=? c "exponential") 2.0)
+            ((string=? c "sine") 3.0)
+            ((string=? c "welch") 4.0)
+            ((string=? c "squared") 6.0)
+            ((string=? c "cubed") 7.0)
+            (else (error "curve-to-shape" "string" c))))
      ((number? c)
       5.0)
      (else
@@ -1706,14 +1744,14 @@
       (list (head levels) (length times) release-node loop-node)
       (concat
        (zip-with3
-	(lambda (l t c)
-	  (list l
-		t
-		(curve-to-shape c)
-		(curve-to-value c)))
-	(tail levels)
-	times
-	curves))))))
+        (lambda (l t c)
+          (list l
+                t
+                (curve-to-shape c)
+                (curve-to-value c)))
+        (tail levels)
+        times
+        curves))))))
 
 (define d->dx
   (lambda (l)
@@ -1723,8 +1761,8 @@
 ;; [(ugen . ugen)] -> ugen -> ugen -> [ugen] -> ugen
 (define env-coord
   (lambda (d dur amp curves)
-    (env (map1 (lambda (e) (mul (cdr e) amp)) d)
-         (map1 (lambda (e) (mul e dur)) (d->dx (map car d)))
+    (env (map (lambda (e) (mul (cdr e) amp)) d)
+         (map (lambda (e) (mul e dur)) (d->dx (map car d)))
          curves
          -1
          -1)))
@@ -1759,106 +1797,106 @@
 (define env-trapezoid
   (lambda (shape skew dur amp)
     (let* ((x1 (mul skew (sub 1.0 shape)))
-	   (bp (list (cons 0 (le skew 0.0))
-		     (cons x1 1.0)
-		     (cons (add shape x1) 1.0)
-		     (cons 1.0 (ge skew 1.0)))))
+           (bp (list (cons 0 (le skew 0.0))
+                     (cons x1 1.0)
+                     (cons (add shape x1) 1.0)
+                     (cons 1.0 (ge skew 1.0)))))
       (env-coord bp dur amp (replicate 3 "linear")))))
 
 (define env-triangle
   (lambda (dur level)
     (let ((half-dur (mul dur 0.5)))
       (env (list 0.0 level 0.0)
-	   (list half-dur half-dur)
-	   (list "linear" "linear")
-	   -1
-	   -1))))
+           (list half-dur half-dur)
+           (list "linear" "linear")
+           -1
+           -1))))
 
 (define env-sine
   (lambda (dur level)
     (let ((half-dur (mul dur 0.5)))
       (env (list 0.0 level 0.0)
-	   (list half-dur half-dur)
-	   (list "sine" "sine")
-	   -1
-	   -1))))
+           (list half-dur half-dur)
+           (list "sine" "sine")
+           -1
+           -1))))
 
 (define env-perc
   (lambda (attackTime releaseTime level curves)
     (env (list 0.0 level 0.0)
-	 (list attackTime releaseTime)
-	 curves
-	 -1
-	 -1)))
+         (list attackTime releaseTime)
+         curves
+         -1
+         -1)))
 
 (define env-adsr
   (lambda (attackTime
-	   decayTime
-	   sustainLevel
-	   releaseTime
-	   peakLevel
-	   curves
-	   bias)
-    (env (map1 (lambda (e) (mul e bias))
-               (list 0.0 peakLevel (mul peakLevel sustainLevel) 0.0))
-	 (list attackTime decayTime releaseTime)
-	 curves
-	 2
-	 -1)))
+           decayTime
+           sustainLevel
+           releaseTime
+           peakLevel
+           curves
+           bias)
+    (env (map (lambda (e) (mul e bias))
+              (list 0.0 peakLevel (mul peakLevel sustainLevel) 0.0))
+         (list attackTime decayTime releaseTime)
+         curves
+         2
+         -1)))
 
 (define env-asr
   (lambda (attackTime sustainLevel releaseTime curves)
     (env (list 0.0 sustainLevel 0.0)
-	 (list attackTime releaseTime)
-	 curves
-	 1
-	 -1)))
+         (list attackTime releaseTime)
+         curves
+         1
+         -1)))
 
 (define env-linen
   (lambda (attackTime sustainTime releaseTime level curves)
     (env (list 0.0 level level 0.0)
-	 (list attackTime sustainTime releaseTime)
-	 curves
-	 -1
-	 -1)))
+         (list attackTime sustainTime releaseTime)
+         curves
+         -1
+         -1)))
 
 ;; [m] -> [p] -> [#, m, p...]
 (define packfft-data
   (lambda (m p)
     (make-mce
      (cons (* 2 (length m))
-	   (concat (zip-with list m p))))))
+           (concat (zip-with list m p))))))
 
 ;; [[m, p]] -> [#, m, p...]
 (define packfft-data*
   (lambda (mp)
     (make-mce
      (cons (* 2 (length mp))
-	   (concat mp)))))
+           (concat mp)))))
 
 (define unpack-fft
   (lambda (c nf from to mp?)
-    (map1 (lambda (i)
-            (unpack1-fft c nf i mp?))
-	 (enum-from-to from to))))
+    (map (lambda (i)
+           (unpack1-fft c nf i mp?))
+         (enum-from-to from to))))
 
 (define pvcollect
   (lambda (c nf f from to z?)
     (let* ((m (unpack-fft c nf from to 0))
-	   (p (unpack-fft c nf from to 1))
-	   (i (enum-from-to from to))
-	   (e (zip-with3 f m p i)))
+           (p (unpack-fft c nf from to 1))
+           (i (enum-from-to from to))
+           (e (zip-with3 f m p i)))
       (pack-fft c nf from to z? (packfft-data* e)))))
 
 ;; ugen -> ugen
 (define sound-in
   (lambda (n)
     (if (mce? n)
-	(let ((l (mce-proxies n)))
-	  (if (consecutive? l)
-	      (in (length l) ar (add num-output-buses (head l)))
-	      (in 1 ar (add num-output-buses n))))
-	(in 1 ar (add num-output-buses n)))))
+        (let ((l (mce-proxies n)))
+          (if (consecutive? l)
+              (in (length l) ar (add num-output-buses (head l)))
+              (in 1 ar (add num-output-buses n))))
+        (in 1 ar (add num-output-buses n)))))
 
 ;; [ugen] -> [ugen] -> [ugen] -> ugen
 (define klang-data
@@ -1876,20 +1914,20 @@
 (define dyn-klank
   (lambda (i fs fo ds s)
     (letrec ((gen (lambda (l)
-		    (if (null? l)
-			0
-			(let ((f (list-ref l 0))
-			      (a (list-ref l 1))
-			      (d (list-ref l 2)))
-			  (add (mul (ringz i (mul-add f fs fo) (mul d ds)) a)
-			       (gen (drop 3 l))))))))
+                    (if (null? l)
+                        0
+                        (let ((f (list-ref l 0))
+                              (a (list-ref l 1))
+                              (d (list-ref l 2)))
+                          (add (mul (ringz i (mul-add f fs fo) (mul d ds)) a)
+                               (gen (drop 3 l))))))))
       (gen (mce-channels s)))))
 
 ;; ugen -> ugen -> ugen -> ugen
 (define freq-shift
   (lambda (i f p)
     (let ((o (sin-osc ar f (mce2 (add p (* 0.5 pi)) p)))
-	  (h (hilbert i)))
+          (h (hilbert i)))
       (mix (mul h o)))))
 
 ;; rate -> ugen -> ugen -> ugen -> ugen -> ugen
@@ -1901,7 +1939,7 @@
 (define dcons
   (lambda (x xs)
     (let ((i (dseq 1 (mce2 0 1)))
-	  (a (dseq 1 (mce2 x xs))))
+          (a (dseq 1 (mce2 x xs))))
       (dswitch i a))))
 
 ;; ugen|mce -> ugen
@@ -1914,7 +1952,7 @@
 ;; int -> (int -> ugen) -> mce
 (define mce-fill
   (lambda (n f)
-    (make-mce (map1 f (enum-from-to 0 (- n 1))))))
+    (make-mce (map f (enum-from-to 0 (- n 1))))))
 
 ;; int -> (int -> ugen) -> ugen
 (define mix-fill
@@ -1922,18 +1960,21 @@
     (mix (mce-fill n f))))
 
 ;; float
-(define dinf
-  9.0e8)
+(define dinf 9.0e8)
+
+(define maxf 3.402823e+38) ;; max float value
+(define maxs 4294967087)   ;; max spread for 'random'
 
 ;; float -> float -> float
-(define random
-  (lambda (a b)
-    (+ (* (srfi:random-real) (- b a)) a)))
+(define (rand-float a b)
+  (let ((n (inexact->exact maxs)))
+    (+ (* (/ (random 0 n) (* 1.0 n))
+          (- b a))
+       a)))
 
 ;; int -> int -> int
-(define i-random
-  (lambda (l r)
-    (+ l (srfi:random-integer (- r l)))))
+(define (rand-int l r)
+  (random l r))
 
 ;; float -> float -> float
 (define exp-random
@@ -1942,9 +1983,8 @@
       (* (expt r (random 0 1)) a))))
 
 ;; [a] -> a
-(define choose
-  (lambda (xs)
-    (list-ref xs (srfi:random-integer (length xs)))))
+(define (choose xs)
+  (list-ref xs (random (length xs))))
 
 ;; () -> float
 (define utc
@@ -1981,8 +2021,8 @@
 ;; double -> void
 (define pause-thread
   (lambda (n)
-    (if (> n 1e-4)
-        (thread-sleep n))))
+    (when (> n 1e-4)
+      (thread-sleep n))))
 
 ;; double -> void
 (define pause-thread-until
@@ -2000,29 +2040,29 @@
 
 (module+ test
   (require rackunit)
-  
-  
+
+
   ;; name, ugen expr -> bytes (synthdef)
   ;; similar to send-synth in rsc3
   (define (ugens->synthdef name ugens)
     (encode-graphdef (synthdef name ugens)))
-  
-  
+
+
   ;; these should not break
-  
+
   (check-equal? (ugens->synthdef "sine" (mul (sin-osc ar 440 0) 0.1))
                 (bytes-append
                  #"SCgf\0\0\0\0\0\1\4sine\0\3C\334\0\0\0\0\0\0=\314\314\315"
                  #"\0\0\0\0\0\2\6SinOsc\2\0\2\0\1\0\0\377\377\0\0\377\377\0\1\2"
                  #"\fBinaryOpUGen\2\0\2\0\1\0\2\0\0\0\0\377\377\0\2\2"))
-  
+
   (check-equal? (ugens->synthdef "sine0" (out 0 (mul (sin-osc ar 440 0) 0.1)))
                 (bytes-append
                  #"SCgf\0\0\0\0\0\1\5sine0\0\3\0\0\0\0C\334\0\0=\314\314\315"
                  #"\0\0\0\0\0\3\6SinOsc\2\0\2\0\1\0\0\377\377\0\1\377\377\0\0\2"
                  #"\fBinaryOpUGen\2\0\2\0\1\0\2\0\0\0\0\377\377\0\2\2\3Out\2\0\2"
                  #"\0\0\0\0\377\377\0\0\0\1\0\0"))
-  
+
   (check-equal? (ugens->synthdef "ring" (out 0 (mul (ring4 (f-sin-osc ar 800 0)
                                                            (f-sin-osc ar (x-line kr 200 500 5 do-nothing) 0))
                                                     0.125)))
@@ -2033,5 +2073,5 @@
                  #"\0\0\2\aFSinOsc\2\0\2\0\1\0\0\377\377\0\1\377\377\0\0\2\fBinaryOpUGen"
                  #"\2\0\2\0\1\0!\0\2\0\0\0\1\0\0\2\fBinaryOpUGen\2\0\2\0\1\0\2\0\3\0\0\377\377"
                  #"\0\5\2\3Out\2\0\2\0\0\0\0\377\377\0\0\0\4\0\0"))
-  
+
   )
