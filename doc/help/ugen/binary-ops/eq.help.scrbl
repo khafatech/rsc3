@@ -1,6 +1,8 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{See gt}
+@title{eq}
+
+See gt
 
 

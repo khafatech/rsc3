@@ -3,6 +3,7 @@
 
 @title{(dswitch index array)}
 
+
 demand rate generator for switching between inputs
 
 index - which of the inputs to return
@@ -12,6 +13,8 @@ In difference to dswitch1, dswitch embeds all items
 of an input demand ugen first before looking up the
 next index.
 
+
+@racketblock[
 (let* ((a0 (dwhite 2 3 4))
        (a1 (dwhite 2 0 1))
        (a2 (dseq 2 (make-mce (list 1 1 1 0))))
@@ -21,9 +24,12 @@ next index.
        (f (mul-add (demand t 0 d) 300 400))
        (o (mul (sin-osc ar f 0) 0.1)))
   (audition (out 0 o)))
+]
 
 compare with dswitch1
 
+
+@racketblock[
 (let* ((a0 (dwhite 2 3 4))
        (a1 (dwhite 2 0 1))
        (a2 (dseq 2 (make-mce (list 1 1 1 0))))
@@ -33,4 +39,6 @@ compare with dswitch1
        (f (mul-add (demand t 0 d) 300 400))
        (o (mul (sin-osc ar f 0) 0.1)))
   (audition (out 0 o)))
+]
+
 

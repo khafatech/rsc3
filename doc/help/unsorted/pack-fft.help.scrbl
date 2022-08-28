@@ -1,7 +1,10 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{pack-fft
+@title{pack-fft}
+
+
+@racketblock[
 (let* ((n 100)
        (n* (enumFromTo 1 n))
        (m1 (map (lambda (_) (range (f-sin-osc (exp-rand 0.1 1) 0) 0 1)) n*))
@@ -13,6 +16,7 @@
        (c1 (fft* (local-buf 1 512) (f-sin-osc 440 0)))
        (c2 (pack-fft c1 512 0 (- n 1) 1 (packfft-data m3 p)))
        (s (ifft* c2)))
-  (mce2 s s))}
+  (mce2 s s))
+]
 
 

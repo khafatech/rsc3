@@ -3,6 +3,7 @@
 
 @title{(record-buf bufnum offset reclevel prelevel run loop trigger inputs)}
 
+
 Records input into a Buffer.
 
 If recLevel is 1.0 and preLevel is 0.0 then the new input
@@ -23,6 +24,8 @@ trigger    - a trigger causes a jump to the start of the Buffer.
              A trigger occurs when a signal changes from <=0 to >0.
 inputArray - an Array of input channels
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (send-synth 
@@ -55,23 +58,49 @@ inputArray - an Array of input channels
 	     (gain 1))
 	(out 0 (mul (play-buf 2 bufnum rate trigger startPos loop) gain))))
      (send fd (/s_new "player" z add-to-tail 1 "bufnum" b)))))
+]
 
+
+@racketblock[
 (define do-send
   (lambda (m)
     (with-sc3
      (lambda (fd)
        (send fd m)))))
+]
 
+
+@racketblock[
 (do-send (/n_set 1001 "run" 1))
+]
 
+
+@racketblock[
 (do-send (/n_set 1002 "loop" 1))
+]
+
+@racketblock[
 (do-send (/n_set 1002 "gain" 2))
+]
+
+@racketblock[
 (do-send (/n_set 1002 "trigger" 1))
+]
 
+
+@racketblock[
 (do-send (/n_free 1001))
-(do-send (/n_free 1002))
+]
 
+@racketblock[
+(do-send (/n_free 1002))
+]
+
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (/b_free 10))))
+]
+
 

@@ -3,6 +3,7 @@
 
 @title{/b_query}
 
+
 [
  int - buffer number
 ] * N
@@ -17,8 +18,12 @@ Responds to the sender with a /b_info message.  The arguments to
  float - sample rate
 ] * N
 
+
+@racketblock[
 (with-sc3 
  (lambda (fd)
    (async fd (/b_alloc 10 6 1))
    (async fd (/b_query 10))))
+]
+
 

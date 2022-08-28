@@ -1,9 +1,10 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{linen}
+@title{linen ; open gate for random interval}
 
-open gate for random interval
+
+@racketblock[
 (let* ((r (s:rand 0.05 0.4))
        (u (letc ((gate 0))
 	    (let ((e (linen gate 0.1 0.2 0.1 do-nothing)))
@@ -17,4 +18,6 @@ open gate for random interval
      (send fd (bundle (+ (utcr) r) (list (n-set1 1001 "gate" 0))))
      (pauseThread (* r 4))
      (send fd (n-free1 1001)))))
+]
+
 

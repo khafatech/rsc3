@@ -3,6 +3,7 @@
 
 @title{(fb-sine-c rate freq im fb a c xi yi)}
 
+
 Feedback sine with chaotic phase indexing.
 
 freq - iteration frequency in Hz    - 22050
@@ -25,24 +26,35 @@ sinewave results.
 
 sclang default values
 
+
+@racketblock[
 (audition
  (out 0 (mul (fb-sine-c ar (fdiv sample-rate 4) 1 0.1 1.1 0.5 0.1 0.1) 
 	     0.2)))
+]
 
 increase feedback
 
+
+@racketblock[
 (let ((fb (line kr 0.01 4 10 do-nothing)))
   (audition
    (out 0 (mul (fb-sine-c ar sample-rate 1 fb 1.1 0.5 0.1 0.1) 0.2))))
+]
 
 increase phase multiplier
 
+
+@racketblock[
 (let ((a (line kr 1 2 10 do-nothing)))
   (audition
    (out 0 (mul (fb-sine-c ar sample-rate 1 0 a 0.5 0.1 0.1) 0.2))))
+]
 
 randomly modulate parameters
 
+
+@racketblock[
 (let* ((x (mouse-x kr 1 12 0 0.1))
        (f (lambda (m a) (mul-add (lf-noise2 kr x) m a))))
   (audition
@@ -55,3 +67,5 @@ randomly modulate parameters
 			  0.1
 			  0.1)
 	       0.2))))
+]
+

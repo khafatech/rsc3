@@ -72,26 +72,43 @@
 
 ;; title as first comment line
 (define $title
-  (parser-compose
-   (manyTill (char #\;) $space) ;; assume a space separation
-   (x <- (many1 (and $anyChar (noneOf ";"))))
-   (return (format-title x))))
-
-;; text as any scheme comment line
-(define $text
-  (parser-compose
-   (manyTill (char #\;) $space) ;; assume a space separation
-   (x <- (many1 (and $anyChar (noneOf ";"))))
-   (return (format-text x))))
+  (<?> (parser-compose
+        (manyTill (char #\;) $space) ;; assume a space separation
+        (x <- (manyTill $anyChar $eol))
+        (return (format-title x)))
+       "title"))
 
 ;; s-expressions (not strictly, but...)
 (define $sexp
-  (parser-seq
-   (char #\() (many1 (<or> (noneOf "()") $eol $sexp)) (char #\))))
+  (<?> (parser-seq
+        (char #\() (many (<or> $sexp (and $anyChar (noneOf "()")))) (char #\)))
+       "sexp"))
+
+;; text as any scheme comment line
+(define $text-terminator (<?> $eol "text terminator"))
+
+(define $text-line
+  (<?> (parser-compose
+        (parser-seq (many1 (char #\;)) $space) ;; assume a space separation of comments
+        (x <- (manyUntil $anyChar $text-terminator))
+        (return (format-text x)))
+       "text"))
+
+;; block comment 
+(define $text-block
+  (<?> (parser-compose
+        (string "#|") 
+        (x <- (many (and $anyChar (<!> (try (char #\|))))))
+        (string "|#") 
+        (return (format-text x)))
+       "text"))
+
+;; blank line
+(define $blank (<?> (<any> $newline $space $eol) "blank line"))
 
 ;; code block formatting
 (define $code
-  (parser-seq $sexp #:combine-with format-racketblock))
+  (<?> (parser-seq $sexp #:combine-with format-racketblock) "code"))
 
 ;; a help file usually starts with a one line function followed by a new line
 ;; then either text blocks (as comments) and/or example code.
@@ -99,7 +116,7 @@
 (define $help-file
   (parser-seq
    $title
-   (many (<or> $code $text $eol))
+   (many (<any> $code $text-line $text-block $blank))
    $eof))
 
 ;; parser -> string -> string
@@ -115,17 +132,19 @@
 (define  scribble-postamble "")
 
 ;; wrap codeblock
-(define format-racketblock
-  (lambda (a . z)
-    (format "~n@racketblock[~n~a~n]" (format-result (cons a z)))))
+(define (format-racketblock a . z)
+   (verbose "format racket block: ~a~n" (cons a z))
+    (format "~n@racketblock[~n~a~n]" (format-result (cons a z))))
 
 ;; wrap title
 (define (format-title s)
+  (verbose "format title: ~a~n" s)
   (format "~n@title{~a}~n~n" (string-trim (list->string s))))
 
 ;; generic text
 (define (format-text s)
-  (format "~a" (list->string s)))
+  (verbose "format text: ~a~n" s)
+  (format "~a~n" (list->string s)))
 
 (define (format-result l)
   (verbose "formatting result: ~s~n" l)
@@ -139,10 +158,10 @@
 
 ;; parse a .help.scm file into formatted string
 (define (parse-help-file f)
-  (let* ((path (build-path help-path f))
+  (let* ((path (build-path (help-path) f))
          (body (port->string
                 (open-input-file path))))
-    (printf "parsing file: ~a~n" path)
+    (verbose "parsing file: ~a~n" path)
     (format-result
      (parse-result $help-file body))))
 
@@ -151,8 +170,8 @@
 (define (read-write-scribble f)
   (let ((body (parse-help-file f))
         (path (string-replace
-               (string-append help-path f) ".scm" ".scrbl")))
-    (printf "writing file: ~a~n" path)
+               (string-append (help-path) f) ".scm" ".scrbl")))
+    (verbose "writing file: ~a~n" path)
     (with-output-to-file
         #:exists 'replace
         path
@@ -161,6 +180,109 @@
           (printf "~a~n" body)
           (printf "~a~n" scribble-postamble)))))
 
+;; testing
+(define sc0 ";; (demand-env-gen rate levels times shapes curves gate reset levelScale levelOffset timeScale doneAction)
+
+;; levels - a demand ugen or any other ugen
+
+;; times  - a demand ugen or any other ugen if one of these ends,
+;;          the doneAction is evaluated
+
+;; shapes - a demand ugen or any other ugen, the number given is
+;;          the shape number according to Env
+
+;; curves - a demand ugen or any other ugen, if shape is 5, this
+;;          is the curve factor some curves/shapes don't work if
+;;          the duration is too short. have to see how to improve
+;;          this. also some depend on the levels obviously, like
+;;          exponential cannot cross zero.
+
+;; gate   - if gate is x >= 1, the ugen runs, if gate is 0 > x > 1,
+;;          the ugen is released at the next level (doneAction), if
+;;          gate is x < 0, the ugen is sampled end held
+
+;; reset  - if reset crosses from nonpositive to positive, the ugen
+;;          is reset at the next level, if it is > 1, it is reset
+;;          immediately.
+
+;; Frequency envelope with random times.
+
+(let* ((l (dseq dinf (make-mce (list 204 400 201 502 300 200))))
+       (t (drand dinf (make-mce (list 1.01 0.2 0.1 2.0))))
+       (y (mouse-y kr 0.01 3 1 0.1))
+       (f (demand-env-gen ar l (mul t y) 7 0 1 1 1 0 1 do-nothing)))
+  (audition (out 0 (mul (sin-osc ar (mul f (mce2 1 1.01)) 0) 0.1))))
+
+;; Frequency modulation
+
+(let* ((x (mouse-x kr -0.01 -4 0 0.1))
+       (y (mouse-y kr 1 3000 1 0.1))
+       (l (lambda () (dseq dinf (clone 32 (exp-rand 200 1000)))))
+       (t (mul sample-dur y))
+       (f (demand-env-gen ar (mce2 (l) (l)) t 5 x 1 1 1 0 1 do-nothing)))
+  (audition (out 0 (mul (sin-osc ar f 0) 0.1))))
+
+;;  gate. Mouse x on right side of screen toggles gate.
+
+(let* ((x (mouse-x kr 0 1 0 0.1))
+       (l (u:round (dwhite dinf 300 1000) 100))
+       (f (demand-env-gen kr l 0.1 5 0.3 (gt x 0.5) 1 1 0 1 do-nothing)))
+  (audition (out 0 (mul (sin-osc ar (mul f (mce2 1 1.21)) 0) 0.1))))
+")
+
+(define ss0 "(let* ((x (mouse-x kr -0.01 -4 0 0.1))
+       (y (mouse-y kr 1 3000 1 0.1))
+       (l (lambda () (dseq dinf (clone 32 (exp-rand 200 1000)))))
+       (t (mul sample-dur y))
+       (f (demand-env-gen ar (mce2 (l) (l)) t 5 x 1 1 1 0 1 do-nothing)))
+  (audition (out 0 (mul (sin-osc ar f 0) 0.1))))
+")
+
+(define bc0 ";; (pv-jensen-andersen buffer propsc prophfe prophfc propsf threshold waittime)
+
+#|
+
+fft feature detector for onset detection based on work described in
+Jensen,K. & Andersen, T. H. (2003). Real-time Beat Estimation Using
+Feature Extraction. in Proceedings of the Computer Music Modeling and
+Retrieval Symposium, Lecture Notes in Computer Science. springer
+Verlag.
+
+First order derivatives of the features are taken. Threshold may
+need to be set low to pick up on changes.
+
+buffer    - fft buffer to read from.
+propsc    - Proportion of spectral centroid feature.
+prophfe   - Proportion of high frequency energy feature.
+prophfc   - Proportion of high frequency content feature.
+propsf    - Proportion of spectral flux feature.
+threshold - Threshold level for allowing a detection
+waittime  - If triggered, minimum wait until a further frame can
+            cause another spot (useful to stop multiple detects on
+            heavy signals)
+
+Default values in sclang are: propsc=0.25, prophfe=0.25,
+prophfc=0.25, propsf=0.25, threshold=1.0, waittime=0.04.
+
+|#
+
+(with-sc3
+ (lambda (fd)
+   (async fd (b-alloc 0 2048 1))))
+
+(let* ((source (sound-in 0))
+       (detect (pv-jensen-andersen (fft* 0 source)
+				  0.25 0.25 0.25 0.25
+				  (mouse-x kr 0.01 1.0 1 0.1)
+				  0.04)))
+  (audition
+   (out 0 (mul (sin-osc ar (mce2 440 445) 0)
+	       (decay (mul 0.1 detect) 0.1)))))
+")
+
+;(format-result (parse-result $code ss0))
+
+;(format-result (parse-result $help-file sc0))
 
 ;; cli edition
 (read-write-scribble (filename))

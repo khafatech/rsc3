@@ -3,6 +3,7 @@
 
 @title{/b_read             Read sound file data into an existing buffer.}
 
+
  int - buffer number
  string - path name of a sound file.
  int - starting frame in file (optional. default = 0)
@@ -18,4 +19,5 @@ file to be used by DiskIn ugen then you will want to set "leave file
 open" to one, otherwise set it to zero.
 
 Asynchronous.  Replies to sender with /done when complete.
+
 

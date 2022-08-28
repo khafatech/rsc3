@@ -1,9 +1,10 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{(convolution2 in bufnum trigger framesize)
+@title{(convolution2 in bufnum trigger framesize)}
 
-#|
+
+
 
 Strict convolution with fixed kernel which can be updated using a
 trigger signal.
@@ -18,8 +19,11 @@ framesize - size of fft frame, must be a power of two. convolution
             progressively more expensive to run for higher powers!
             512, 1024, 2048, 4096 standard.
 
-|#
 
+
+
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (for-each
@@ -43,43 +47,90 @@ framesize - size of fft frame, must be a power of two. convolution
     (letc ((k 0) (t 0))
       (let ((i (impulse ar 1 0)))
 	(out 0 (mul (convolution2 i k t 2048) 0.5)))))))
+]
 
+
+@racketblock[
 (define send-to 
   (lambda (m)
     (with-sc3 
      (lambda (fd) 
        (send fd m)))))
+]
 
+
+@racketblock[
 (define async-to
   (lambda (m) 
     (with-sc3 
      (lambda (fd) 
        (async fd m)))))
+]
 
+
+@racketblock[
 (send-to (s-new1 "c" 1001 1 1 "k" 10))
+]
 
+
+@racketblock[
 (send-to (n-set1 1001 "k" 11))
-(send-to (n-set1 1001 "t" 0))
-(send-to (n-set1 1001 "t" 1))
+]
 
+@racketblock[
+(send-to (n-set1 1001 "t" 0))
+]
+
+@racketblock[
+(send-to (n-set1 1001 "t" 1))
+]
+
+
+@racketblock[
 (send-to (n-set1 1001 "k" 12))
+]
+
+@racketblock[
 (send-to (n-set1 1001 "t" 0))
+]
+
+@racketblock[
 (send-to (n-set1 1001 "t" 1))
+]
 
+
+@racketblock[
 (async-to (b-zero 12))
+]
 
+
+@racketblock[
 (for-each 
  (lambda (n) 
    (send-to (b-set1 12 (+ (* 20  n) 10)  1))) 
  (enum-from-to 0 39))
+]
 
+
+@racketblock[
 (send-to (n-set1 1001 "t" 0))
-(send-to (n-set1 1001 "t" 1))}
+]
+
+@racketblock[
+(send-to (n-set1 1001 "t" 1))
+]
 
 With soundfile.
 
-(async-to (b-alloc-read 10 "/home/rohan/audio/metal.wav" 0 0))
 
+@racketblock[
+(async-to (b-alloc-read 10 "/home/rohan/audio/metal.wav" 0 0))
+]
+
+
+@racketblock[
 (let ((i (sound-in 0)))
   (audition (out 0 (mul (convolution2 i 10 0 512) 0.5))))
+]
+
 

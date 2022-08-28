@@ -3,6 +3,7 @@
 
 @title{(pv-hainsworth-foote buffer proph propf threshold waittime)}
 
+
 fft onset detector based on work described in
 
   Hainsworth, S. (2003) Techniques for the Automated Analysis of
@@ -38,10 +39,15 @@ waittime=0.04.
 
 Just Hainsworth metric with low threshold
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 0 2048 1))))
+]
 
+
+@racketblock[
 (let* ((source (sound-in 0))
        (detect (pv-hainsworth-foote (fft* 0 source) 
 				   1.0 
@@ -52,9 +58,12 @@ Just Hainsworth metric with low threshold
    (out 0 (mul3 (sin-osc ar (mce2 440 445) 0)
 		(decay (mul 0.1 detect) 0.1)
 		0.1))))
+]
 
 Just Hainsworth metric, spot note transitions.
 
+
+@racketblock[
 (let* ((src (mul (lf-saw ar (mul-add (lf-noise0 kr 1) 90 400) 0) 0.5))
        (dtc (pv-hainsworth-foote (fft* 0 src)
 				1.0
@@ -65,10 +74,13 @@ Just Hainsworth metric, spot note transitions.
 		 (decay (mul 0.1 dtc) 0.1))))
   (audition 
    (out 0 (mul (mce2 src cmp) 0.1))))
+]
 
 Just Foote metric.  Foote never triggers with threshold over 1.0,
 threshold under mouse control.
 
+
+@racketblock[
 (let* ((src (sound-in 0))
        (dtc (pv-hainsworth-foote (fft* 0 src)
 				0.0
@@ -79,5 +91,7 @@ threshold under mouse control.
 		 (decay (mul 0.1 dtc) 0.1))))
   (audition 
    (out 0 (mul (mce2 src cmp) 0.1))))
+]
 
   
+

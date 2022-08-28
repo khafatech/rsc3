@@ -3,6 +3,7 @@
 
 @title{(brz2 in)}
 
+
 A two zero fixed midcut filter.  A special case fixed
 filter. Implements the formula:
 
@@ -13,7 +14,14 @@ frequency.
 
 Compare:
 
-(audition (out 0 (mul (white-noise ar) 0.15)))
 
+@racketblock[
+(audition (out 0 (mul (white-noise ar) 0.15)))
+]
+
+
+@racketblock[
 (audition (out 0 (brz2 (mul (white-noise ar) 0.15))))
+]
+
 

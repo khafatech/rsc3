@@ -1,3 +1,4 @@
+;; impulse
 (import (rsc3))
 
 (audition (out 0 (mul (impulse ar 800 0) 0.1)))

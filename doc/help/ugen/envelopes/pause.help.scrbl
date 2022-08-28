@@ -3,11 +3,14 @@
 
 @title{(pause gate nodeID)}
 
+
 When triggered pauses a node.
 
 gate   - when gate is 0,  node is paused, when 1 it runs
 nodeID - node to be paused
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (send-synth fd "a" (out 0 (mul (sin-osc ar 800 0) 0.1)))
@@ -22,4 +25,6 @@ nodeID - node to be paused
    (send fd (/n_set 1002 "g" 1))
    (sleep 1)
    (reset fd)))
+]
+
 

@@ -1,9 +1,10 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{(pv-jensen-andersen buffer propsc prophfe prophfc propsf threshold waittime)
+@title{(pv-jensen-andersen buffer propsc prophfe prophfc propsf threshold waittime)}
 
-#|
+
+
 
 fft feature detector for onset detection based on work described in
 Jensen,K. & Andersen, T. H. (2003). Real-time Beat Estimation Using
@@ -27,12 +28,18 @@ waittime  - If triggered, minimum wait until a further frame can
 Default values in sclang are: propsc=0.25, prophfe=0.25,
 prophfc=0.25, propsf=0.25, threshold=1.0, waittime=0.04.
 
-|#
 
+
+
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 0 2048 1))))
+]
 
+
+@racketblock[
 (let* ((source (sound-in 0))
        (detect (pv-jensen-andersen (fft* 0 source)
 				  0.25 0.25 0.25 0.25
@@ -40,6 +47,7 @@ prophfc=0.25, propsf=0.25, threshold=1.0, waittime=0.04.
 				  0.04)))
   (audition
    (out 0 (mul (sin-osc ar (mce2 440 445) 0)
-	       (decay (mul 0.1 detect) 0.1)))))}
+	       (decay (mul 0.1 detect) 0.1)))))
+]
 
 

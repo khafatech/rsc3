@@ -23,12 +23,11 @@ instance of class BinaryOpUGen which has the two operands as inputs.
 
 @racketblock[
 { var a, b; a = LFSaw.ar(220); b = LFPulse.ar(1442); [a, b, a * b] }.plot;
-::
+]
 
 For an overview of common operators, see link::Overviews/Operators::, for specific examples, see also e.g. link::Classes/Function::, link::Classes/UGen::, link::Classes/Pattern::.
 To see which classes implement a specific method, see that method in the generated link::Overviews/Methods:: overview.
 
-]
 @section{instanceMethods}
  
 
@@ -49,7 +48,6 @@ a = { 10.rand.postln }; b = a.neg; b.value;
 // Patterns, Streams, UGens, and Proxies are AbstractFunctions, too:
 a = Pgeom(1, 2, 5).neg; a.asStream.nextN(8);
 { a = LFNoise1.ar(1500); [a, a.neg] }.plot;
-::
 ]
 @section{method}
  reciprocal

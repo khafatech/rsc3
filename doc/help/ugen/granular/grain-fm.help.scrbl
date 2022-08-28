@@ -3,6 +3,7 @@
 
 @title{(grain-fm nc tr dur carfreq modfreq index pan envbuf)}
 
+
 Granular synthesis with frequency modulated sine tones
 
 nc - the number of channels to output. If 1, mono is returned and
@@ -29,6 +30,8 @@ pan - a value from -1 to 1. Determines where to pan the output in
 envbuf - the buffer number containing a singal to use for the grain
          envelope. -1 uses a built-in Hanning envelope.
 
+
+@racketblock[
 (let* ((x (mouse-x kr -0.5 0.5 0 0.1))
        (y (mouse-y kr 0 400 0 0.1))
        (n (white-noise kr))
@@ -36,4 +39,6 @@ envbuf - the buffer number containing a singal to use for the grain
        (t (impulse kr 10 0))
        (i (lin-lin (lf-noise1 kr 500) -1 1 1 10)))
   (audition (out 0 (mul (grain-fm 2 t 0.1 fd 200 i x -1) 0.1))))
+]
+
 

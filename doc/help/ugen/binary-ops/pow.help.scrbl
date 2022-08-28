@@ -3,17 +3,23 @@
 
 @title{(pow a b)}
 
+
 Exponentiation, written ** in sclang.  When the signal is negative
 this function extends the usual definition of exponentiation and
 returns neg(neg(a) ** b). This allows exponentiation of negative
 signal values by noninteger exponents.
 
+
+@racketblock[
 (audition
  (out 0 (let ((a (mul (f-sin-osc ar 100 0) 0.1)))
 	  (mce2 a (pow a 10)))))
+]
 
 http://create.ucsb.edu/pipermail/sc-users/2006-December/029998.html
 
+
+@racketblock[
 (let* ((n0 (mul-add (lf-noise2 kr 8) 200 300))
        (n1 (mul-add (lf-noise2 kr 3) 10 20))
        (s  (blip ar n0 n1))
@@ -23,4 +29,6 @@ http://create.ucsb.edu/pipermail/sc-users/2006-December/029998.html
        (b  (u:round d (pow 0.5 y))))
   (audition
    (out 0 (mce2 d b))))
+]
+
 

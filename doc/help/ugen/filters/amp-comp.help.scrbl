@@ -3,6 +3,7 @@
 
 @title{(amp-comp freq root exp)}
 
+
 Basic psychoacoustic amplitude compensation.
 
 Implements the (optimized) formula: compensationFactor = (root /
@@ -26,26 +27,36 @@ freq.max(minval), or use amp-compA.
 compare a sine without compensation with one that uses amplitude
 compensation
 
+
+@racketblock[
 (let* ((x (mouse-x kr 300 15000 1 0.1))
        (y (mouse-y kr 0 1 0 0.1))
        (o (mul (sin-osc ar x 0) 0.1))
        (c (amp-comp x 300 0.333))) 
   (audition (out 0 (mce2 (mul o y) (mul3 o (sub 1 y) c)))))
+]
 
 different sounds cause quite different loudness perception, and the
 desired musical behavior can vary, so the exponent can be tuned:
 
+
+@racketblock[
 (let* ((x (mouse-x kr 300 15000 1 0.1))
        (o (mul (pulse ar x 0.5) 0.1))
        (c (amp-comp x 300 1.3)))
   (audition (out 0 (mul o c))))
+]
 
 amplitude compensation in frequency modulation
 
+
+@racketblock[
 (let* ((x (mouse-x kr 300 15000 1 0.1))
        (y (mouse-y kr 3 200 1 0.1))
        (m (mul x (mul-add (sin-osc ar y 0) 0.5 1)))
        (a (amp-comp m 300 0.333))
        (c (mul3 (sin-osc ar m 0) 0.1 a)))
   (audition (out 0 c)))
+]
+
 

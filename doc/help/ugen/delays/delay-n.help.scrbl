@@ -14,8 +14,12 @@ time and cannot be extended.
 dust randomly triggers decay to create an exponential decay
 envelope for the white-noise input source.
 
+
+@racketblock[
 (let ((z (mul (decay (dust ar 1) 0.3)
 	      (white-noise ar))))
   (audition
    (out 0 (add (delay-n z 0.2 0.2) z))))
+]
+
 

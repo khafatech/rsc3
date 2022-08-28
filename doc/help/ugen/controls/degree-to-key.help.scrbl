@@ -3,6 +3,7 @@
 
 @title{(degree-to-key bufnum in octave)}
 
+
 Convert signal to modal pitch
 
 The input signal value is truncated to an integer value and used as
@@ -16,6 +17,8 @@ in - the input signal.
 
 octave - the number of steps per octave in the scale.
 
+
+@racketblock[
 (let* ((b 0)
        (p (list 0 2 3.2 5 7 9 10))
        (x (mouse-x kr 0 15 0 0.1))
@@ -33,4 +36,6 @@ octave - the number of steps per octave in the scale.
      (send fd (b-setn1 0 0 p))
      (let ((n (mul (lf-noise1 kr (mce2 3 3.05)) 0.04)))
        (play fd (out 0 (mul (add (c n 48) (c n 72)) 0.25)))))))
+]
+
 

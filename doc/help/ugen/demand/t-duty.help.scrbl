@@ -3,6 +3,7 @@
 
 @title{(t-duty rate duration reset doneAction level gap)}
 
+
 demand results as trigger from demand rate ugens.
 
 A value is demanded each ugen in the list and output as a trigger
@@ -31,11 +32,16 @@ level      - demand ugen providing the output values.
 
 Play a little rhythm
 
+
+@racketblock[
 (let ((s (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))))
   (audition (out 0 (t-duty ar s 0 0 1 0))))
+]
 
 Amplitude changes
 
+
+@racketblock[
 (let ((t (t-duty ar 
 		 (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))
 		 0
@@ -43,7 +49,10 @@ Amplitude changes
 		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0)))
 		 0)))
   (audition (out 0 (ringz t 1000 0.1))))
+]
 
+
+@racketblock[
 (let ((t (t-duty ar
 		 (mouse-x kr 0.001 2 1 0.1)
 		 0
@@ -51,4 +60,6 @@ Amplitude changes
 		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0)))
 		 0)))
   (audition (out 0 (ringz t 1000 0.1))))
+]
+
 

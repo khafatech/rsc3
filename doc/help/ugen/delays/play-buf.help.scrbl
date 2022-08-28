@@ -3,6 +3,7 @@
 
 @title{(play-buf numChannels bufnum rate trigger startPos loop)}
 
+
 Sample playback oscillator.  Plays back a memory resident sample.
 
 numChannels - number of channels that the buffer will be.  This
@@ -30,40 +31,65 @@ startPos - sample frame to start playback.
 
 loop - 1 means true, 0 means false.  This is modulate-able.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc-read 10 "/home/rohan/audio/metal.wav" 0 0))))
+]
 
 Play once only.
 
+
+@racketblock[
 (audition (out 0 (play-buf 1 10 (buf-rate-scale kr 10) 1 0 0)))
+]
 
 Play in infinite loop.
 
+
+@racketblock[
 (audition (out 0 (play-buf 1 10 (buf-rate-scale kr 10) 1 0 1)))
+]
 
 trigger playback at each pulse.
 
+
+@racketblock[
 (audition (out 0 (play-buf 1 10 (buf-rate-scale kr 10) (impulse kr 2 0) 0 0)))
+]
 
 trigger playback at each pulse (diminishing intervals).
 
+
+@racketblock[
 (let ((t (impulse kr (x-line kr 0.1 100 10 remove-synth) 0)))
   (audition (out 0 (play-buf 1 10 (buf-rate-scale kr 10) t 0 0))))
+]
 
 Loop playback, accelerating pitch.
 
+
+@racketblock[
 (let ((rate (x-line kr 0.1 100 60 remove-synth)))
   (audition (out 0 (play-buf 1 10 rate 1 0 1))))
+]
 
 Sine wave control of playback rate, negative rate plays backwards.
 
+
+@racketblock[
 (let ((r (mul-add (f-sin-osc kr (x-line kr 0.2 8 30 remove-synth) 0) 3 0.6)))
   (audition (out 0 (play-buf 1 10 (mul (buf-rate-scale kr 10) r) 1 0 1))))
+]
 
 Release buffer.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-free 10))))
+]
+
 

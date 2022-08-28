@@ -1,4 +1,4 @@
-(import (sosc) (rsc3))
+;; buf-wr
 
 (let ((a (letc ((r 1))
 	   (let* ((r* (mul (buf-rate-scale kr 0) r))

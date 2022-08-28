@@ -3,6 +3,7 @@
 
 @title{(duty rate duration reset doneAction level)}
 
+
 demand results from demand rate ugens
 
 A value is demanded from each ugen in the list and output according
@@ -25,6 +26,8 @@ ends.
 
 level: demand ugen providing the output values.
 
+
+@racketblock[
 (let* ((f (duty kr
 		(drand dinf (mce3 0.01 0.2 0.4))
 		0
@@ -32,7 +35,10 @@ level: demand ugen providing the output values.
 		(dseq dinf (make-mce (list 204 400 201 502 300 200)))))
        (o (sin-osc ar (mul f (mce2 1 1.01)) 0)))
   (audition (out 0 (mul o 0.1))))
+]
 
+
+@racketblock[
 (let* ((f (duty kr
 		(mouse-x kr 0.001 2 1 0.1)
 		0
@@ -40,4 +46,6 @@ level: demand ugen providing the output values.
 		(dseq dinf (make-mce (list 204 400 201 502 300 200)))))
        (o (sin-osc ar (mul f (mce2 1 1.0)) 0)))
   (audition (out 0 (mul o 0.1))))
+]
+
 

@@ -3,6 +3,7 @@
 
 @title{(lorenz-l rate freq s r b h xi yi zi)}
 
+
 freq - iteration frequency in Hertz
 s, r, b - equation variables
 h - integration time step
@@ -24,13 +25,18 @@ instability.  A safe choice is the default amount of 0.05.
 
 vary frequency
 
+
+@racketblock[
 (audition
  (out 0 (mul (lorenz-l ar (mouse-x kr 20 sample-rate 0 0.1)
 		       10 28 2.667 0.05 0.1 0 0)
 	     0.3)))
+]
 
 randomly modulate params
 
+
+@racketblock[
 (audition
  (out 0 (mul (lorenz-l ar sample-rate
 		       (mul-add (lf-noise0 kr 1) 2 10)
@@ -39,9 +45,12 @@ randomly modulate params
 		       0.05
 		       0.1 0.0 0.0)
 	     0.2)))
+]
 
 as a frequency control
 
+
+@racketblock[
 (audition
  (out 0 (mul
 	 (sin-osc ar (mul-add
@@ -59,4 +68,6 @@ as a frequency control
 		      800 900)
 		  0)
 	 0.4)))
+]
+
 

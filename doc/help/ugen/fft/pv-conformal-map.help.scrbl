@@ -3,6 +3,7 @@
 
 @title{(pv-conformal-map buffer real imag)}
 
+
 Applies the conformal mapping z send (z-a)/(1-za*) to the phase
 vocoder bins z with a given by the real and imag imputs to the
 UGen.
@@ -13,11 +14,16 @@ buffer - buffer number of buffer to act on, passed in through a chain
 real   - real part of a.
 imag   - imaginary part of a.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 10 1024 1))
    (async fd (b-alloc 0 2048 1))))
+]
 
+
+@racketblock[
 (audition
  (out 0 (pan2
 	 (ifft*
@@ -26,7 +32,10 @@ imag   - imaginary part of a.
 	   (mouse-y kr -1 1 0 0.1)))
 	 0
 	 1)))
+]
 
+
+@racketblock[
 (let* ((signal (lambda (n)
 		 (let* ((o (sin-osc kr (mix-fill n (lambda (_) (rand 0.1 0.5))) 0))
 			(a (mul (make-mce (list 1 1.1 1.5 1.78 2.45 6.7)) 220))
@@ -41,4 +50,6 @@ imag   - imaginary part of a.
        (s (mapped 3))
        (t (mul-add (comb-n s 0.1 0.1 10) 0.5 s)))
   (audition (out 0 (pan2 t 0 1))))
+]
+
 

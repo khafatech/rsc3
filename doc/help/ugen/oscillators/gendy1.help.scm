@@ -1,4 +1,4 @@
-(import (rsc3))
+;; gendy1
 
 ;; sclang defaults
 (audition (out 0 (pan2 (gendy1 ar 1 1 1 1 440 660 0.5 0.5 12 12) 0 0.15)))

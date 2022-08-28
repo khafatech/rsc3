@@ -3,6 +3,7 @@
 
 @title{/b_allocRead           Allocate buffer space and read a sound file.}
 
+
 int - buffer number
 string - path name of a sound file.
 int - starting frame in file (optional. default = 0)
@@ -16,5 +17,6 @@ number of frames argument is less than or equal to zero, the entire
 file is read.
 
 Asynchronous. Replies to sender with /done when complete.
+
 
 

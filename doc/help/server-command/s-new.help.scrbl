@@ -3,6 +3,7 @@
 
 @title{/s_new                                            Create a new synth}
 
+
 string - synth definition name
 int - synth ID
 int - add action (0,1,2, 3 or 4 see below)
@@ -48,4 +49,5 @@ it refers to the most recently created node by /s_new (auto generated
 ID or not). This is how you can map the controls of a node with an
 auto generated ID. In a multi-client situation, the only way you can
 be sure what node -1 refers to is to put the messages in a bundle.
+
 

@@ -3,6 +3,7 @@
 
 @title{/c_getn					Get ranges of bus value(s)}
 
+
 [
 int - starting bus index
 int - number of sequential buses to get (M)
@@ -10,4 +11,5 @@ int - number of sequential buses to get (M)
 
 Get contiguous ranges of buses. Replies to sender with the
 corresponding /c_setn command.
+
 

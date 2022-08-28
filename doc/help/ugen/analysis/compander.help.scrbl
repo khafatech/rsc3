@@ -3,6 +3,7 @@
 
 @title{(compander input control thresh slopeBelow slopeAbove clampTime relaxTime)}
 
+
 Compressor, expander, limiter, gate, ducker.  General purpose
 dynamics processor.
 
@@ -43,29 +44,48 @@ relaxTime: The amount of time for the amplitude adjustment to be
 
 Example signal to process.
 
+
+@racketblock[
 (define z
   (mul (decay2 (mul (impulse ar 8 0) (mul (lf-saw kr 0.3 0) 0.3)) 0.001 0.3)
        (mix (pulse ar (mce2 80 81) 0.3))))
+]
 
+
+@racketblock[
 (audition (out 0 z))
+]
 
 Noise gate
 
+
+@racketblock[
 (let ((x (mouse-x kr 0.01 1 0 0.1)))
   (audition (out 0 (mce2 z (compander z z x 10 1 0.01 0.01)))))
+]
 
 Compressor
 
+
+@racketblock[
 (let ((x (mouse-x kr 0.01 1 0 0.1)))
   (audition (out 0 (mce2 z (compander z z x 1 0.5 0.01 0.01)))))
+]
 
 limiter
 
+
+@racketblock[
 (let ((x (mouse-x kr 0.01 1 0 0.1)))
   (audition (out 0 (mce2 z (compander z z x 1 0.1 0.01 0.01)))))
+]
 
 Sustainer
 
+
+@racketblock[
 (let ((x (mouse-x kr 0.01 1 0 0.1)))
   (audition (out 0 (mce2 z (compander z z x 0.1 1.0 0.01 0.01)))))
+]
+
 

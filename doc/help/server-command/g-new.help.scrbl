@@ -3,6 +3,7 @@
 
 @title{/g_new				Create a new group}
 
+
 [
 	int - new group ID
 	int - add action (0,1,2, 3 or 4 see below)
@@ -32,4 +33,5 @@ ID. The target node is freed.
 
 Multiple groups may be created in one command by adding
 arguments.
+
 

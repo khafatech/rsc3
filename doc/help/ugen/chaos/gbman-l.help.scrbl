@@ -27,21 +27,34 @@ Jan. 1992.
 
 sclang default initial parameters.
 
+
+@racketblock[
 (audition
  (out 0 (mul (gbman-l ar (mouse-x kr 20 sample-rate 0 0.1) 1.2 2.1) 0.1)))
+]
 
 Different initial parameters.
 
+
+@racketblock[
 (audition
  (out 0 (mul (gbman-l ar (mouse-x kr 20 sample-rate 0 0.1) -0.7 -2.7) 0.1)))
+]
 
 Wait for it...
 
+
+@racketblock[
 (audition
  (out 0 (mul (gbman-l ar (mouse-x kr 20 sample-rate 0 0.1) 1.2 2.0002) 0.1)))
+]
 
 As a frequency control
 
+
+@racketblock[
 (audition
  (out 0 (mul (sin-osc ar (mul-add (gbman-l ar 40 1.2 2.1) 400 500) 0) 0.4)))
+]
+
 

@@ -3,6 +3,7 @@
 
 @title{(Packfft chain bufsize frombin tobin zeroothers magsphases)}
 
+
 Pack separate demand-rate fft bin streams into an fft chain buffer
 
 Takes a length-prefixed array of magnitudes and phases, and packs
@@ -34,10 +35,15 @@ pvcalc2.
 Here's an unusual example which uses Packfft without using
 Unpackfft first - essentially creating our fft data from scratch.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (send fd (b-alloc 10 512 1))))
+]
 
+
+@racketblock[
 (let* ((n 100)
        (n* (enum-from-to 1 n))
        (m1 (map (lambda (_) (range (f-sin-osc kr (exp-rand 0.1 1) 0) 0 1)) n*))
@@ -50,4 +56,6 @@ Unpackfft first - essentially creating our fft data from scratch.
        (c2 (pack-fft c1 512 0 (- n 1) 1 (packfft-data m3 p)))
        (s (ifft* c2)))
   (audition (out 0 (mce2 s s))))
+]
+
 

@@ -3,6 +3,7 @@
 
 @title{(in-feedback num-channels bus)}
 
+
 Read signal from a bus without erasing it, audio rate.
 
 The output (out) ugens overwrite data on the bus, giving this bus a
@@ -28,25 +29,39 @@ at the default block size and sample rate.
 
 Audio feedback modulation.
 
+
+@racketblock[
 (let ((f (mul-add (in-feedback 1 0) 1300 300)))
   (audition (out 0 (mul (sin-osc ar f 0) 0.4))))
+]
 
 Evaluate these in either order and hear both tones.
 
+
+@racketblock[
 (let ((b (add num-input-buses num-output-buses)))
   (audition (out 0 (in-feedback 1 b))))
+]
 
+
+@racketblock[
 (let ((b (add num-input-buses num-output-buses)))
   (audition (mrg2 (out b (mul (sin-osc ar 440 0) 0.1))
 		  (out 0 (mul (sin-osc ar 660 0) 0.1)))))
+]
 
 Doubters consult this.
 
+
+@racketblock[
 (let ((b (add num-input-buses num-output-buses)))
   (audition (out 0 (in 1 ar b))))
+]
 
 Resonator, see localout for variant.
 
+
+@racketblock[
 (let* ((b (add num-input-buses num-output-buses))
        (p (in-feedback 1 b))
        (i (impulse ar 1 0))
@@ -54,8 +69,13 @@ Resonator, see localout for variant.
 		   1 
 		   (sub (recip 440) (recip control-rate)))))
   (audition (mrg2 (offset-out b d) (offset-out 0 p))))
+]
 
 Compare with oscillator.
 
+
+@racketblock[
 (audition (out 1 (mul (sin-osc ar 440 0) 0.2)))
+]
+
 

@@ -3,6 +3,7 @@
 
 @title{/b_gen                              Call a command to fill a buffer}
 
+
 int - buffer number
 string - command name
 .. command arguments
@@ -81,5 +82,6 @@ Copy samples from the source buffer to the destination buffer
 specified in the b_gen command. If the number of samples to copy is
 negative, the maximum number of samples possible is copied.
 Asynchronous. Replies to sender with /done when complete.
+
 
 

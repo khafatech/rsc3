@@ -22,12 +22,17 @@ while studying the orbits of stars in globular clusters.
 
 With default initial parameters.
 
+
+@racketblock[
 (audition
  (out 0 (mul (henon-n ar (mouse-x kr 20 sample-rate 0 0.1) 1.4 0.3 0 0)
 	     0.1)))
+]
 
 With mouse-control of parameters.
 
+
+@racketblock[
 (audition
  (out 0 (mul (henon-n ar
 		      (fdiv sample-rate 4)
@@ -36,9 +41,12 @@ With mouse-control of parameters.
 		      0
 		      0)
 	     0.1)))
+]
 
 With randomly modulate parameters.
 
+
+@racketblock[
 (audition
  (out 0 (mul (henon-n ar
 		      (fdiv sample-rate 8)
@@ -47,13 +55,18 @@ With randomly modulate parameters.
 		      0
 		      0)
 	     0.1)))
+]
 
 As a frequency control.
 
+
+@racketblock[
 (let ((x (mouse-x kr 1 1.4 0 0.1))
       (y (mouse-y kr 0 0.3 0 0.1))
       (f 40))
   (audition
    (out 0 (mul (sin-osc ar (mul-add (henon-n ar f x y 0 0) 800 900) 0)
 	       0.4))))
+]
+
 

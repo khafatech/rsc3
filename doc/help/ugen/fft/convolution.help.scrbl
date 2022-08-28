@@ -3,6 +3,7 @@
 
 @title{(convolution in kernel framesize)}
 
+
 Strict convolution of two continuously changing inputs. Also see
 [convolution2] for a cheaper CPU cost alternative for the case of a
 fixed kernel which can be changed with a trigger message.
@@ -11,11 +12,16 @@ in        - processing target
 kernel    - processing kernel.
 framesize - size of fft frame, must be a power of two
 
+
+@racketblock[
 (audition
  (let ((input (sound-in (mce2 0 1)))
        (kernel (white-noise ar)))
    (out 0 (mul (convolution input kernel 2048) 0.1))))
+]
 
+
+@racketblock[
 (let ((a 2048)
       (b 0))
   (with-sc3
@@ -28,4 +34,6 @@ framesize - size of fft frame, must be a power of two
 			   (play-buf 1 b (buf-rate-scale kr b) 1 0 1)
 			   (* 2 a))
 			  0.2))))))
+]
+
 

@@ -27,28 +27,47 @@ and thus seem to hang when freqs get very low).
 If you don't need very high or very low freqs, or use fixed freqs,
 lf-noise0,1,3 is more efficient.
 
-Try wiggling mouse quicklyLf-Noise frequently seems stuck,
+Try wiggling mouse quickly; Lf-Noise frequently seems stuck,
 LFDNoise changes smoothly.
 
+
+@racketblock[
 (audition
  (out 0 (mul (lf-noise0 ar (mouse-x kr 0.1 1000 1 0.1)) 0.1)))
+]
 
+
+@racketblock[
 (audition
  (out 0 (mul (lfd-noise0 ar (mouse-x kr 0.1 1000 1 0.1)) 0.1)))
+]
 
 silent for 2 secs before going up in freq
 
+
+@racketblock[
 (audition
  (out 0 (mul (lf-noise0 ar (x-line kr 0.5 10000 3 remove-synth)) 0.1)))
+]
 
+
+@racketblock[
 (audition
  (out 0 (mul (lfd-noise0 ar (x-line kr 0.5 10000 3 remove-synth)) 0.1)))
+]
 
 lf-noise quantizes time steps at high freqs, lfd-noise does not:
 
+
+@racketblock[
 (audition
  (out 0 (mul (lf-noise0 ar (x-line kr 1000 20000 10 remove-synth)) 0.1)))
+]
 
+
+@racketblock[
 (audition
  (out 0 (mul (lfd-noise0 ar (x-line kr 1000 20000 10 remove-synth)) 0.1)))
+]
+
 

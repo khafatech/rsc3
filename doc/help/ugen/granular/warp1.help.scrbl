@@ -3,6 +3,7 @@
 
 @title{(warp1 nc buf ptr freqScale windowSize envbuf overlaps windowrandRatio interp)}
 
+
 Warp a buffer with a time pointer
 
 inspired by Chad Kirby's SuperCollider2 warp1 class, which was
@@ -36,12 +37,19 @@ interp - the interpolation method used for pitchshifting grains. 1
          = no interpolation. 2 = linear. 4 = cubic interpolation
          (more computationally intensive).
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc-read 10 "/home/rohan/audio/metal.wav" 0 0))))
+]
 
+
+@racketblock[
 (let* ((p (lin-lin (lf-saw kr 0.05 0) -1 1 0 1))
        (x (mouse-x kr 0.5 2 0 0.1))
        (w (warp1 1 10 p x 0.1 -1 8 0.1 2)))
   (audition (out 0 w)))
+]
+
 

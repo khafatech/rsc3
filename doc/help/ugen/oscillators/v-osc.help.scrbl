@@ -3,6 +3,7 @@
 
 @title{(v-osc rate bufpos freq phase)}
 
+
 Variable wavetable oscillator.  A wavetable lookup oscillator which
 can be swept smoothly across wavetables. All the wavetables must be
 allocated to the same size. Fractional values of table will
@@ -26,6 +27,8 @@ to be ON.
 
 Allocate and fill tables 0 to 7 [see also Vosc3]
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (let* ((square
@@ -38,19 +41,27 @@ Allocate and fill tables 0 to 7 [see also Vosc3]
 			     (enum-from-to 0 (- n 1)))))
 	       (async fd (b-gen1 i "sine1" (cons 7 a)))))))
      (for-each nth (enum-from-to 0 7)))))
+]
 
 oscillator at buffers 0 through 7.
 
+
+@racketblock[
 (let ((b (mouse-x kr 0 7 0 0.1))
       (f (mce2 120 121)))
   (audition (out 0 (mul (v-osc ar b f 0) 0.3))))
+]
 
 Reallocate buffers while oscillator is running.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (for-each
     (lambda (i)
       (async fd (b-gen1  i "sine1" (cons 7 (replicate-m 16 (random 0 1))))))
     (enum-from-to 0 7))))
+]
+
 

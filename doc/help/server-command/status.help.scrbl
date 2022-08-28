@@ -3,6 +3,7 @@
 
 @title{/status				       Query the status}
 
+
 No arguments.
 
 Replies to sender with the following message.
@@ -17,6 +18,7 @@ Replies to sender with the following message.
 	float - peak percent CPU usage for signal processing
 	double - nominal sample rate
 	double - actual sample rate
+
 
 
 

@@ -3,6 +3,7 @@
 
 @title{(poll trig in trigid label)}
 
+
 Print/query the current output value of a UGen.
 
 trig - a non-positive to positive transition telling poll to return
@@ -19,15 +20,23 @@ poll returns its in signal (and is therefore transparent).
 WARNING: Printing values from the Server in intensive for the
 CPU. poll should be used for debugging purposes.
 
+
+@racketblock[
 (define (string->ugen s)
   (make-mce 
    (cons (string-length s)
 	 (map char->integer (string->list s)))))
+]
 
+
+@racketblock[
 (let ((t (impulse kr 2 0))
       (i (line kr 0 1 5 remove-synth)))
   (audition (poll t i 0 (string->ugen "Test"))))
+]
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (letrec ((print (lambda (e) (display e) (newline)))
@@ -36,16 +45,27 @@ CPU. poll should be used for debugging purposes.
      (async fd (/notify 1))
      (repeat (showing (lambda () (wait fd "/tr"))))
      (async fd (/notify 0)))))
+]
 
 multichannel Expansion (Broken...)
 
+
+@racketblock[
 (define (poll* trig in trigId label)
   (poll trig in trigId (string->ugen label)))
+]
 
+
+@racketblock[
 (poll* (impulse kr (mce2 10 5) 0)
        (line kr 0 (mce2 1 5) (mce2 1 2) do-nothing)
        0
        "Test")
+]
 
+
+@racketblock[
 (with-sc3 server-status)
+]
+
 

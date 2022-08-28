@@ -1,8 +1,11 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{(import (sosc) (rsc3))
+@title{buf-wr}
 
+
+
+@racketblock[
 (let ((a (letc ((r 1))
 	   (let* ((r* (mul (buf-rate-scale kr 0) r))
 		  (p (phasor ar 0 r* 0 (buf-frames kr 0) 0))
@@ -21,14 +24,27 @@
      (send-synth fd "b" b)
      (send fd (s-new0 "a" 1001 1 0))
      (send fd (s-new0 "b" 1002 1 0)))))
+]
 
+
+@racketblock[
 (define (do-send m)
   (with-sc3 (lambda (fd) (send fd m))))
+]
 
+
+@racketblock[
 (do-send (n-set1 1002 "r" 5))
+]
 
+
+@racketblock[
 (do-send (n-set1 1001 "r" (random 0 2)))
+]
 
-(do-send (n-set1 1002 "r" 2))}
+
+@racketblock[
+(do-send (n-set1 1002 "r" 2))
+]
 
 

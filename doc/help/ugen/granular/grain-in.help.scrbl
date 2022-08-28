@@ -3,6 +3,7 @@
 
 @title{(Grainin nc tr dur in pan envbuf)}
 
+
 Granulate an input signal
 
 nc - the number of channels to output. If 1, mono is
@@ -23,9 +24,13 @@ pan - a value from -1 to 1. Determines where to pan the output in
 envbuf - the buffer number containing a singal to use for the
          grain envelope. -1 uses a built-in Hanning envelope.
 
+
+@racketblock[
 (let* ((x (mouse-x kr -0.5 0.5 0 0.1))
        (y (mouse-y kr 5 25 0 0.1))
        (n (pink-noise ar))
        (t (impulse kr y 0)))
   (audition (out 0 (mul (grain-in 2 t 0.1 n x -1) 0.1))))
+]
+
 

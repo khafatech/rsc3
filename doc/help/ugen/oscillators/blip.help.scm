@@ -1,3 +1,4 @@
+;; blip
 (import (rsc3))
 
 (audition (out 0 (mul (blip ar 440 200) 0.15)))

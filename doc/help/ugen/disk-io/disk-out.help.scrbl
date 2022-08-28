@@ -3,16 +3,22 @@
 
 @title{(disk-out bufnum channels)}
 
+
 Note: There are constraints on the size of the buffer, it must be
 greater than or equal to twice the size of the audio bus.  There
 must be the same number of channels at the buffer and the disk-out
 ugen.
 
+
+@racketblock[
 (let ((bus-size 1024)
       (bufferexpt 15))
   (= 0 (fxand (expt 2 bufferexpt)
 	      (- (fxarithmetic-shift bus-size 1) 1))))
+]
 
+
+@racketblock[
 (let ((g (letc ((bufnum 0))
 	   (let ((z (clip2
 		     (rlpf 
@@ -37,13 +43,24 @@ ugen.
 		       0
 		       1))
      (send fd (s-new1 "disk-out-help" 1001 1 1 "bufnum" 10)))))
+]
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (send fd (n-free1 1001))
    (async fd (b-close 10))
    (async fd (b-free 10))))
+]
 
+
+@racketblock[
 (system "sndfile-info /tmp/test.aiff")
+]
+
+@racketblock[
 (system "jack.play /tmp/test.aiff")
+]
+
 

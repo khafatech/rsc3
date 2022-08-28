@@ -1,3 +1,4 @@
+;; c-osc
 (import (rsc3))
 
 (with-sc3

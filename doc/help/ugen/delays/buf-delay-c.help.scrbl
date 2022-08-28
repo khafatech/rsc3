@@ -3,6 +3,7 @@
 
 @title{(buf-delay-c buf in delaytime)}
 
+
 Buffer based simple delay line with cubic interpolation.
 
 Simple delay line with cubic interpolation which uses a buffer for
@@ -17,10 +18,17 @@ buf       - buffer number.
 in        - the input signal.
 delaytime - delay time in seconds.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 0 44100 1))))
+]
 
+
+@racketblock[
 (let ((z (mul3 (decay (dust ar 1) 0.5) 0.3 (white-noise ar))))
   (audition (out 0 (add (buf-delay-c 0 z 0.2) z))))
+]
+
 

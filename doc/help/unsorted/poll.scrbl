@@ -1,7 +1,10 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{poll
+@title{poll}
+
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (letrec ((print (lambda (e) (display e) (newline)))
@@ -9,6 +12,7 @@
 	    (repeat (lambda (f) (if (f) (repeat f) #f))))
      (async fd (notify 1))
      (repeat (showing (lambda () (wait fd "/tr"))))
-     (async fd (notify 0)))))}
+     (async fd (notify 0)))))
+]
 
 

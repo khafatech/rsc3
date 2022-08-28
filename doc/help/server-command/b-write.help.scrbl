@@ -3,6 +3,7 @@
 
 @title{/b_write					Write sound file data.}
 
+
  int - buffer number
  string - path name of a sound file.
  string - header format.
@@ -27,5 +28,6 @@ set to one then the file is created, but no frames are written until
 the DiskOut ugen does so.
 
 Asynchronous. Replies to sender with /done when complete.
+
 
 

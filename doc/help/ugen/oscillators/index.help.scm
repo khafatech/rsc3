@@ -1,3 +1,4 @@
+;; index
 (import (sosc) (rsc3))
 
 ;; Allocate and set values at buffer 10.

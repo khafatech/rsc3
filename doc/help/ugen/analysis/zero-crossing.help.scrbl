@@ -3,6 +3,7 @@
 
 @title{(zero-crossing in)}
 
+
 Zero crossing frequency follower.
 
 outputs a frequency based upon the distance between interceptions
@@ -13,7 +14,11 @@ in some situations.
 
 in - input signal.
 
+
+@racketblock[
 (let* ((a (mul (sin-osc ar (mul-add (sin-osc kr 1 0) 600 700) 0) 0.1))
        (b (mul (impulse ar (zero-crossing a) 0) 0.25)))
   (audition (out 0 (mce2 a b))))
+]
+
 

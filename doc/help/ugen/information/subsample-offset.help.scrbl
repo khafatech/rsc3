@@ -3,6 +3,7 @@
 
 @title{subsample-offset}
 
+
 Offset from synth start within one sample.
 
 When a synth is created from a time stamped osc-bundle, it starts
@@ -18,6 +19,8 @@ See also offset-out.
 Demonstrate cubic subsample interpolation.  An impulse train that
 can be moved between samples.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (send-synth
@@ -32,12 +35,15 @@ can be moved between samples.
 		     (mouse-x kr 0 add-offset 0 0.1)))
 	     (r (delay-c i (mul d (add 1 x)) (mul d (add o x)))))
 	(offset-out out r))))))
+]
 
 Create two pulse trains one sample apart, move one relative to the
 other.  When cursor is at the left, the impulses are adjacent, on
 the right, they are exactly 1 sample apart.  View this with an
 oscilloscope.
 
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (let ((t (utc))
@@ -46,4 +52,6 @@ oscilloscope.
 		      (list (s-new1 "s" -1 1 1 "addOffset" 3))))
      (send fd (bundle (+ t 0.2 dt) 
 		      (list (s-new1 "s" -1 1 1 "addOffset" 0)))))))
+]
+
 

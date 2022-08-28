@@ -3,17 +3,23 @@
 
 @title{(hypot x y)}
 
+
 Returns the square root of the sum of the squares of a and b. Or
 equivalently, the distance from the origin to the point (x, y).
 
+
+@racketblock[
 (audition
    (out 0 (mul (sin-osc ar 440 0)
 	       (hypot (mouse-x kr 0 0.1 0 0.1) 
 		      (mouse-y kr 0 0.1 0 0.1)))))
+]
 
 Object travels 200 meters in 6 secs (=120kph) passing 10 meters
 from the listener.  The speed of sound is 344 meters/sec.
 
+
+@racketblock[
 (let* ((x 10)
        (y (mul (lf-saw kr 1/6 0) 100))
        (distance (hypot x y))
@@ -23,7 +29,10 @@ from the listener.  The speed of sound is 344 meters/sec.
   (audition
    (out 0 (mul (f-sin-osc ar (mul 1000 pitch-ratio) 0)
 	       amplitude))))
+]
 
+
+@racketblock[
 (let* ((x 10)
        (y (mul (lf-saw kr 1/6 0) 100))
        (distance (hypot x y))
@@ -32,4 +41,6 @@ from the listener.  The speed of sound is 344 meters/sec.
   (audition
    (out 0 (mul (delay-l sound 110/344 (fdiv distance 344))
 	       amplitude))))
+]
+
 

@@ -1,7 +1,10 @@
 #lang scribble/manual
 @(require (for-label racket))
 
-@title{pause
+@title{pause}
+
+
+@racketblock[
 (with-sc3
  (lambda (fd)
    (send-synth fd "a" (out 0 (mul (sin-osc 800 0) 0.1)))
@@ -13,6 +16,7 @@
    (pause-thread 1)
    (send fd (n-set1 1002 "g" 1))
    (pause-thread 1)
-   (reset fd)))}
+   (reset fd)))
+]
 
 

@@ -3,6 +3,7 @@
 
 @title{(env-gen rate gate levelScale levelBias timeScale doneAction envelope)}
 
+
 A segment based envelope generator.  Note that the SC3 language
 reorders the inputs to this UGen so that the envelope is the first
 argument.
@@ -31,27 +32,43 @@ doneAction - an integer representing an action to be executed when
              the env is finished playing. This can be used to free
              the enclosing synth, etc.
 
+
+@racketblock[
 (import (rhs) (rsc3))
+]
 
 Percussive envelope
+
+@racketblock[
 (let* ((d (env-perc 0.01 1 1 (list -4 -4)))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
+]
 
 The break-point assistant makes a static envelope from a
 co-ordinate list.  There is a duration and amplitude scalar.
+
+@racketblock[
 (let* ((d (env-coord (list (cons 0 0)
                            (cons 0.75 1)
                            (cons 1 0))
                      1 1 (replicate 3 "linear")))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
+]
 
 Trapezoidal
+
+@racketblock[
 (let* ((d (env-trapezoid 0 0.25 2 0.1))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
+]
 
 0.0 3 -1 -1 0.1 0.5 1.0 0.0 0.1 0.0 1.0 0.0 0.0 1.5 1.0 0.0
+
+@racketblock[
 (env-trapezoid 0 0.25 2 0.1)
+]
+
 
