@@ -1,0 +1,227 @@
+<!doctype html><html lang='en'><head><title>OSCMon | SuperCollider 3.12.2 Help</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../codemirror.css' type='text/css' />
+<link rel='stylesheet' href='./../editor.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../lib/jquery.min.js'></script>
+<script src='./../lib/codemirror-5.39.2.min.js' type='text/javascript'></script>
+<script src='./../lib/codemirror-addon-simple-5.39.2.min.js' type='text/javascript'></script>
+<script>
+var helpRoot = './..';
+var scdoc_title = 'OSCMon';
+var scdoc_sc_version = '3.12.2';
+</script>
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='qrc:///qtwebchannel/qwebchannel.js' type='text/javascript'></script>
+</head>
+<body onload='fixTOC()'>
+<div id='toc'>
+<div id='toctitle'>OSCMon:</div>
+<span class='toc_search'>Filter: <input id='toc_search'></span><ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*colors'>colors</a> </li>
+<li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-bufsize'>bufsize</a> </li>
+<li class='toc3'><a href='#-timeWindow'>timeWindow</a> </li>
+<li class='toc3'><a href='#-listenFunc'>listenFunc</a> </li>
+<li class='toc3'><a href='#-list'>list</a> </li>
+<li class='toc3'><a href='#-addresses'>addresses</a> </li>
+<li class='toc3'><a href='#-msgNames'>msgNames</a> </li>
+<li class='toc3'><a href='#-anaDict'>anaDict</a> </li>
+<li class='toc3'><a href='#-postInfo'>postInfo</a> </li>
+<li class='toc3'><a href='#-enable'>enable</a>  <a href='#-disable'>disable</a> </li>
+<li class='toc3'><a href='#-enabled'>enabled</a> </li>
+<li class='toc3'><a href='#-verbose'>verbose</a> </li>
+<li class='toc3'><a href='#-trace'>trace</a> </li>
+<li class='toc3'><a href='#-watchStatus'>watchStatus</a> </li>
+<li class='toc3'><a href='#-action'>action</a> </li>
+<li class='toc3'><a href='#-addNickname'>addNickname</a> </li>
+<li class='toc3'><a href='#-removeNickname'>removeNickname</a> </li>
+<li class='toc3'><a href='#-free'>free</a> </li>
+<li class='toc3'><a href='#-refreshAddrsAndNames'>refreshAddrsAndNames</a> </li>
+<li class='toc3'><a href='#-addAddr'>addAddr</a>  <a href='#-removeAddr'>removeAddr</a> </li>
+<li class='toc3'><a href='#-addMsgName'>addMsgName</a>  <a href='#-removeMsgName'>removeMsgName</a> </li>
+<li class='toc3'><a href='#-postMessagesFrom'>postMessagesFrom</a> </li>
+<li class='toc3'><a href='#-show'>show</a> </li>
+<li class='toc3'><a href='#-w'>w</a>  <a href='#-u'>u</a> </li>
+<li class='toc3'><a href='#-refresh'>refresh</a> </li>
+<li class='toc3'><a href='#-clearMsgNames'>clearMsgNames</a>  <a href='#-clearAddrs'>clearAddrs</a> </li>
+<li class='toc3'><a href='#-trackMsgs'>trackMsgs</a>  <a href='#-trackAddrs'>trackAddrs</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+</ul></ul></div><div id='menubar'></div>
+<div class='contents'>
+<div class='header'>
+<div id='label'>
+<span id='folder'>Classes (extension)</span>
+ | <span id='categories'><a href='./../Browse.html#Modality'>Modality</a> | <a href='./../Browse.html#OSC'>OSC</a></span>
+</div><h1>OSCMon<span id='superclasses'> : <a href="../Classes/Object.html">Object</a></span>
+<div class='extension-indicator-ctr' title='This help file originates from a third-party quark or plugin for SuperCollider.'><img class='extension-indicator-icon' alt='Extension' src='./../images/plugin.png'><span class='extension-indicator-text'>Extension</span></div></h1>
+<div id='summary'>A Monitor for OSC traffic</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Modality-toolkit/Modality/Classes/GUI/OSCMon.sc' title='/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Modality-toolkit/Modality/Classes/GUI/OSCMon.sc'>OSCMon.sc</a></div><div id='related'>See also: <a href="./../Overviews/Modality.html">Modality</a>, <a href="./../Classes/MKtl.html">MKtl</a>, <a href="./../Classes/OSCFunc.html">OSCFunc</a>, <a href="./../Classes/OSCdef.html">OSCdef</a></div>
+</div>
+<h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>OSCMon monitors captures incoming OSC messages, keeping recent ones around for analyis and display. It can show the message sizes, relative arrival times for multiple sources.<textarea class='editor'>o = OSCMon.new;     // make one
+o.enable;            // turn it on
+o.show;                // show them on gui, no po
+o.watchStatus = true; s.boot;
+
+o.trace;            // post messages
+// show status messages from server too
+o.watchStatus = false;
+o.list.size;
+o.anaDict.nicknames.as(Event);
+o.addresses;
+(
+n = NetAddr.localAddr;
+Tdef(\test, {
+    loop {
+        (exprand(0.03, 0.3) * 3).wait;
+        n.sendMsg([\test, \yo, \mama].choose,
+            *{ 10.rand }.dup(rrand(3, 10)));
+    };
+});
+Tdef(\test).play;
+)
+
+o.anaDict[\nicknames];
+o.anaDict[\messagesByAddr];
+o.anaDict[\msgNamesByAddr];
+
+
+o.timeWindow = 25;
+
+o.trace(false);     // no posting
+o.postInfo;            // and post current state
+
+o.disable;
+o.enable;
+
+
+
+o.anaDict[\nicknames];
+o.anaDict[\messagesByAddr];
+o.anaDict[\msgNamesByAddr];
+
+o.addNickname(\manta, NetAddr("127.0.0.1", 8000));
+
+o.anaDict[\messagesByAddr][\homeclient];
+
+// make a local net address to send/receive messages to monitor;
+(
+n = NetAddr.localAddr;
+Tdef(\test, {
+    loop {
+        (exprand(0.03, 0.3) * 3).wait;
+        n.sendMsg([\test, \yo, \mama].choose,
+            *{ 10.rand }.dup(rrand(3, 10)));
+    };
+});
+Tdef(\test).play;
+)
+    // addresses and msgNames are kept
+o.addresses;
+o.msgNames;
+o.list.keep(10).postln;
+    // TBD: statistics on who sent how much
+    // which messages are most frequent
+
+    // add nicknames for known addresses
+    // post all messages by source
+    // post all messages by name and/or source
+
+o.free;</textarea>
+<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>OSCMon.</span><a class='method-name' name='*colors' href='./../Overviews/Methods.html#colors'>colors</a></h3>
+<div class='method'>
+<p>some colors to use in the visualisation</div><h3 class='method-code'><span class='method-prefix'>OSCMon.</span><a class='method-name' name='*new' href='./../Overviews/Methods.html#new'>new</a>(<span class='argstr'>bufsize: 100</span>, <span class='argstr'>timeWindow: 60</span>, <span class='argstr'>action</span>)</h3>
+<div class='method'>
+<p>make a new OSCMon<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>bufsize<td class='argumentdesc'>
+<p> with a buffersize of how many messages to keep,<tr><td class='argumentname'>timeWindow<td class='argumentdesc'>
+<p>a length of time within which to keep messages<tr><td class='argumentname'>action<td class='argumentdesc'>
+<p>and an action to do when a new message comes in</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-bufsize' href='./../Overviews/Methods.html#bufsize'>bufsize</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-bufsize' href='./../Overviews/Methods.html#bufsize'>bufsize</a> = value</h3>
+<div class='method'>
+<p>the maximum number of messages to store</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-timeWindow' href='./../Overviews/Methods.html#timeWindow'>timeWindow</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-timeWindow' href='./../Overviews/Methods.html#timeWindow'>timeWindow</a> = value</h3>
+<div class='method'>
+<p>the maximum time window in which to store messages</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-listenFunc' href='./../Overviews/Methods.html#listenFunc'>listenFunc</a></h3>
+<div class='method'>
+<p>internal: the function with which OSCMon listen to osc traffic.</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-list' href='./../Overviews/Methods.html#list'>list</a></h3>
+<div class='method'>
+<p>the list of recorded message entries</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-addresses' href='./../Overviews/Methods.html#addresses'>addresses</a></h3>
+<div class='method'>
+<p>the addresses from which messages have been sent</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-msgNames' href='./../Overviews/Methods.html#msgNames'>msgNames</a></h3>
+<div class='method'>
+<p>the msgNames monitored</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-anaDict' href='./../Overviews/Methods.html#anaDict'>anaDict</a></h3>
+<div class='method'>
+<p>a dict containing various analyses of the osc data</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-postInfo' href='./../Overviews/Methods.html#postInfo'>postInfo</a></h3>
+<div class='method'>
+<p>post info on current recorded messages</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-enable' href='./../Overviews/Methods.html#enable'>enable</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-disable' href='./../Overviews/Methods.html#disable'>disable</a></h3>
+<div class='method'>
+<p>enable and disable listening</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-enabled' href='./../Overviews/Methods.html#enabled'>enabled</a></h3>
+<div class='method'>
+<p>get flag whether oscmon is listening</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-verbose' href='./../Overviews/Methods.html#verbose'>verbose</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-verbose' href='./../Overviews/Methods.html#verbose'>verbose</a> = value</h3>
+<div class='method'>
+<p>get or set flag whether to post info on incoming traffic</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-trace' href='./../Overviews/Methods.html#trace'>trace</a>(<span class='argstr'>flag: true</span>)</h3>
+<div class='method'>
+<p>set verbose flag, default flag is true</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-watchStatus' href='./../Overviews/Methods.html#watchStatus'>watchStatus</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-watchStatus' href='./../Overviews/Methods.html#watchStatus'>watchStatus</a> = value</h3>
+<div class='method'>
+<p>get and set flag whether to record server status messages</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-action' href='./../Overviews/Methods.html#action'>action</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-action' href='./../Overviews/Methods.html#action'>action</a> = value</h3>
+<div class='method'>
+<p>a custom action to perform on all incoming messages</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-addNickname' href='./../Overviews/Methods.html#addNickname'>addNickname</a>(<span class='argstr'>name</span>, <span class='argstr'>addr</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>name<td class='argumentdesc'><tr><td class='argumentname'>addr<td class='argumentdesc'>
+<p>add a nickname for an incoming address</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-removeNickname' href='./../Overviews/Methods.html#removeNickname'>removeNickname</a>(<span class='argstr'>name</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>name<td class='argumentdesc'>
+<p>remove a nickname</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-free' href='./../Overviews/Methods.html#free'>free</a></h3>
+<div class='method'>
+<p>free the resources of this oscmon</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-refreshAddrsAndNames' href='./../Overviews/Methods.html#refreshAddrsAndNames'>refreshAddrsAndNames</a></h3>
+<div class='method'>
+<p>refresh analysis of present addresses and names</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-addAddr' href='./../Overviews/Methods.html#addAddr'>addAddr</a>(<span class='argstr'>addr</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-removeAddr' href='./../Overviews/Methods.html#removeAddr'>removeAddr</a>(<span class='argstr'>addr</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>addr<td class='argumentdesc'>
+<p>add/remove an address to/from addrNames</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-addMsgName' href='./../Overviews/Methods.html#addMsgName'>addMsgName</a>(<span class='argstr'>name</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-removeMsgName' href='./../Overviews/Methods.html#removeMsgName'>removeMsgName</a>(<span class='argstr'>name</span>)</h3>
+<div class='method'>
+<p>add or remove a messageName from msgNames</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-postMessagesFrom' href='./../Overviews/Methods.html#postMessagesFrom'>postMessagesFrom</a>(<span class='argstr'>index</span>)</h3>
+<div class='method'>
+<p>post all messages from address at index</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-show' href='./../Overviews/Methods.html#show'>show</a>(<span class='argstr'>name</span>, <span class='argstr'>bounds</span>)</h3>
+<div class='method'>
+<p>make a named display window for the oscmon</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-w' href='./../Overviews/Methods.html#w'>w</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-u' href='./../Overviews/Methods.html#u'>u</a></h3>
+<div class='method'>
+<p>its display window and userview</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-refresh' href='./../Overviews/Methods.html#refresh'>refresh</a></h3>
+<div class='method'>
+<p>refresh display</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-clearMsgNames' href='./../Overviews/Methods.html#clearMsgNames'>clearMsgNames</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-clearAddrs' href='./../Overviews/Methods.html#clearAddrs'>clearAddrs</a></h3>
+<div class='method'>
+<p>clear msgNames or addresses</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-trackMsgs' href='./../Overviews/Methods.html#trackMsgs'>trackMsgs</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-trackMsgs' href='./../Overviews/Methods.html#trackMsgs'>trackMsgs</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-trackAddrs' href='./../Overviews/Methods.html#trackAddrs'>trackAddrs</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-trackAddrs' href='./../Overviews/Methods.html#trackAddrs'>trackAddrs</a> = value</h3>
+<div class='method'>
+<p>get and set flags whether to track msgNames and addresses</div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Modality-toolkit/Modality/HelpSource/Classes/OSCMon.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/Modality-toolkit/Modality/HelpSource/Classes/OSCMon.schelp</a><br>link::Classes/OSCMon::<br></div></div><script src='./../editor.js' type='text/javascript'></script>
+</body></html>

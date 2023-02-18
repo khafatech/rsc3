@@ -1,0 +1,116 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{PanAz}
+ Azimuth panner@section{related}
+  Classes/Balance2, Classes/LinPan2, Classes/Pan2, Classes/Pan4
+@section{categories}
+   UGens>Multichannel>Panners
+
+
+@section{description}
+
+
+Multichannel equal power panner.
+
+
+@section{classmethods}
+ 
+
+@section{method}
+ ar, kr
+
+@section{argument}
+ numChans
+
+Number of output channels.
+
+
+@section{argument}
+ in
+
+The input signal.
+
+
+@section{argument}
+ pos
+
+pan position. Channels are evenly spaced over a cyclic period of
+2.0 in pos with 0.0 equal to channel zero and 2.0/numChans equal
+to channel 1, 4.0/numChans equal to channel 2, etc.
+
+
+Thus all channels will be cyclically panned through if a sawtooth
+wave from -1 to +1 is used to modulate the pos.
+
+
+@section{argument}
+ level
+
+A control rate level input.
+
+
+@section{argument}
+ width
+
+The width of the panning envelope. Nominally this is 2.0 which
+pans between pairs of adjacent speakers. Width values greater
+than two will spread the pan over greater numbers of speakers.
+Width values less than one will leave silent gaps between
+speakers.
+
+
+@section{argument}
+ orientation
+
+Should be zero if the front is a vertex of the polygon. The first
+speaker will be directly in front. Should be 0.5 if the front
+bisects a side of the polygon. Then the first speaker will be the
+one left of center.
+
+@section{section}
+ Comparison to Pan2
+
+Despite a certain similarity, link::Classes/Pan2:: and link::Classes/PanAz:: with 2 channels behave differently.
+
+
+@racketblock[
+// one full cycle for PanAz: from 0 to 1
+{ PanAz.ar(2, DC.ar(1), Line.ar(0, 1, 0.1)) }.plot(0.1)
+// one full cycle for Pan2: from -1 to 1 and back to -1
+{ Pan2.ar(DC.ar(1), EnvGen.kr(Env([-1, 1, -1], [0.05, 0.05]))) }.plot(0.1)
+
+// in other words, while Pan2 makes one full transition
+{ Pan2.ar(DC.ar(1), Line.ar(-1, 1, 0.1)) }.plot(0.1)
+// we need only a half one in PanAz:
+{ PanAz.ar(2, DC.ar(1), Line.ar(0, 1/2, 0.1)) }.plot(0.1)
+::
+
+
+]
+@section{Examples}
+ 
+
+
+@racketblock[
+
+// five channel circular panning
+s.boot;
+(
+{
+	PanAz.ar(
+		5, 				// numChans
+		ClipNoise.ar, 	// in
+		LFSaw.kr(MouseX.kr(0.2, 8, 'exponential')), // pos
+		0.5,			// level
+		3			// width
+	);
+}.play;
+s.scope;
+)
+
+::
+
+]
+
+

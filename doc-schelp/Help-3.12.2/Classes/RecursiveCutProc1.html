@@ -1,0 +1,177 @@
+<html><head><title>RecursiveCutProc1</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>RecursiveCutProc1</h1>
+<div id='summary'>Recursive breakbeat cutting, version 2</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/bbcutprocs/RecursiveCutProc1.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/bbcutprocs/RecursiveCutProc1.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/BBCutProc.html">BBCutProc</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-initRecursiveCutProc1'>initRecursiveCutProc1</a> </li>
+<li class='toc3'><a href='#-chooseblock'>chooseblock</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-calculatecuts'>calculatecuts</a> </li>
+<li class='toc3'><a href='#-prepare'>prepare</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>This class implements explicit recursive cutting, as described in LMJ13.  The level of recursion can be set as a parameter of the cut procedure.  The user chooses cut, repeat and offset functions which are applied through successive iteratinos to make new cut sequences. Only the final cut sequence of a cut sequence of a cut sequence... is rendered. 
+<p>For additional data on the algorithm see
+<p>Nick Collins, "Recursive Audio Cutting",
+<p>Leonardo Music Journal 13<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>cutfunc</span>, <span class='argstr'>repeatfunc</span>, <span class='argstr'>offsetfunc</span>, <span class='argstr'>reclevel: 2</span>, <span class='argstr'>phraselength: 4</span>, <span class='argstr'>bpsd: 0.5</span>)</h3>
+<div class='method'>
+<p>Create a RecursiveCutProc1 object with the given parameters.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>cutfunc<td class='argumentdesc'>
+<p>A user specified function determining the next cut size, passed the arguments  phrase length filled so far and current phraselength. <tr><td class='argumentname'>repeatfunc<td class='argumentdesc'>
+<p>A user specified function determining the number of repeats of the new cutsize,  passed the arguments phrase length determined and current phraselength. <tr><td class='argumentname'>offsetfunc<td class='argumentdesc'>
+<p>A user specified function determining the offset for the new block, passed the arguments  quantise level (= currphraselength/beats per sub division, so one 4/4 bar phrase with bpsd 0.5 gives quantise level of 8, ie eighth notes) ,current beats per sub division,phrase completed so far and  current phrase length. The default method is<pre class='code prettyprint lang-sc'>{arg q,bpsubdiv; rrand(0,q - 1)*bpsubdiv};  //random offset into source</pre>
+<tr><td class='argumentname'>reclevel<td class='argumentdesc'>
+<p>Level of recursion, so 0 gives back the source exactly, 1 is one cutup, 4 is  four recursive cutups. The higher the reclevel , the greater the performance hit at the start of the phrase. Outside realtime rendering is required for very high values, and the output will be increasingly set on one  offset at a greatest common divisor cut size (see the paper for technical analysis). Notes however that the  CPU cost is in the language app, not the server. In implicit cutting, the cost is in the Server.<tr><td class='argumentname'>phraselength<td class='argumentdesc'>
+<p>Next length of phrase in beats.<tr><td class='argumentname'>bpsd<td class='argumentdesc'>
+<p>beats per sub division.</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initRecursiveCutProc1' href='./../Overviews/Methods.html#initRecursiveCutProc1'>initRecursiveCutProc1</a> (<span class='argstr'>cf</span>, <span class='argstr'>rf</span>, <span class='argstr'>of</span>, <span class='argstr'>rl</span>)</h3>
+<div class='method'>
+<p>Called internally after a new.</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-chooseblock' href='./../Overviews/Methods.html#chooseblock'>chooseblock</a> </h3>
+<div class='method'>
+<p>this uses the setoffset method of BBCutSynth to specify offset jumps relative to the current phrase size. In normal use phrasesize will be the same as the beat length of the source you wish  to cut up. Note that sources which don't respond to setoffset will not be effected by RecCutProc except for any enveloping/panning etc caused by blocks. </div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-calculatecuts' href='./../Overviews/Methods.html#calculatecuts'>calculatecuts</a> (<span class='argstr'>array</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-prepare' href='./../Overviews/Methods.html#prepare'>prepare</a> (<span class='argstr'>array</span>)</h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>//you must have run this line before any of the examples below
+f= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8); 
+
+
+//defaults
+BBCut2(CutBuf2(f), RecursiveCutProc1.new).play(2);
+
+
+
+
+(//20 recursion levels with simple user defined functions plus quick delay hack
+var sf, group;
+
+group=Group.new;
+
+Routine.run({
+
+//f=BBCutBuffer("sounds/a11wlk01.wav",4); 
+
+s.sync;
+
+BBCut2(CutGroup(CutBuf2(f, pbsfunc:{rrand(0.98,1.02)}),Group.before(group)), RecursiveCutProc1.new({[4.0,2.5,1.5].choose},{rrand(1,3)},{[0.0,2.0].choose},20)
+).play(4);
+
+{var in; 
+
+in= In.ar(0,2);
+
+ReplaceOut.ar(0, CombN.ar(0.3*in, 0.25, 0.25, 20, 1, 0.7*in))}.play(group);
+
+});
+
+)
+
+
+
+(//recursion level control
+var w,slider;
+    
+w = SCWindow("panel", Rect.new(200,200,200,100));
+slider=DDSlider( w, Rect.new(5,5,180,40), "recursion level", 0, 50, 'linear', 1, 0);
+
+w.front;
+
+BBCut2(CutBuf2(f), RecursiveCutProc1.new(reclevel:slider)).play(2);
+)
+
+
+(//user defined functions
+var w,slider;
+var cutfunc, repeatfunc, offsetfunc;
+
+cutfunc= {arg done, currpl; if((done&lt;(currpl*0.7)), {[1.5,0.5].choose},{[0.25,1.0].choose});};
+repeatfunc= {arg done, currpl; if((done&lt;(currpl*0.7)), {1},{rrand(1,3)});};
+//3/4 of the time let through what is there already, otherwise a random offset
+offsetfunc= {arg q, bpsd, done, currphraselength; if(0.75.coin, {done%(q*bpsd)},{(q.rand)*bpsd});};
+
+BBCut2(CutBuf2(f), RecursiveCutProc1.new(cutfunc, repeatfunc, offsetfunc,3, 8.0)).play(2);
+)
+
+
+
+//as a comparison, here is the easier but more CPU expensive implicit recursive method
+//implicit recursive cutting, nth order
+
+//this code assumes 8 out busses 0-7, 8 in (8-15 = 1-8 for AudioIn UGen)
+//then spare audio busses from 16 up
+
+//There will be a delay in hearing output proportional to n since the 
+//various audio capture devices need to be capturing a flow before 
+//the next can capture a flow, passing down to the final one. 
+(
+var clock, n;
+var source, reccutters;
+var group;
+
+group=Group.new;
+
+//number of levels of recursive audio cutting
+//be careful, costs go up for large n...
+n=4; 
+
+clock= ExternalClock(TempoClock(2.6)).play;
+
+Routine.run({
+
+source=BBCut2(CutGroup([CutBuf2(f),CutMixer(16,1.0,1.0,0.0)],Group.head(group),numChannels:1));
+
+reccutters= Array.fill(n);
+
+n.do({arg i; 
+reccutters.put(i, BBCut2(CutGroup([CutStream1((2*i)+16, atkprop:0.02, relprop:0.02),CutMixer((2*i)+18,1.0,1.0,0.0)],Group.tail(group),numChannels:2)));
+});
+
+{Out.ar(0,In.ar((2*n)+16,2))}.play(Group.tail(group));
+
+s.sync;
+});
+
+
+
+//give it all chance to set up- can do without this, just being safe
+//Task({
+//1.0.wait;
+source.play(clock);
+reccutters.do({arg val; val.play(clock);});
+//nil
+//}).start;
+
+
+)</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/RecursiveCutProc1.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/RecursiveCutProc1.schelp</a><br>link::Classes/RecursiveCutProc1::<br>sc version: 3.8.0</div></div></body></html>

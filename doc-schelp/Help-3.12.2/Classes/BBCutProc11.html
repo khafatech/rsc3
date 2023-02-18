@@ -1,0 +1,203 @@
+<html><head><title>BBCutProc11</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>BBCutProc11</h1>
+<div id='summary'>Automatic breakbeat cutting algorithm</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/bbcutprocs/BBCutProc11.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/bbcutprocs/BBCutProc11.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/BBCutProc.html">BBCutProc</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-initBBCutProc11'>initBBCutProc11</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-chooseblock'>chooseblock</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>The original automatic breakbeat cutting algorithm as refined in the BreakBeatx series of classes. This cut procedure favours small odd number length cuts with respect to some subdiv integer for a phrase. A block consists of an original cut plus some number of repeats. A special fast 'stutter' or 'roll' can occur only to finish off a given phrase.
+<p>As is normal for cut procedures and synths, the value message is used to get the current value of any input parameter, so functions can be passed. Defaults are provided for all arguments.
+<p>For additional data on the algorithm see
+<p>Nick Collins, "Algorithmic Composition Methods for BreakBeat Science",
+<p>Proceedings of Music Without Walls, ISBN 1857213319
+<p>reproduced at <a href="http://www.cus.cam.ac.uk/~nc272">http://www.cus.cam.ac.uk/~nc272</a><h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>sdiv: 8</span>, <span class='argstr'>barlength: 4</span>, <span class='argstr'>phrasebars: 3</span>, <span class='argstr'>numrepeats</span>, <span class='argstr'>stutterchance: 0.2</span>, <span class='argstr'>stutterspeed: 2</span>, <span class='argstr'>stutterarea: 0.5</span>)</h3>
+<div class='method'>
+<p>Create a BBCutProc11 object with the given parameters.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>sdiv<td class='argumentdesc'>
+<p>sub division. A single measure is cut up into sdiv primitive units. So sdiv=8 over 4 beats gives eighth note resolution cutting.<tr><td class='argumentname'>barlength<td class='argumentdesc'>
+<p>Normally set to 4.0 beats, for 4/4 bars, this can be altered to allow cuts over a different  number of beats. So barlength= 3 gives cuts respecting 3/4. <tr><td class='argumentname'>phrasebars<td class='argumentdesc'>
+<p>The length of the current phrase is barlength*phrasebars. <tr><td class='argumentname'>numrepeats<td class='argumentdesc'>
+<p>Total number of repeats for normal cuts. So 2 corresponds to a particular size cut  at one offset plus one exact repetition.<tr><td class='argumentname'>stutterchance<td class='argumentdesc'>
+<p>the tail of a phrase has this chance of becoming a repeating one unit cell stutter (0.0 to 1.0)<tr><td class='argumentname'>stutterspeed<td class='argumentdesc'>
+<p>the stutter can be an integer multiple of the subdivision speed. For instance, if subdiv is 8 (quavers) and stutterspeed is 2, then the stutter is in semiquavers (subdiv 16).<tr><td class='argumentname'>stutterarea<td class='argumentdesc'>
+<p>a stutter is permissible within this proportion of the last bar of a phrase. Use values larger than 1 for stutters across multiple bars. The default is 0.5, for a half bar at 4/4.</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initBBCutProc11' href='./../Overviews/Methods.html#initBBCutProc11'>initBBCutProc11</a> (<span class='argstr'>sd: 8</span>, <span class='argstr'>bl: 4</span>, <span class='argstr'>pb: 3</span>, <span class='argstr'>nr</span>, <span class='argstr'>sc: 0.2</span>, <span class='argstr'>ss: 2</span>, <span class='argstr'>sa: 0.5</span>)</h3>
+<div class='method'>
+<p>Called internally after a new.
+<p>Other methods are overrides of BBCutProc base class behaviour. BBCutProc11 will flag a roll when stuttering.</div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-chooseblock' href='./../Overviews/Methods.html#chooseblock'>chooseblock</a> </h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+
+<p>You'll have to substitute your own break sample to hear the rhythmic aspects of this procedure properly<pre class='code prettyprint lang-sc'>//must have run this line before any of the examples
+f= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8); 
+
+//default cutups
+BBCut2(CutBuf1(f),BBCutProc11.new).play(2.4);
+
+
+
+(   //demonstrating tempo following from Server Clock control
+var bbcut, pulse, clock;
+
+clock= ServerClock.new.play(100);
+
+bbcut= BBCut2(CutBuf1(f),BBCutProc11.new(8,4.0,2,3,0.5,3,1.0));
+
+pulse= SynthDef(\pulse, {
+var rate, impulse;
+
+rate= MouseX.kr(2,3);
+
+impulse= Impulse.kr(rate);
+
+SendTrig.kr(impulse, 100, rate);
+
+Out.ar(0,Decay.kr(impulse,0.1)*SinOsc.ar(440,0,0.5))
+
+}).play;
+
+bbcut.play(clock); 
+
+)
+
+
+
+
+(
+    //showing use of all parameters
+var w;
+var slider,string;
+var num;
+var names,data, specs, lastval;
+var bbcutter, clock;
+
+names= ["tempo","cut","phrasebars","stutterchance","stutterspeed","restchance","ampvariation","panvariation","numrepeats","beatsperbar","randomoffset"];
+
+data=   //control spec data for ui controls
+[
+[2.0,3.0,\exp, 0.0,2.5],    //tempo
+[4,16,\lin,1,8],            //cuts
+[1,5,\lin,1,2],         //phrasebars
+[0.0,1.0,\lin,0.0,0.2],     //stutterchance
+[1,3,\lin,1,2],         //stutterspeed
+[0.0,1.0,\lin, 0.0,0.0],    //restchance
+[0.0,1.0,\amp, 0.0,1.0],    //ampvariation
+[0.0,1.0,\lin, 0.0,0.0],    //panvariation
+[1,5,\lin,1,2],         //numrepeats
+[2.0,6.0,\lin,1.0, 4.0],    //subdivision over x beats
+[0.0,1.0,\lin,0.0, 0.0]     //offsetchance 
+];
+
+specs= Array.fill(data.size, {arg i; ControlSpec.performList(\new, data.at(i))});
+
+num= names.size;
+
+w = SCWindow("BBCutProc11 demo N.M.Collins 23/08/03", Rect.new(100, 500, 500, (30*num)));
+
+string= Array.fill(num);
+slider= Array.fill(num);
+//Fill with defaults. This array will hold the updated last value of any GUI element
+lastval= Array.fill(num, {arg i; data.at(i).at(4);}); 
+
+num.do(
+{
+arg i;
+
+SCStaticText( w, Rect.new(5, (30*i)+5, 95,20)).string_(names.at(i));
+slider.put(i,SCSlider.new( w, Rect.new(105, (30*i)+5, 95,20)));
+//set slider to default value, else will default to 0.0
+slider.at(i).value_(specs.at(i).unmap(data.at(i).at(4)));
+string.put(i, SCStaticText( w, Rect.new(205, (30*i)+5, 95,20)).string_(data.at(i).at(4)));
+
+slider.at(i).action_({arg sl; 
+var val; val = specs.at(i).map(sl.value);  string.at(i).string_(val); 
+lastval.put(i, val);  //set associated variable to this value, bbcut code will poll this rather than the slider directly
+});
+
+});
+
+w.front;
+
+bbcutter=BBCut2([
+CutBuf2(f,{lastval.at(10)}),
+CutMixer(0,1.0,{
+if(lastval.at(5).coin,  //restchance
+{0},
+{
+rrand(lastval.at(6),1.0)} //amp variation
+)}, 
+{rrand(-1.0*(lastval.at(7)),lastval.at(7))}) //panvariation
+],
+BBCutProc11.new(
+{lastval.at(1)},    //cut
+{lastval.at(9)},    //sdbeats
+{lastval.at(2)},    //phrasebars
+{lastval.at(8)},    //numrepeats
+{lastval.at(3)},    //stutterchance
+{lastval.at(4)} //stutterspeed
+));
+
+clock=ExternalClock(TempoClock(lastval[0])).play;
+
+bbcutter.play(clock);
+
+//update tempo ten times a second
+SystemClock.sched(0.0,{clock.tempoclock.tempo_(lastval.at(0)); 0.1});
+
+)
+
+
+
+//If you want fast varying time signatures set phrasebars=1, 
+//and provide interconnected functions updating barlength and sdiv. 
+(   //default eighth note cutups
+var sf,newbarl,phrasecount;
+
+phrasecount=0;
+
+BBCut2(CutBuf1(f),BBCutProc11.new(
+{
+newbarl=[4.0,3.0,3.5].wrapAt(phrasecount);      //4/4 then 3/4 then 7/8 looping
+phrasecount=phrasecount+1;
+newbarl*2   //always eighth note cuts
+},
+{newbarl},
+1
+)).play(2.4);
+
+)</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/BBCutProc11.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/BBCutProc11.schelp</a><br>link::Classes/BBCutProc11::<br>sc version: 3.8.0</div></div></body></html>

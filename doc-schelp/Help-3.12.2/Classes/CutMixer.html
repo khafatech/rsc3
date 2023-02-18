@@ -1,0 +1,79 @@
+<html><head><title>CutMixer</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>CutMixer</h1>
+<div id='summary'>BBCut2 volume and panning control</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/cutsynths/CutMixer.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/cutsynths/CutMixer.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/CutSynth.html">CutSynth</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-ampfunc'>ampfunc</a> </li>
+<li class='toc3'><a href='#-free'>free</a> </li>
+<li class='toc3'><a href='#-initCutMixer'>initCutMixer</a> </li>
+<li class='toc3'><a href='#-outbus'>outbus</a> </li>
+<li class='toc3'><a href='#-panfunc'>panfunc</a> </li>
+<li class='toc3'><a href='#-renderBlock'>renderBlock</a> </li>
+<li class='toc3'><a href='#-setup'>setup</a> </li>
+<li class='toc3'><a href='#-volume'>volume</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>The CutMixer organises the final output from a given rendering CutGroup. It defaults to outputting a stereo centred signal at full volume on busses 0 and 1. Whilst the main rendering in bbcut2 is mono, the final output is thus rendered to stereo. A stereo buffer cutup would use a simpler CutMixer where no panning occurs. <h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>outbus: 0</span>, <span class='argstr'>volume: 1</span>, <span class='argstr'>ampfunc: 1</span>, <span class='argstr'>panfunc: 0</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>outbus<td class='argumentdesc'>
+<p>Bus number for final output. The stereo output will be placed on this bus plus the one above. The default is thus 0 and 1.<tr><td class='argumentname'>volume<td class='argumentdesc'>
+<p>output volume multiplier. Defaults to 1.0.<tr><td class='argumentname'>ampfunc<td class='argumentdesc'>
+<p>Something that responds to .value and returns a cut's amplitude. This is called for every repeat in a <a href="./../Classes/BBCutBlock.html">BBCutBlock</a>. The first argument is the repeat number in the block, and the second argument is the block itself. If ampfunc responds to .updateblock, that will also be called every block with the current block passed as an argument.<tr><td class='argumentname'>panfunc<td class='argumentdesc'>
+<p>Something that responds to .value and returns a cut's pan position. This is called for every repeat in a <a href="./../Classes/BBCutBlock.html">BBCutBlock</a>. The first argument is the repeat number in the block, and the second argument is the block itself. If panfunc responds to .updateblock, that will also be called every block with the current block passed as an argument.</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-ampfunc' href='./../Overviews/Methods.html#ampfunc'>ampfunc</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-ampfunc' href='./../Overviews/Methods.html#ampfunc'>ampfunc</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-free' href='./../Overviews/Methods.html#free'>free</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initCutMixer' href='./../Overviews/Methods.html#initCutMixer'>initCutMixer</a> (<span class='argstr'>ob: 0</span>, <span class='argstr'>vol: 1</span>, <span class='argstr'>af: 1</span>, <span class='argstr'>pf: 0</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-outbus' href='./../Overviews/Methods.html#outbus'>outbus</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-panfunc' href='./../Overviews/Methods.html#panfunc'>panfunc</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-panfunc' href='./../Overviews/Methods.html#panfunc'>panfunc</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-renderBlock' href='./../Overviews/Methods.html#renderBlock'>renderBlock</a> (<span class='argstr'>block</span>, <span class='argstr'>clock</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setup' href='./../Overviews/Methods.html#setup'>setup</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-volume' href='./../Overviews/Methods.html#volume'>volume</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-volume' href='./../Overviews/Methods.html#volume'>volume</a> = value</h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>TempoClock.default.tempo_(2);
+
+(   
+BBCut2(CutGroup([CutStream1.new,CutMixer(0,1.0,{1.0.rand},{1.0.rand2})]), ChooseCutProc(0.25,4)).play
+)
+
+
+(   
+BBCut2(CutGroup([CutStream1.new,CutMixer(0,1.0,RollAmplitude.new,CutPan1.new)]), WarpCutProc1(0.25,4)).play;
+)</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/CutMixer.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/CutMixer.schelp</a><br>link::Classes/CutMixer::<br>sc version: 3.8.0</div></div></body></html>

@@ -1,0 +1,122 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{Warp1}
+ Warp a buffer with a time pointer@section{categories}
+  UGens>Buffer, UGens>Generators>Granular
+
+@section{description}
+
+Inspired by Chad Kirby's SuperCollider2 Warp1 class, which was inspired by Richard Karpen's sndwarp for CSound. A granular time stretcher and pitchshifter.
+
+@section{classmethods}
+ 
+@section{private}
+  categories
+
+@section{method}
+  ar
+@section{argument}
+ numChannels
+the number of channels in the soundfile used in bufnum.
+
+@section{argument}
+ bufnum
+the buffer number of a mono soundfile.
+
+@section{argument}
+ pointer
+the position in the buffer.  The value should be between 0 and 1, with 0 being the beginning
+of the buffer, and 1 the end.
+
+@section{argument}
+ freqScale
+the amount of frequency shift. 1.0 is normal, 0.5 is one octave down, 2.0 is one octave up.
+Negative values play the soundfile backwards.
+
+@section{argument}
+ windowSize
+the size of each grain window.
+
+@section{argument}
+ envbufnum
+the buffer number containing a signal to use for the grain envelope. -1 uses a built-in
+Hanning envelope.
+
+@section{argument}
+ overlaps
+the number of overlapping windows.
+
+@section{argument}
+ windowRandRatio
+the amount of randomness to the windowing function.  Must be between 0 (no
+randomness) to 1.0 (probably too random actually)
+
+@section{argument}
+ interp
+the interpolation method used for pitchshifting grains. 1 = no interpolation. 2 = linear.
+		4 = cubic interpolation (more computationally intensive).
+
+@section{argument}
+ mul
+
+@section{argument}
+ add
+
+@section{Examples}
+ 
+
+@racketblock[
+s.boot;
+
+(
+var winenv;
+// a custom envelope - not a very good one, but you can hear the difference between this
+// and the default
+winenv = Env([0, 1, 0], [0.5, 0.5], [8, -8]);
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01-44_1.aiff");
+z = Buffer.sendCollection(s, winenv.discretize, 1);
+
+SynthDef(\warp, {arg buffer = 0, envbuf = -1;
+	var out, pointer, filelength, pitch, env, dir;
+	// pointer - move from beginning to end of soundfile over 15 seconds
+	pointer = Line.kr(0, 1, 15);
+	// control pitch with MouseX
+	pitch = MouseX.kr(0.5, 2);
+	env = EnvGen.kr(Env([0.001, 1, 1, 0.001], [0.1, 14, 0.9], 'exp'), doneAction: Done.freeSelf);
+	out = Warp1.ar(1, buffer, pointer, pitch, 0.1, envbuf, 8, 0.1, 2);
+	Out.ar(0, out * env);
+}).add;
+
+)
+
+// use built-in env
+x = Synth(\warp, [\buffer, b, \envbuf, -1])
+
+// switch to the custom env
+x.set(\envbuf, z)
+x.set(\envbuf, -1);
+
+x.free;
+::
+
+]
+
+@racketblock[
+(
+b.free;
+b= Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01-44_1.aiff");
+SynthDef(\warp2, {|buffer|
+	var pointer = Phasor.ar(0, SampleDur.ir/BufDur.ir(buffer)*XLine.kr(1, 0.25, 20));
+	var out = Warp1.ar(1, buffer, pointer, 1, 0.3, -1, 16, Line.kr(0, 1, 40), 4);
+	Out.ar(0, Pan2.ar(out, pointer*2-1, 0.25));
+}).add;
+)
+x = Synth(\warp2, [\buffer, b])
+x.free
+b.free
+::
+
+]
+
+

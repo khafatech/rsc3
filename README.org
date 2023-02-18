@@ -1,0 +1,20 @@
+* rsc3 for Racket
+
+This is a port of the [[http://rd.slavepianos.org/?t=rsc3][rsc3]] [[https://supercollider.github.io/][SuperCollider]] client to Racket. rsc3 is written by [[http://rd.slavepianos.org/][Rohan Drape]] and ported to Racket by [[https://khafateh.com/][Mustafa Khafateh]] based on the Thu Jun 27 2013 version. The current version of rd--rsc3 is available at [[https://gitlab.com/rd--/rsc3][gitlab]]
+
+** Install
+
+If you have raco installed you can Install rsc3 with =raco pkg install rsc3=
+
+** Using
+
+Require the module, open SuperCollider or sclang and write some synthetic audio…
+#+BEGIN_SRC racket :lang racket
+(require rsc3)
+#+END_SRC
+
+The names of  ugens have been adapted to scheme style (e.g. =FSinOsc= to =f-sin-osc= ) but are usually obvious. Specifics can be checked in =rsc3/main.rkt= and there are some useful examples in the =rsc3/examples/= folder (some may need tweaking to work with Racket)
+
+* Documentation
+
+The scheme files in file:doc/help/ correspond closely to the SuperCollider help files included in the standard distribution and can easily be used alongside them (the schelp source files can be found at [[https://github.com/supercollider/supercollider/tree/develop/HelpSource][github]]). Examples from the help files, tutorials and other sources are included in the [[file:doc/][doc folder]].

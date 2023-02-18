@@ -1,0 +1,64 @@
+<html><head><title>BBCut</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider OVERVIEWS (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>BBCut</h1>
+<div id='summary'>Algorithmic audio splicing</div>
+</div>
+<div class='subheader'>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#Setup'>Setup</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#Contents'>Contents</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#History'>History</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#Acknowledgements'>Acknowledgements</a></li>
+<ul class='toc'></ul></ul></div>
+<p>BBCut is a collection of SuperCollider classes for automated event analysis, beat induction and algorithmic audio splicing. It is released as public open source under the GNU General Public License. It was written by Nick M. Collins, and is maintained by Nathan Ho since 2016.<h2><a class='anchor' name='Setup'>Setup</a></h2>
+
+<p>Set <code class='code prettyprint lang-sc'>s.latency = 0.05;</code> when using BBCut. The default of 0.2 seconds is dangerous and may interact adversely with scheduling especially for faster tempi and beat tracking. Only tempi in a standard range of around 1-4bps are supported.
+<p>Copy break.aiff and break2.aiff from the BBCut source into <code class='code prettyprint lang-sc'>Platform.userExtensionDir +/+ "sounds/"</code>. This is an optional step, but you will need this to run the examples.
+<p>BBCut used to come with three server plugins -- AnalyzeEvents2, AutoTrack, and DrumTrack. AutoTrack is now known as BeatTrack and made it to the core library, and the other two ugens are in sc3-plugins. As a result, sc3-plugins is required. (If you want to use DrumTrack, a fairly recent version is needed.)<h2><a class='anchor' name='Contents'>Contents</a></h2>
+
+<p>A quick note on naming: the second version of BBCut uses a weird naming scheme so that versions 1 and 2 can coexist without any conflicts. (For example, the main class is called BBCut2.) This is no longer needed because the modern quarks system can take care of multiple versions. The next major version of BBCut will fix the naming scheme.
+<p>Tutorials<ul>
+<li><a href="./../Tutorials/BBCut2Examples">BBCut2Examples</a></ul>
+
+<p>Core/Misc<ul>
+<li><a href="./../Classes/BBCut2.html">BBCut2</a> - splices and reassembles audio<li><a href="./../Classes/BBCutBuffer.html">BBCutBuffer</a> - represents a Buffer with some BBCut specific refinements (derived from Buffer)<li><a href="./../Classes/BBCutBlock.html">BBCutBlock</a> - Data for the current block is held in a BBCutBlock object<li><a href="./../Classes/BBCutQuantise1.html">BBCutQuantise1</a> - (experimental) imposition of a metric template onto the cut procedure output<li><a href="./../Classes/BufSelector.html">BufSelector</a> - swaps between an array of BBCutBuffers at phrase or block boundaries</ul>
+
+<p>Machine Listening (can also be used independently of the cutters...)<ul>
+<li><a href="./../Classes/Segmentation.html">Segmentation</a> - GUI for segmentation, preparing soundfiles for use with CutBuf3 in particular, RT and NRT modes<li><a href="./../Classes/BeatTrack.html">BeatTrack</a> (from core) - beat tracking UGen<li><a href="./../Classes/AnalyseEvents2.html">AnalyseEvents2</a> (from sc3-plugins) - on-the-fly event analysis UGen<li><a href="./../Classes/AnalyseEventsDatabase.html">AnalyseEventsDatabase</a> - form a database of events on-the-fly<li><a href="./../Classes/DrumTrack.html">DrumTrack</a> (from sc3-plugins) - experimental beat tracking UGen, tries to spot typical 4/4 drum patterns</ul>
+
+<p>Cut Procedures (CutProcs)<ul>
+<li><a href="./../Classes/BBCPPermute.html">BBCPPermute</a> - generalised permutation cut function<li><a href="./../Classes/BBCutProc11.html">BBCutProc11</a> - abstraction of early d+b/jungle based on 3+3+2 like figures<li><a href="./../Classes/CageCut.html">CageCut</a> - John Cage's 'square root' form influences a recursive cutter<li><a href="./../Classes/CampCutProc.html">CampCutProc</a> - campanology = change ringing = bell ringing permutation patterns<li><a href="./../Classes/ChooseBlockProc.html">ChooseBlockProc</a> - select a block at a time by size, also determining the subdivisions<li><a href="./../Classes/ChooseCutProc.html">ChooseCutProc</a> - select a cut at a time, with number of repeats, also a chance of rolls<li><a href="./../Classes/MotifCutProc.html">MotifCutProc</a> - intermediate level of hierarchy between phrase and block manipulated<li><a href="./../Classes/MultiProc.html">MultiProc</a> - a procedure that selects between other cut procedures algorithmically<li><a href="./../Classes/OffsetCP1.html">OffsetCP1</a> - choose next block and associated offset<li><a href="./../Classes/RecCutProc.html">RecCutProc</a> - first version of a recursive cut procedure<li><a href="./../Classes/RecursiveCutProc1.html">RecursiveCutProc1</a> - explicit recursive cut procedure plus demo of implicit using CutStream1 <li><a href="./../Classes/SQPusher1.html">SQPusher1</a> - simulation of Squarepusher drum programming via cut decisions<li><a href="./../Classes/SQPusher2.html">SQPusher2</a> - simulation of Squarepusher drum programming auto-transcribed from Come On My Selector<li><a href="./../Classes/TimelineCut.html">TimelineCut</a> - inspired by choosing a fundamental timeline as block stricture on cuts<li><a href="./../Classes/ThrashCutProc1.html">ThrashCutProc1</a> - algorithmic abstraction of thrash drumming<li><a href="./../Classes/WarpCutProc1.html">WarpCutProc1</a> - Warp Records cutting simulation, fast pitched rolls up into audio rate<li><a href="./../Classes/BBCutProc.html">BBCutProc</a> - backwards compatability means I keep this older base class from BBCut1</ul>
+
+<p>Cut Synthesisers (CutSynths)<ul>
+<li><a href="./../Classes/CutGroup.html">CutGroup</a> - showing how to set Group and Bus of a cutter, and how to swap cutsynths on-the-fly<li><a href="./../Classes/CutMixer.html">CutMixer</a> - control final rendering bus, master volume, and ampfunc and panfunc parameters of cuts<li><a href="./../Classes/CutTrig1.html">CutTrig1</a> - trigger samples from cuts (which may come from a set of buffers)<li><a href="./../Classes/CutStream1.html">CutStream1</a> - cut up a stream, via an intermediary buffer that holds the most recent cut for repeating<li><a href="./../Classes/CutStream2.html">CutStream2</a> - cut up a stream, via an intermediary buffer that allows offsetting from the most recent clock beat<li><a href="./../Classes/CutStream3.html">CutStream3</a> - cut up a stream, using on-the fly event analysis and relative to the clock's beat positions <li><a href="./../Classes/CutBuf1.html">CutBuf1</a> - cheap CPU buffer playback head jumping cutsynth, but no enveloping <li><a href="./../Classes/CutBuf2.html">CutBuf2</a> - spawns an enveloped grain Synth for each cut <li><a href="./../Classes/CutBuf3.html">CutBuf3</a> - uses knowledge of the analysed position of events in a buffer when rendering splices<li><a href="./../Classes/CutFunc.html">CutFunc</a> - call arbitrary functions at a new phrase, block or for individual cuts. <li><a href="./../Classes/CutTrace.html">CutTrace</a> - (experimental) posts status, may be overridden later for OSC messaging of state to other apps</ul>
+
+<p>Cut Effects<ul>
+<li><a href="./../Classes/CutPan1.html">CutPan1</a> - random walk panning<li><a href="./../Classes/RollAmplitude.html">RollAmplitude</a> - make rolls fade in and out<li><a href="./../Classes/SQPushFXAmp2.html">SQPushFXAmp2</a> - randomly drop cuts, inspired by Squarepusher<li><a href="./../Classes/CutPBS1.html">CutPBS1</a> - change the playback rate<li><a href="./../Classes/SQPushFXPitch2.html">SQPushFXPitch2</a> - change the playback rate, inspired by Squarepusher<li><a href="./../Classes/CutBit1.html">CutBit1</a> - bitcrusher/decimator effect<li><a href="./../Classes/CutComb1.html">CutComb1</a> - comb filter effect<li><a href="./../Classes/CutBPF1.html">CutBPF1</a> - bandpass filter effect<li><a href="./../Classes/CutBRF1.html">CutBRF1</a> - band-reject filter effect<li><a href="./../Classes/CutMod1.html">CutMod1</a> - ring modulator effect<li><a href="./../Classes/CutRev1.html">CutRev1</a> - reverb effect<li><a href="./../Classes/CutFXSwap1.html">CutFXSwap1</a> - add and remove random effects</ul>
+
+<p>Scheduling<ul>
+<li><a href="./../Classes/ExternalClock.html">ExternalClock</a> - using bbcut2 and EventStreams with an external clock<li><a href="./../Classes/ServerClock.html">ServerClock</a> - running the controlling clock on the Server; shows beat tracking<li><a href="./../Classes/EventStreamPlayer2.html">EventStreamPlayer2</a> - support for using Streams with an ExternalClock<li><a href="./../Classes/CutProcStream.html">CutProcStream</a> - Use a cut procedure as a stream, and within Patterns library</ul>
+<h2><a class='anchor' name='History'>History</a></h2>
+<ul>
+<li>1.0 released 2001-12-03, developed with the help of Fabrice Mogini, Fredrik Olofsson and Thor Magnusson.<li>1.1 released 2002-11-07<li>1.2 for SC3 released 2002-03-09<li>1.2.1 released 2003-10-10<li>1.2.2 released 2003-10-18<li>1.3 released 2004-02-20<li>2.0 released 2005-08-15, testers/advisors Fredrik Olofsson and Julian Rohrhuber.<li>2.0.1 2005-08-31<li>2.1 with full source 2006-06-12<li>2.2 released 2016-02-21 (adoption by Nathan Ho)</ul>
+
+<p>Please ask questions or file bugs at <a href="https://github.com/snappizz/BBCut/issues.">https://github.com/snappizz/BBCut/issues.</a><h2><a class='anchor' name='Acknowledgements'>Acknowledgements</a></h2>
+
+<p>Version 2: Thanks to the many academic researchers whose work has been an inspiration, and to my PhD supervisors Ian Cross and Alan Blackwell for giving me the time to work on this project. Funding from AHRC. 
+<p>Version 1: Thanks to Charles Ames, MDX Sonic Arts, the SuperCollider List and James McCartney.
+<p>Academic papers about bbcut are available from <a href="http://composerprogrammer.com/research.html.">http://composerprogrammer.com/research.html.</a><div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Overviews/BBCut.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Overviews/BBCut.schelp</a><br>link::Overviews/BBCut::<br>sc version: 3.8.0</div></div></body></html>

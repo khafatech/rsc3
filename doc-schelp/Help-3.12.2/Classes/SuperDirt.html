@@ -1,0 +1,311 @@
+<!doctype html><html lang='en'><head><title>SuperDirt | SuperCollider 3.12.2 Help</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../codemirror.css' type='text/css' />
+<link rel='stylesheet' href='./../editor.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../lib/jquery.min.js'></script>
+<script src='./../lib/codemirror-5.39.2.min.js' type='text/javascript'></script>
+<script src='./../lib/codemirror-addon-simple-5.39.2.min.js' type='text/javascript'></script>
+<script>
+var helpRoot = './..';
+var scdoc_title = 'SuperDirt';
+var scdoc_sc_version = '3.12.2';
+</script>
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='qrc:///qtwebchannel/qwebchannel.js' type='text/javascript'></script>
+</head>
+<body onload='fixTOC()'>
+<div id='toc'>
+<div id='toctitle'>SuperDirt:</div>
+<span class='toc_search'>Filter: <input id='toc_search'></span><ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc3'><a href='#*maxSampleNumChannels'>maxSampleNumChannels</a> </li>
+<li class='toc3'><a href='#*start'>start</a> </li>
+<li class='toc3'><a href='#*postTidalParameters'>postTidalParameters</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+<li class='toc2'><a href='#Undocumented%20class%20methods'>Undocumented class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*default'>default</a> </li>
+<li class='toc3'><a href='#*postBadValues'>postBadValues</a> </li>
+<li class='toc3'><a href='#*predefinedSynthParameters'>predefinedSynthParameters</a> </li>
+<li class='toc3'><a href='#*resetEverything'>resetEverything</a> </li>
+<li class='toc3'><a href='#*tidalParameterString'>tidalParameterString</a> </li>
+</ul></ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-orbits'>orbits</a> </li>
+<li class='toc3'><a href='#-loadSoundFiles'>loadSoundFiles</a> </li>
+<li class='toc3'><a href='#-loadSoundFileFolder'>loadSoundFileFolder</a> </li>
+<li class='toc3'><a href='#-loadSoundFile'>loadSoundFile</a> </li>
+<li class='toc3'><a href='#-loadOnly'>loadOnly</a> </li>
+<li class='toc3'><a href='#-freeSoundFiles'>freeSoundFiles</a> </li>
+<li class='toc3'><a href='#-freeAllSoundFiles'>freeAllSoundFiles</a> </li>
+<li class='toc3'><a href='#-fileExtensions'>fileExtensions</a> </li>
+<li class='toc3'><a href='#-postSampleInfo'>postSampleInfo</a> </li>
+<li class='toc3'><a href='#-loadSynthDefs'>loadSynthDefs</a> </li>
+<li class='toc3'><a href='#-start'>start</a> </li>
+<li class='toc3'><a href='#-stop'>stop</a> </li>
+<li class='toc3'><a href='#-free'>free</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-addFilterModule'>addFilterModule</a> </li>
+<li class='toc3'><a href='#-addModule'>addModule</a> </li>
+<li class='toc3'><a href='#-audioRoutingBusses'>audioRoutingBusses</a> </li>
+<li class='toc3'><a href='#-buffers'>buffers</a> </li>
+<li class='toc3'><a href='#-clearModules'>clearModules</a> </li>
+<li class='toc3'><a href='#-closeNetworkConnection'>closeNetworkConnection</a> </li>
+<li class='toc3'><a href='#-connect'>connect</a> </li>
+<li class='toc3'><a href='#-controlBusses'>controlBusses</a> </li>
+<li class='toc3'><a href='#-dropWhen'>dropWhen</a> </li>
+<li class='toc3'><a href='#-getModule'>getModule</a> </li>
+<li class='toc3'><a href='#-handshakeReplyData'>handshakeReplyData</a> </li>
+<li class='toc3'><a href='#-initRoutingBusses'>initRoutingBusses</a> </li>
+<li class='toc3'><a href='#-initVowels'>initVowels</a> </li>
+<li class='toc3'><a href='#-makeOrbits'>makeOrbits</a> </li>
+<li class='toc3'><a href='#-maxLatency'>maxLatency</a> </li>
+<li class='toc3'><a href='#-modules'>modules</a> </li>
+<li class='toc3'><a href='#-numChannels'>numChannels</a> </li>
+<li class='toc3'><a href='#-numControlBusses'>numControlBusses</a> </li>
+<li class='toc3'><a href='#-numRoutingBusses'>numRoutingBusses</a> </li>
+<li class='toc3'><a href='#-orderModules'>orderModules</a> </li>
+<li class='toc3'><a href='#-port'>port</a> </li>
+<li class='toc3'><a href='#-receiveAction'>receiveAction</a> </li>
+<li class='toc3'><a href='#-removeModule'>removeModule</a> </li>
+<li class='toc3'><a href='#-replyAddr'>replyAddr</a> </li>
+<li class='toc3'><a href='#-sendToTidal'>sendToTidal</a> </li>
+<li class='toc3'><a href='#-senderAddr'>senderAddr</a> </li>
+<li class='toc3'><a href='#-server'>server</a> </li>
+<li class='toc3'><a href='#-set'>set</a> </li>
+<li class='toc3'><a href='#-setControlBus'>setControlBus</a> </li>
+<li class='toc3'><a href='#-soundLibrary'>soundLibrary</a> </li>
+<li class='toc3'><a href='#-startSendRMS'>startSendRMS</a> </li>
+<li class='toc3'><a href='#-stopSendRMS'>stopSendRMS</a> </li>
+<li class='toc3'><a href='#-verbose'>verbose</a> </li>
+<li class='toc3'><a href='#-vowels'>vowels</a> </li>
+<li class='toc3'><a href='#-warnOutOfOrbit'>warnOutOfOrbit</a> </li>
+</ul></ul><li class='toc1'><a href='#Using%20SuperDirt%20examples%20together%20with%20ProxySpace'>Using SuperDirt examples together with ProxySpace</a></li>
+<ul class='toc'></ul></ul></div><div id='menubar'></div>
+<div class='contents'>
+<div class='header'>
+<div id='label'>
+<span id='folder'>Classes (extension)</span>
+ | <span id='categories'><a href='./../Browse.html#Live Coding'>Live Coding</a></span>
+</div><h1>SuperDirt<span id='superclasses'> : <a href="../Classes/Object.html">Object</a></span>
+<div class='extension-indicator-ctr' title='This help file originates from a third-party quark or plugin for SuperCollider.'><img class='extension-indicator-icon' alt='Extension' src='./../images/plugin.png'><span class='extension-indicator-text'>Extension</span></div></h1>
+<div id='summary'>Synth and Sampler for the Tidal programming language</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/SuperDirt/classes/SuperDirt.sc' title='/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/SuperDirt/classes/SuperDirt.sc'>SuperDirt.sc</a></div><div id='related'>See also: <a href="./../Classes/DirtOrbit.html">DirtOrbit</a>, <a href="./../Classes/DirtEvent.html">DirtEvent</a></div>
+</div>
+<h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>This is a SuperCollider variant of <strong>Dirt</strong>, the sound engine for the Tidal <a href="http://tidalcycles.org/">http://tidalcycles.org/</a> programming language by Alex McLean. Most of SuperDirt can be rewritten at runtime: you can add and modify effects, synth defs, load samples incrementally, and spatialise to any number of channels. You can use SuperCollider as usual.<div class='note'><span class='notelabel'>NOTE:</span> This system is experimental.
+<p>Many examples can be found in the folders: <code>hacks/</code> and <code>scripts/</code>
+<p>The examples suppose that environment variables are accessible. If you want to use <a href="./../Classes/ProxySpace.html">ProxySpace</a> or similar redirect environments, see below.</div><textarea class='editor'>// starting up
+
+(
+// configure the sound server: here you could add hardware specific options
+// see http://doc.sccode.org/Classes/ServerOptions.html
+s.options.numBuffers = 1024 * 16; // increase this if you need to load more samples
+s.options.memSize = 8192 * 16; // increase this if you get "alloc failed" messages
+s.options.maxNodes = 1024 * 32; // increase this if you are getting drop outs and the message "too many nodes"
+s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
+s.options.numInputBusChannels = 2; // set this to your hardware input channel size, if necessary
+// boot the server and start SuperDirt
+s.waitForBoot {
+    ~dirt = SuperDirt(2, s); // two output channels, increase if you want to pan across more channels
+    ~dirt.loadSoundFiles;   // load samples (path containing a wildcard can be passed in)
+    s.sync; // wait for samples to be read
+    ~dirt.start(57120, [0, 0]);   // start listening on port 57120, create two orbits, each sending audio to channel 0. You can direct sounds to the orbits from tidal e.g. by: `# orbit "0 1 1"
+}
+)
+// now you should be able to send from tidal via port 57120</textarea>
+<h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*new' href='./../Overviews/Methods.html#new'>new</a>(<span class='argstr'>numChannels: 2</span>, <span class='argstr'>server</span>)</h3>
+<div class='method'>
+<p>Return a new instance, ready to be started<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>numChannels<td class='argumentdesc'>
+<p>The number of channels of the internal <a href="./../Classes/Bus.html">bus</a> (this is also the maximal number of output channels).<tr><td class='argumentname'>server<td class='argumentdesc'>
+<p><a href="./../Classes/Server.html">Server</a> to play on.</table></div><h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*maxSampleNumChannels' href='./../Overviews/Methods.html#maxSampleNumChannels'>maxSampleNumChannels</a></h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*maxSampleNumChannels' href='./../Overviews/Methods.html#maxSampleNumChannels'>maxSampleNumChannels</a> = value</h3>
+<div class='method'>
+<p>Specifies the maximum number of channels your sound files have (default is 2: stereo samples)</div><h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*start' href='./../Overviews/Methods.html#start'>start</a>(<span class='argstr'>numChannels: 2</span>, <span class='argstr'>server</span>, <span class='argstr'>numOrbits: 12</span>, <span class='argstr'>port: 57120</span>, <span class='argstr'>senderAddr</span>, <span class='argstr'>path</span>)</h3>
+<div class='extmethod'>From extension in <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/SuperDirt/classes/extSuperDirtStartup.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/SuperDirt/classes/extSuperDirtStartup.sc</a></div>
+<div class='method'>
+<p>Convenience method that gives defaults for many situations. It configures the server and starts SuperDirt with a number of orbits. It allows you to pass a few parameters:<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>numChannels<td class='argumentdesc'>
+<p>The number of channels of the SuperDirt instance (see above).<tr><td class='argumentname'>server<td class='argumentdesc'>
+<p><a href="./../Classes/Server.html">Server</a> to play on.<tr><td class='argumentname'>numOrbits<td class='argumentdesc'>
+<p>number of orbits to create on startup (see: <a href="./../Classes/DirtOrbit.html">DirtOrbit</a>). You can add or remove them later.<tr><td class='argumentname'>port<td class='argumentdesc'>
+<p>The port to listen on (default is 57120)<tr><td class='argumentname'>senderAddr<td class='argumentdesc'>
+<p>The address to listen to (a <a href="./../Classes/String.html">String</a>).<tr><td class='argumentname'>path<td class='argumentdesc'>
+<p>A path that is used to load some sound files. This is a string, a path pointing to a number of files, which usually contains a wildcard (<code>*</code>). E.g. <code>"~/samples/special/*"</code></table></div><h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*postTidalParameters' href='./../Overviews/Methods.html#postTidalParameters'>postTidalParameters</a>(<span class='argstr'>synthNames</span>, <span class='argstr'>excluding</span>)</h3>
+<div class='method'>
+<p>Post a string with the tidal language parameter definitions for a number of SynthDefs. Duplicates are removed automatically. Note that these all use <code>(Nothing)</code>, because defaults are defined in the SynthDef default arguments.
+<p>Example: <code>let (freq, _) = pF "freq" (Nothing)</code><textarea class='editor'>SuperDirt.postTidalParameters([\default, \supercomparator])</textarea>
+<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>synthNames<td class='argumentdesc'>
+<p>A symbol or array of symbols of the SynthDef names for which to generate the tidal code.<tr><td class='argumentname'>excluding<td class='argumentdesc'>
+<p>The parameter names which should be excluded. Names already defined and used internally by SuperDirt will be excluded in additinon tho these.</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h3><a class='anchor' name='Undocumented%20class%20methods'>Undocumented class methods</a></h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*default' href='./../Overviews/Methods.html#default'>default</a></h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*default' href='./../Overviews/Methods.html#default'>default</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*postBadValues' href='./../Overviews/Methods.html#postBadValues'>postBadValues</a></h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*postBadValues' href='./../Overviews/Methods.html#postBadValues'>postBadValues</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*predefinedSynthParameters' href='./../Overviews/Methods.html#predefinedSynthParameters'>predefinedSynthParameters</a></h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*resetEverything' href='./../Overviews/Methods.html#resetEverything'>resetEverything</a></h3>
+<h3 class='method-code'><span class='method-prefix'>SuperDirt.</span><a class='method-name' name='*tidalParameterString' href='./../Overviews/Methods.html#tidalParameterString'>tidalParameterString</a>(<span class='argstr'>keys</span>)</h3>
+<h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-orbits' href='./../Overviews/Methods.html#orbits'>orbits</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-orbits' href='./../Overviews/Methods.html#orbits'>orbits</a> = value</h3>
+<div class='method'>
+<p>A list of <a href="./../Classes/DirtOrbit.html">DirtOrbit</a>s. Orbits are the basic elements of dirt. Each has its own global effects and global settings. You can start any number of orbits any time. From tidal, you can direct sounds into an orbit by the parameter: <code># orbit "7"</code> (this sends to orbit 7, if it exists, otherwise it'll wrap to whatever is available.)<textarea class='editor'>// in the default startup, dirt is kept in the ~dirt environment variable
+// you can access the orbit by index:
+
+~dirt.orbits[0].set(\amp, 0.1) // reduce the amplitude of one orbit
+
+// make a mixer for the orbits, using dB scaling
+(
+var w, spec;
+spec = \db.asSpec;
+w = Window("orbital volume", Rect(240, 240, 300, 500)).front;
+
+w.view.layout = HLayout(*~dirt.orbits.collect { |x|
+    var val = spec.unmap(x.get(\amp).ampdb);
+    Slider().value_(val).action_({ |v| x.set(\amp, spec.map(v.value).dbamp.postln) })
+});
+)</textarea>
+</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-loadSoundFiles' href='./../Overviews/Methods.html#loadSoundFiles'>loadSoundFiles</a>(<span class='argstr'>paths</span>, <span class='argstr'>appendToExisting: false</span>, <span class='argstr'>namingFunction</span>)</h3>
+<div class='method'>
+<p>Read a number of sound file from disk and load them into the server memory. The buffer information is also kept in <a href="#buffers">buffers</a>, a dictionary. You can do this any time while running, and incrementally add more files.<textarea class='editor'>    ~dirt.loadSoundFiles("&lt;your sound file path&gt;");</textarea>
+<div class='note'><span class='notelabel'>NOTE:</span> The naming scheme works as follows:
+<p>Given a path like: <code>"path/to/my/basedrum/*"</code>.
+<p>The dictionary will contain under the key <code>'basedrum'</code> an <a href="./../Classes/Array.html">Array</a> of all the <a href="./../Classes/Buffer.html">Buffer</a>s from the samples found in the folder.
+<p>From tidal, they can be accessed e.g. by <code>d1 $ sound $ "basedrum:1 basedrum:4"</code>, or alternatively by the <code>n</code> parameter. Sample numbers below zero or above the number of samples in the folder will wrap, i.e. if you have a folder of 4 samples, 5 will play 0.</div><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>paths<td class='argumentdesc'>
+<p>Specifies paths for sound files. This is a string, a path pointing to a number of files, which usually contains a wildcard (<code>*</code>). E.g. <code>"~/samples/special/*"</code>. For the glob syntax, see <a href="https://en.wikipedia.org/wiki/Glob_%28programming%29">https://en.wikipedia.org/wiki/Glob_%28programming%29</a>.
+<p> Alternatively, you can pass in an <a href="./../Classes/Array.html">Array</a> of full paths, e.g. <code>["~/samples/drums/", "~/samples/cats/"]</code>.<tr><td class='argumentname'>appendToExisting<td class='argumentdesc'>
+<p>If set to true, this will keep existing dictionary keys (see above) and add the new samples to any existing ones. This allows you to load different folders with the same name. Otherwise it will only keep those existing names which are not found in the new set of samples.<tr><td class='argumentname'>namingFunction<td class='argumentdesc'>
+<p> Provide a function to generate your own instrument names, which you call from tidal. The function is passed the folder path (a <a href="./../Classes/String.html">String</a>). By default, this function is <code>_.basename</code>, which returns the folder name.</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-loadSoundFileFolder' href='./../Overviews/Methods.html#loadSoundFileFolder'>loadSoundFileFolder</a>(<span class='argstr'>folderPath</span>, <span class='argstr'>name</span>, <span class='argstr'>appendToExisting: false</span>)</h3>
+<div class='method'>
+<p> Read a single folder of sound files and add all of them under <code>'name'</code> to the sample instruments. You can do this any time while running, and incrementally add more files.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>folderPath<td class='argumentdesc'>
+<p> The path for the folder.<tr><td class='argumentname'>name<td class='argumentdesc'>
+<p> The name of the sample instrument as it will be used in tidal. Subsequent sound files can be addressed by passing the "n" parameter, e.g. <code>"bd:1 bd:2"</code>.<tr><td class='argumentname'>appendToExisting<td class='argumentdesc'>
+<p> See: <a href="#-loadSoundFiles">-loadSoundFiles</a><textarea class='editor'>    ~dirt.loadSoundFileFolder(Platform.resourceDir +/+ "sounds/", \teletubbies); // play them in tidal with "teletubbies"
+
+    // play from sclang
+    (type: \dirt, dirt: ~dirt, sound: "teletubbies:2", speed: 0.5, n: 0).play;
+    (type: \dirt, dirt: ~dirt, sound: "teletubbies:2", speed: 0.5, n: 1).play; // play from sclang</textarea>
+</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-loadSoundFile' href='./../Overviews/Methods.html#loadSoundFile'>loadSoundFile</a>(<span class='argstr'>path</span>, <span class='argstr'>name</span>, <span class='argstr'>appendToExisting: false</span>)</h3>
+<div class='method'>
+<p> Read a single sound file and add it under <code>'name'</code> to the sample instruments. You can do this any time while running, and incrementally add more files.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>path<td class='argumentdesc'>
+<p>The path for the file.<tr><td class='argumentname'>name<td class='argumentdesc'>
+<p>The name of the sample instrument as it will be used in tidal<tr><td class='argumentname'>appendToExisting<td class='argumentdesc'>
+<p>See: <a href="#-loadSoundFiles">-loadSoundFiles</a><textarea class='editor'>    ~dirt.loadSoundFile(Platform.resourceDir +/+ "sounds/a11wlk01.wav", \a11); // play them in tidal with "a11"
+    ~dirt.buffers[\a11];
+    (type: \dirt, dirt: ~dirt, sound: "a11", speed: 0.5).play; // play from sclang</textarea>
+</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-loadOnly' href='./../Overviews/Methods.html#loadOnly'>loadOnly</a>(<span class='argstr'>names</span>, <span class='argstr'>path</span>, <span class='argstr'>appendToExisting: false</span>)</h3>
+<div class='method'>
+<p>Read a number of named folders. You can do this any time while running, and incrementally add more files.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>names<td class='argumentdesc'>
+<p>An array of symbols or strings. These are folder names and at the same time instrument names for tidal.<tr><td class='argumentname'>path<td class='argumentdesc'>
+<p>The path in which the folders can be found.<tr><td class='argumentname'>appendToExisting<td class='argumentdesc'>
+<p>See: <a href="#-loadSoundFiles">-loadSoundFiles</a><textarea class='editor'>    ~dirt.loadOnly([\bd, \moog, \hh, \cp]);</textarea>
+</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-freeSoundFiles' href='./../Overviews/Methods.html#freeSoundFiles'>freeSoundFiles</a>(<span class='argstr'>names</span>)</h3>
+<div class='method'>
+<p>Remove sound files and free their memory.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>names<td class='argumentdesc'>
+<p>An array of sample instrument names which to remove.<textarea class='editor'>    ~dirt.postSampleInfo;
+    ~dirt.freeSoundFiles([\bubble]);
+    ~dirt.postSampleInfo; // now, the bubbles should be gone.</textarea>
+</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-freeAllSoundFiles' href='./../Overviews/Methods.html#freeAllSoundFiles'>freeAllSoundFiles</a></h3>
+<div class='method'>
+<p>Remove all sound files and free their memory.</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-fileExtensions' href='./../Overviews/Methods.html#fileExtensions'>fileExtensions</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-fileExtensions' href='./../Overviews/Methods.html#fileExtensions'>fileExtensions</a> = <span class='argstr'>list</span></h3>
+<div class='method'>
+<p>A list of valid sound file extensions, which can be extended (default: <code>["wav", "aif", "aiff", "aifc"]</code>). In theory, all libsndfile formats should be supported <a href="http://www.mega-nerd.com/libsndfile/#Features">http://www.mega-nerd.com/libsndfile/#Features</a>.</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-postSampleInfo' href='./../Overviews/Methods.html#postSampleInfo'>postSampleInfo</a></h3>
+<div class='method'>
+<p> Post a list of all existing sample names, the number of variants, the range of durations, and memory requirement.
+<p> e.g.
+<p> <code>circus (3)   0.17 - 0.52 sec (171 kB)</code>.<textarea class='editor'>    ~dirt.postSampleInfo</textarea>
+</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-loadSynthDefs' href='./../Overviews/Methods.html#loadSynthDefs'>loadSynthDefs</a>(<span class='argstr'>path</span>)</h3>
+<div class='method'>
+<p>Load a number of files, usually containing <a href="./../Classes/SynthDef.html">SynthDef</a>s.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>path<td class='argumentdesc'>
+<p>This is a string, a path pointing as´file or a to a number of files, which then contains a wildcard (<code>*</code>). E.g. <code>"~/synths/special/*"</code></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-start' href='./../Overviews/Methods.html#start'>start</a>(<span class='argstr'>port: 57120</span>, <span class='argstr'>outBusses</span>, <span class='argstr'>senderAddr</span>)</h3>
+<div class='method'>
+<p>This method starts SuperDirt. It creates a number of <a href="./../Classes/DirtOrbit.html">DirtOrbit</a>s (each of which has global effects, output busses, and settings). It also opens a network connection.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>port<td class='argumentdesc'>
+<p>The port to listen on (default is 57120)<tr><td class='argumentname'>outBusses<td class='argumentdesc'>
+<p>An (a <a href="./../Classes/Array.html">Array</a>) of audio output channels: it determines how many <a href="./../Classes/DirtOrbit.html">DirtOrbit</a>s there will be.<tr><td class='argumentname'>senderAddr<td class='argumentdesc'>
+<p>The address to listen to (a <a href="./../Classes/String.html">String</a>).</table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-stop' href='./../Overviews/Methods.html#stop'>stop</a></h3>
+<div class='method'>
+<p>End all audio processes and close network responder.</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-free' href='./../Overviews/Methods.html#free'>free</a></h3>
+<div class='method'>
+<p>End all audio processes, close network responder, and free sound file resources.</div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-addFilterModule' href='./../Overviews/Methods.html#addFilterModule'>addFilterModule</a>(<span class='argstr'>synthName</span>, <span class='argstr'>synthFunc</span>, <span class='argstr'>test</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-addModule' href='./../Overviews/Methods.html#addModule'>addModule</a>(<span class='argstr'>name</span>, <span class='argstr'>func</span>, <span class='argstr'>test</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-audioRoutingBusses' href='./../Overviews/Methods.html#audioRoutingBusses'>audioRoutingBusses</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-audioRoutingBusses' href='./../Overviews/Methods.html#audioRoutingBusses'>audioRoutingBusses</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-buffers' href='./../Overviews/Methods.html#buffers'>buffers</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-clearModules' href='./../Overviews/Methods.html#clearModules'>clearModules</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-closeNetworkConnection' href='./../Overviews/Methods.html#closeNetworkConnection'>closeNetworkConnection</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-connect' href='./../Overviews/Methods.html#connect'>connect</a>(<span class='argstr'>argSenderAddr</span>, <span class='argstr'>argPort</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-controlBusses' href='./../Overviews/Methods.html#controlBusses'>controlBusses</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-controlBusses' href='./../Overviews/Methods.html#controlBusses'>controlBusses</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-dropWhen' href='./../Overviews/Methods.html#dropWhen'>dropWhen</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-dropWhen' href='./../Overviews/Methods.html#dropWhen'>dropWhen</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-getModule' href='./../Overviews/Methods.html#getModule'>getModule</a>(<span class='argstr'>name</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-handshakeReplyData' href='./../Overviews/Methods.html#handshakeReplyData'>handshakeReplyData</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-initRoutingBusses' href='./../Overviews/Methods.html#initRoutingBusses'>initRoutingBusses</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-initVowels' href='./../Overviews/Methods.html#initVowels'>initVowels</a>(<span class='argstr'>register</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-makeOrbits' href='./../Overviews/Methods.html#makeOrbits'>makeOrbits</a>(<span class='argstr'>outBusses</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-maxLatency' href='./../Overviews/Methods.html#maxLatency'>maxLatency</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-maxLatency' href='./../Overviews/Methods.html#maxLatency'>maxLatency</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-modules' href='./../Overviews/Methods.html#modules'>modules</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-modules' href='./../Overviews/Methods.html#modules'>modules</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-numChannels' href='./../Overviews/Methods.html#numChannels'>numChannels</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-numControlBusses' href='./../Overviews/Methods.html#numControlBusses'>numControlBusses</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-numControlBusses' href='./../Overviews/Methods.html#numControlBusses'>numControlBusses</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-numRoutingBusses' href='./../Overviews/Methods.html#numRoutingBusses'>numRoutingBusses</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-numRoutingBusses' href='./../Overviews/Methods.html#numRoutingBusses'>numRoutingBusses</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-orderModules' href='./../Overviews/Methods.html#orderModules'>orderModules</a>(<span class='argstr'>names</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-port' href='./../Overviews/Methods.html#port'>port</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-receiveAction' href='./../Overviews/Methods.html#receiveAction'>receiveAction</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-receiveAction' href='./../Overviews/Methods.html#receiveAction'>receiveAction</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-removeModule' href='./../Overviews/Methods.html#removeModule'>removeModule</a>(<span class='argstr'>name</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-replyAddr' href='./../Overviews/Methods.html#replyAddr'>replyAddr</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-sendToTidal' href='./../Overviews/Methods.html#sendToTidal'>sendToTidal</a>(<span class='argstr'>args</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-senderAddr' href='./../Overviews/Methods.html#senderAddr'>senderAddr</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-server' href='./../Overviews/Methods.html#server'>server</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-set' href='./../Overviews/Methods.html#set'>set</a>( <span class='argstr'>... pairs</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-setControlBus' href='./../Overviews/Methods.html#setControlBus'>setControlBus</a>( <span class='argstr'>... pairs</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-soundLibrary' href='./../Overviews/Methods.html#soundLibrary'>soundLibrary</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-soundLibrary' href='./../Overviews/Methods.html#soundLibrary'>soundLibrary</a> = <span class='argstr'>argSoundLibrary</span></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-startSendRMS' href='./../Overviews/Methods.html#startSendRMS'>startSendRMS</a>(<span class='argstr'>rmsReplyRate: 20</span>, <span class='argstr'>rmsPeakLag: 3</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-stopSendRMS' href='./../Overviews/Methods.html#stopSendRMS'>stopSendRMS</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-verbose' href='./../Overviews/Methods.html#verbose'>verbose</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-verbose' href='./../Overviews/Methods.html#verbose'>verbose</a> = <span class='argstr'>bool</span></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-vowels' href='./../Overviews/Methods.html#vowels'>vowels</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-warnOutOfOrbit' href='./../Overviews/Methods.html#warnOutOfOrbit'>warnOutOfOrbit</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-warnOutOfOrbit' href='./../Overviews/Methods.html#warnOutOfOrbit'>warnOutOfOrbit</a> = value</h3>
+<h2><a class='anchor' name='Using%20SuperDirt%20examples%20together%20with%20ProxySpace'>Using SuperDirt examples together with ProxySpace</a></h2>
+
+<p>All startup files and examples use the environment variables, like <code>~dirt</code>. If you want to use <a href="./../Classes/ProxySpace.html">ProxySpace</a> or similar redirect environments, you should bind these to their respective file (which needs to be saved to disk):<textarea class='editor'>p = ProxySpace.push(s).linkDoc; // now the proxyspace is only active in that document</textarea>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/SuperDirt/HelpSource/Classes/SuperDirt.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/SuperDirt/HelpSource/Classes/SuperDirt.schelp</a><br>link::Classes/SuperDirt::<br></div></div><script src='./../editor.js' type='text/javascript'></script>
+</body></html>

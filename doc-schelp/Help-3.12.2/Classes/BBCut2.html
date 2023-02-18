@@ -1,0 +1,367 @@
+<html><head><title>BBCut2</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>BBCut2</h1>
+<div id='summary'>splices and reassembles audio</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/core/BBCut2.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/core/BBCut2.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+<li class='toc2'><a href='#Undocumented%20class%20methods'>Undocumented class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*delay'>delay</a> </li>
+</ul></ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-free'>free</a> </li>
+<li class='toc3'><a href='#-pause'>pause</a> </li>
+<li class='toc3'><a href='#-resume'>resume</a> </li>
+<li class='toc3'><a href='#-stop'>stop</a> </li>
+<li class='toc3'><a href='#-end'>end</a> </li>
+<li class='toc3'><a href='#-play'>play</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-alive'>alive</a> </li>
+<li class='toc3'><a href='#-amp'>amp</a> </li>
+<li class='toc3'><a href='#-chooseoffset'>chooseoffset</a> </li>
+<li class='toc3'><a href='#-clear'>clear</a> </li>
+<li class='toc3'><a href='#-clock'>clock</a> </li>
+<li class='toc3'><a href='#-cutgroups'>cutgroups</a> </li>
+<li class='toc3'><a href='#-getBlock'>getBlock</a> </li>
+<li class='toc3'><a href='#-initBBCut2'>initBBCut2</a> </li>
+<li class='toc3'><a href='#-pan'>pan</a> </li>
+<li class='toc3'><a href='#-playflag'>playflag</a> </li>
+<li class='toc3'><a href='#-proc'>proc</a> </li>
+<li class='toc3'><a href='#-provideMaterial'>provideMaterial</a> </li>
+<li class='toc3'><a href='#-quantiser'>quantiser</a> </li>
+<li class='toc3'><a href='#-setoffset'>setoffset</a> </li>
+<li class='toc3'><a href='#-updateblock'>updateblock</a> </li>
+<li class='toc3'><a href='#-updatephrase'>updatephrase</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>This help file is for the BBCut2 class. For an overview of the BBCut2 library, see <a href="./../Overviews/BBCut.html">BBCut</a>.
+<p>BBCut2 provides the central scheduling mechanisms for algorithmic audio cutting running on an external clock. 
+<p>BBCut2 is passed a cut renderer, an algorithmic cutting routine, and an optional quantisation routine. The clock is then passed in via play. 
+<p>BBCut2 sends OSC messages ahead of rendering time to the Server so as to maintain perfect time lock without the jitter caused by variable network latency. This is superior to BBCut's 'send message at moment of decision' paradigm. The price is that the events during the next beat are determined a beat in advance and thus interaction with the cutting routines may show a beat or more's delay in response. <h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>cutgroups</span>, <span class='argstr'>proc</span>, <span class='argstr'>quantiser</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>cutgroups<td class='argumentdesc'>
+<p>an Array of CutGroups, though this argument can also cope with being passed a CutSynth directly, a single CutGroup, an Array of CutSynths and an Array of Arrays of CutSynths. Now, a proc can have multiple renderers. The CutGroup is a necessary abstraction to select the execution graph and bus requirements of SC3, and you can think of BBCut2 making Group Nodes on the Server for each distinct CutGroup (=cut synthesiser chain).<tr><td class='argumentname'>proc<td class='argumentdesc'>
+<p>an instance of a class derived from BBCutProc. This is the algorithmic composition routine that will generate cuts. <tr><td class='argumentname'>quantiser<td class='argumentdesc'>
+<p>An optional quantisation class which imposes a template on the output of the algorithmic cutter. Leave this nil for default behaviour. </table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h3><a class='anchor' name='Undocumented%20class%20methods'>Undocumented class methods</a></h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*delay' href='./../Overviews/Methods.html#delay'>delay</a></h3>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*delay' href='./../Overviews/Methods.html#delay'>delay</a> = value</h3>
+<h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-free' href='./../Overviews/Methods.html#free'>free</a> </h3>
+<div class='method'>
+<p>Frees any group and bus resources. If you passed in explicit Group and Bus objects they will not be deleted and are your own responsibility (see CutGroup).</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-pause' href='./../Overviews/Methods.html#pause'>pause</a> </h3>
+<div class='method'>
+<p>Pause the bbcut2- it will not send further messages to the Server (but may have scheduled some already which can't be taken back).</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-resume' href='./../Overviews/Methods.html#resume'>resume</a> </h3>
+<div class='method'>
+<p>Restart after a pause.</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-stop' href='./../Overviews/Methods.html#stop'>stop</a> </h3>
+<div class='method'>
+<p>Stop playing, removing the cutter from the current clock. </div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-end' href='./../Overviews/Methods.html#end'>end</a> </h3>
+<div class='method'>
+<p>Stop and free.</div><h3 class='imethodname'><span class='methprefix'>-</span><a name='-play' href='./../Overviews/Methods.html#play'>play</a> (<span class='argstr'>clk</span>)</h3>
+<div class='method'>
+<p>Start playing on a given clock.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>clk<td class='argumentdesc'>
+<p>A clock class derived from ExternalClock for the event scheduling. ExternalClock is a base class which wraps a TempoClock in SCLang. ServerClock is used for beat induction control from Server side UGens. If a TempoClock is passed in, it gets wrapped in an ExternalClock. If a bps is passed in (eg .play(2)) then a TempoClock is created at that bps and wrapped in an ExternalClock. </table></div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-alive' href='./../Overviews/Methods.html#alive'>alive</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-amp' href='./../Overviews/Methods.html#amp'>amp</a> = <span class='argstr'>amp: 0.1</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-chooseoffset' href='./../Overviews/Methods.html#chooseoffset'>chooseoffset</a> (<span class='argstr'>phrasepos</span>, <span class='argstr'>beatspersubdiv</span>, <span class='argstr'>currphraselength</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-clear' href='./../Overviews/Methods.html#clear'>clear</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-clock' href='./../Overviews/Methods.html#clock'>clock</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-clock' href='./../Overviews/Methods.html#clock'>clock</a> = </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-cutgroups' href='./../Overviews/Methods.html#cutgroups'>cutgroups</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-getBlock' href='./../Overviews/Methods.html#getBlock'>getBlock</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initBBCut2' href='./../Overviews/Methods.html#initBBCut2'>initBBCut2</a> (<span class='argstr'>cg</span>, <span class='argstr'>p</span>, <span class='argstr'>q</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pan' href='./../Overviews/Methods.html#pan'>pan</a> = <span class='argstr'>pan: 0</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-playflag' href='./../Overviews/Methods.html#playflag'>playflag</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-playflag' href='./../Overviews/Methods.html#playflag'>playflag</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-proc' href='./../Overviews/Methods.html#proc'>proc</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-proc' href='./../Overviews/Methods.html#proc'>proc</a> = <span class='argstr'>p</span></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-provideMaterial' href='./../Overviews/Methods.html#provideMaterial'>provideMaterial</a> (<span class='argstr'>beatlocation</span>, <span class='argstr'>need: 1</span>, <span class='argstr'>tempo</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-quantiser' href='./../Overviews/Methods.html#quantiser'>quantiser</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setoffset' href='./../Overviews/Methods.html#setoffset'>setoffset</a> (<span class='argstr'>prop</span>, <span class='argstr'>phraselength</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-updateblock' href='./../Overviews/Methods.html#updateblock'>updateblock</a> (<span class='argstr'>block</span>, <span class='argstr'>pp</span>, <span class='argstr'>cuts</span>, <span class='argstr'>ir</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-updatephrase' href='./../Overviews/Methods.html#updatephrase'>updatephrase</a> (<span class='argstr'>phrase</span>, <span class='argstr'>currphraselength</span>)</h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>s=Server.default;
+
+//shortest possible example, defaults to BBCutProc11 cut procedure, generates a default clock for you at 2 bps
+//will cut up the first audio input stream on your system (use with headphones to avoid feedback)
+b=BBCut2(CutStream1.new).play
+
+b.pause; //silent mode
+
+b.resume; //hear again
+
+b.stop; //finish on clock
+
+c=ExternalClock(TempoClock(2.7)).play;
+
+b.play(c); //start on a new running clock
+
+b.stop;
+
+b.free; //free any resources left
+
+
+//better use, explicit passing of clock, buffer
+(
+var clock= ExternalClock(TempoClock(2));
+var buffer= Buffer.alloc(s,44100,1);    
+
+clock.play;
+    
+//runs on first available input channel 
+BBCut2(CutStream1(s.options.numOutputBusChannels,buffer),BBCutProc11.new).play(clock);
+)
+
+
+(   //the same for a soundfile: you must allow time for the soundfile to load
+var sf;
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+
+s.sync; //this forces a wait for the Buffer to load
+
+BBCut2(CutBuf1(sf)).play; //will use TempoClock.default so depends what tempo that is at
+});
+
+)
+
+TempoClock.default.tempo_(2.3)
+
+
+//you would usually load soundfiles separately (perhaps before performing) before running cutters
+
+
+//better practise, more explicit
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(2.5));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+
+s.sync; //this forces a wait for the Buffer to load
+
+BBCut2(CutBuf1(sf), BBCutProc11.new).play(clock);
+});
+
+)
+
+//sharing clocks, and demonstrating what happens with tempo changes
+
+(
+var sf, tempoclock, bbcutclock;
+
+SynthDef(\beep,{Out.ar(0,SinOsc.ar(440,0,0.1)*Line.kr(1,0,0.1,doneAction:2))}).load(s);
+
+tempoclock= TempoClock(2.3);
+
+bbcutclock= ExternalClock(tempoclock);  
+        
+Routine.run({
+                
+    sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+    
+    s.sync; //this forces a wait for the Buffer to load
+    
+    BBCut2([CutBuf1(sf),CutMixer(0,1.0,1.0,1.0)], BBCutProc11.new).play(bbcutclock);
+});
+        
+bbcutclock.play;        
+
+Task({  
+    
+    inf.do({
+    
+    Synth(\beep);
+    
+    if(0.1.coin,{tempoclock.tempo_(rrand(1.7,2.7))});
+    
+    1.0.wait;
+    });
+    
+}).play(tempoclock);
+
+)
+
+
+
+
+
+//creating CutGroup to choose rendering bus and Group, renders on bus 16 but output on bus 0 due to a hidden CutMixer
+(
+var clock= ExternalClock(TempoClock(2));
+var buffer= Buffer.alloc(s,44100,1);    
+var group= Group.head(Node.basicNew(s,1));
+var bus= Bus.audio(s,1); //mono rendering bus
+
+clock.play;
+    
+//runs on first available input channel 
+BBCut2(CutGroup(CutStream1(nil,buffer),group,bus),BBCutProc11.new).play(clock);
+)
+
+
+//also specifying a CutMixer to choose volume and outbus, but CutGroup will allocate a rendering Bus for you 
+(
+var clock= ExternalClock(TempoClock(2));
+var buffer= Buffer.alloc(s,44100,1);    
+var group= Group.head(Node.basicNew(s,1));
+
+clock.play;
+    
+BBCut2(CutGroup([CutStream1(nil,buffer),CutMixer(0,0.5,1.0,{1.0.rand2})],group),BBCutProc11.new).play(clock);
+)
+
+
+
+
+
+
+//showing off the five input possibilities for the cutgroup array argument
+//five options for shortcuts- all work because of code in BBCut2-initBBCut2
+
+
+
+//run this first to load the samples:
+(
+var filenames, bpsound;
+
+//Put in the locations of your samples
+filenames= [Platform.resourceDir +/+ "sounds/break.aiff",Platform.resourceDir +/+ "sounds/break2.aiff"];
+//how many beats in your samples?
+bpsound= [8,4];
+
+f= BBCutBuffer.array(filenames,bpsound);
+)
+
+//test soundfile parameters
+f.do({arg val; Post &lt;&lt;[val.path, val.numChannels, val.numFrames, val.sampleRate, val.bufnum]&lt;&lt;nl;});
+
+//start a BBCut scheduling clock
+c= ExternalClock(TempoClock(2)).play;
+
+//run one line at a time, each BBCut instance
+a=BBCut2(CutFunc.new(blockfunc:{Synth(\beep)}),BBCutProc11.new).play(c);
+
+a.end; //end stops and frees the cutter
+
+//makes one running BBCutGroup containing two renderers
+a= BBCut2([CutBuf1(f[0]),CutBuf1(f[1])],BBCutProc11.new).play(c);
+
+a.end;
+
+//makes two running groups, first with default cut synth, second with sample based renderers
+a= BBCut2([[CutFunc.new(blockfunc:{Synth(\beep)})], [CutBuf1(f[0]),CutBuf1(f[1])]],BBCutProc11.new).play(c);
+
+a.end;
+
+//create explicitly a single BBCutGroup (BBCG is a shortcut name for one)
+a= BBCut2(CutGroup(CutBuf1(f[0])),BBCutProc11.new).play(c);
+
+a.end;
+
+//explicitly create an array of BBCutGroups, like the 'makes two running groups' option above but here more explicitly done
+a= BBCut2([CutGroup(CutFunc.new(blockfunc:{Synth(\beep)})), CutGroup([CutBuf1(f[0]),CutMixer(0,0.7,1.0,{1.0.rand2})]),CutGroup(CutBuf1(f[1]))],BBCutProc11.new).play(c);
+
+c.tempoclock.tempo_(2.3);
+
+a.end;
+
+
+
+//tempo ratio of 20 to 27
+(
+var sf, clock1, clock2;
+
+clock1= ExternalClock(TempoClock(2));   
+clock2= ExternalClock(TempoClock(2.7)); 
+    
+Routine.run({
+            
+sf=BBCutBuffer.array([Platform.resourceDir +/+ "sounds/break.aiff",Platform.resourceDir +/+ "sounds/break2.aiff"],[8,4]);
+
+s.sync; //this forces a wait for the Buffer to load
+
+BBCut2([CutBuf1(sf[0]),CutMixer(0,0.5,1.0,-1.0)], ChooseCutProc(0.25,{[4,2].choose})).play(clock1);
+BBCut2([CutBuf1(sf[1]),CutMixer(0,0.5,1.0,1.0)], ChooseCutProc(0.25,{[4,2].choose})).play(clock2);
+});
+
+clock1.play;    
+clock2.play;
+)
+
+
+
+
+//adding/removing cutsynths
+
+//better practise, more explicit
+(
+var sf, clock;
+
+clock= ExternalClock(TempoClock(2.5));  
+        
+clock.play;     
+        
+Routine.run({
+            
+sf= BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);
+
+s.sync; //this forces a wait for the Buffer to load
+
+g=CutGroup(CutBuf1(sf));
+
+a=BBCut2(g, BBCutProc11.new).play(clock);
+});
+
+)
+
+//run these one at a time
+g.cutsynths.postln; //default CutMixer was added
+
+g.add(CutComb1({arg i; (i.clip2(10)*0.005)+0.01},0.5));
+
+g.cutsynths.postln;
+
+g.removeAt(2);  //remove comb
+
+g.cutsynths.postln;
+
+a.end</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/BBCut2.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/BBCut2.schelp</a><br>link::Classes/BBCut2::<br>sc version: 3.8.0</div></div></body></html>

@@ -1,16 +1,12 @@
 #lang racket
 
-;; from transport.scm ;;;;;;;
-
-(require rnrs
-         "bytevector.rkt"
-         "sosc.rkt"
+(require "bytevector.rkt"
+         "encoding.rkt"
          "ip.rkt")
 
-(provide (all-defined-out)
-         (all-from-out "ip.rkt"))
-
-
+(provide send
+         recv
+         wait)
 
 ;; socket -> osc -> ()
 (define send
@@ -41,4 +37,3 @@
        ((not p) (error "error" "Could not connect to the SuperCollider server"))
        ((not (string=? (car p) s)) (error "wait" "bad return packet" p s))
        (else p)))))
-

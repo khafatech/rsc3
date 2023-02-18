@@ -1,0 +1,119 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{OffsetOut}
+ Write a signal to a bus with sample accurate timing.@section{related}
+  Classes/Out, Classes/ReplaceOut, Classes/XOut
+@section{categories}
+   UGens>InOut
+
+
+@section{description}
+
+
+Output signal to a bus,  the sample offset within the bus is kept
+exactly; i.e. if the synth is scheduled to be started part way through a
+control cycle, OffsetOut will maintain the correct offset by buffering
+the output and delaying it until the exact time that the synth was
+scheduled for.
+
+
+For achieving subsample accuracy see  link::Classes/SubsampleOffset::
+
+@section{note}
+ 
+
+Note that if you have an input to the synth, it will be coming in and
+its normal time, then mixed in your synth, and then delayed with the
+output. So you shouldn't use OffsetOut for effects or gating.
+
+::
+
+See the link::Reference/Server-Architecture:: and link::Classes/Bus:: helpfiles for more information on
+buses and how they are used.
+
+
+@section{classmethods}
+ 
+
+@section{method}
+ ar
+
+@section{argument}
+ bus
+
+The index of the bus to write out to. The lowest numbers are
+written to the audio hardware.
+
+
+@section{argument}
+ channelsArray
+
+An Array of channels or single output to write out. You cannot
+change the size of this once a SynthDef has been built.
+
+
+@section{Examples}
+ 
+
+
+@racketblock[
+
+(
+SynthDef("help-OffsetOut",
+	{ arg out=0, freq=440, dur=0.05;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, dur, 0.2), doneAction: Done.freeSelf);
+		OffsetOut.ar(out, SinOsc.ar(freq, 0, env))
+}).send(s);
+
+SynthDef("help-Out",
+	{ arg out=0, freq=440, dur=0.05;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, dur, 0.2), doneAction: Done.freeSelf);
+		//compare to Out:
+		Out.ar(out, SinOsc.ar(freq, 0, env))
+}).send(s);
+)
+
+
+// these are in sync
+(
+Routine({
+	loop {
+		s.sendBundle(0.2, ["/s_new", "help-OffsetOut", -1]);
+		0.01.wait;
+	}
+}).play;
+)
+
+// these are less reliably in sync and are placed at multiples of blocksize.
+(
+Routine({
+	loop {
+		s.sendBundle(0.2, ["/s_new", "help-Out", -1]);
+		0.01.wait;
+	}
+}).play;
+)
+
+
+
+SynthDef("trig1",{
+	var gate,tone;
+	gate = Trig1.ar(1.0,t);
+	tone = In.ar(10,1); // tone comes in normally
+	// but is then delayed when by the OffsetOut
+	OffsetOut.ar(0,
+		tone * EnvGen.ar(
+				Env([0,0.1,0.1,0],[0.01,1.0,0.01],[-4,4],2),
+				gate,doneAction: Done.freeSelf
+			)
+	)
+})
+
+::
+
+]
+
+

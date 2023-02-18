@@ -1,0 +1,20 @@
+# -*- mode: org;  coding: utf-8; -*-
+#+title: rsc3 documentation
+
+* examples & help
+
+The scheme files in file:help/ correspond closely to the SuperCollider help files included in the standard distribution and can easily be used alongside them (the schelp source files can be found at [[https://github.com/supercollider/supercollider/tree/develop/HelpSource][github]]). Examples from the help files, tutorials and other sources are included in file:examples/
+
+* tutorials
+
+via https://rohandrape.net/?t=rsc3-texts
+
+** rsc3 for Schemers: An Introduction to rsc3
+
+These are notes for a talk addressed to Schemers about rsc3, a scheme client to the SuperCollider (Sc3) synthesis server. This talk provides a brief history of computer music in order to place Sc3 in context and to define the problem domain, and then a description of and rationale for rsc3.
+
+available online at https://rohandrape.net/?t=rsc3-texts&e=md/rsc3-for-schemers.md
+
+** rsc3 tutorial
+
+A brief introduction to using scheme supercollider available online at  https://rohandrape.net/ut/rsc3-texts/html/rsc3-tutorial.html

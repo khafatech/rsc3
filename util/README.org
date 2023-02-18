@@ -1,0 +1,32 @@
+# -*- mode: org;  coding: utf-8; -*-
+#+title:  rsc3 related utilities
+
+* schelp2scrbl
+
+(sc3) → schelp → racket (scribble)
+
+This is a quikc & dirty parser to convert .schelp files to scribble with the renaming seen in rsc3 (as closely as possible) and should be usable as part of the racket documentation system which uses the [[https://docs.racket-lang.org/scribble/index.html][scribble format]]. partially complete. partially automated.
+
+#+BEGIN_SRC shell
+racket schelp2scrbl.rkt -v ../doc-schelp/HelpSource/Classes/LFSaw.schelp
+#+END_SRC
+
+further options…
+#+BEGIN_SRC shell
+ ./scm2scrbl.rkt -h
+#+END_SRC
+
+* scm2scrbl
+
+(schelp → scm ) → racket (scribble)
+
+This is a qucik & dirty parser to convert .help.scm files as seen in rsc3 to something usable as part of the racket documentation system which uses the [[https://docs.racket-lang.org/scribble/index.html][scribble format]]. partially complete. partially automated.
+
+#+BEGIN_SRC shell
+racket scm2scrbl.rkt ..doc/help/server-command/n-map.help.scm
+#+END_SRC
+
+further options…
+#+BEGIN_SRC shell
+ ./scm2scrbl.rkt -h
+#+END_SRC

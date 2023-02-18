@@ -1,0 +1,114 @@
+<!doctype html><html lang='en'><head><title>SFP | SuperCollider 3.9.3 Help</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script>
+var helpRoot = './..';
+var scdoc_title = 'SFP';
+var scdoc_sc_version = '3.9.3';
+</script>
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+</head>
+<body onload='fixTOC();prettyPrint()'>
+<div id='toc'>
+<div id='toctitle'>SFP:</div>
+<span class='toc_search'>Filter: <input id='toc_search'></span><ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc3'><a href='#*getNew'>getNew</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-firstBeatIsAt'>firstBeatIsAt</a> </li>
+<li class='toc3'><a href='#-found'>found</a> </li>
+<li class='toc3'><a href='#-soundFilePath'>soundFilePath</a> </li>
+<li class='toc3'><a href='#-storeArgs'>storeArgs</a> </li>
+<li class='toc3'><a href='#-init'>init</a> </li>
+<li class='toc3'><a href='#-fileNotFound'>fileNotFound</a> </li>
+<li class='toc3'><a href='#-preloadData'>preloadData</a> </li>
+<li class='toc3'><a href='#-fileName'>fileName</a> </li>
+<li class='toc3'><a href='#-fileDuration'>fileDuration</a> </li>
+<li class='toc3'><a href='#-timeDuration'>timeDuration</a> </li>
+<li class='toc3'><a href='#-tempo'>tempo</a> </li>
+<li class='toc3'><a href='#-children'>children</a> </li>
+<li class='toc3'><a href='#-guiClass'>guiClass</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+</ul></ul></div><div class='contents'>
+<div id='menubar'></div>
+<div class='header'>
+<div id='label'>
+<span id='folder'>Classes (extension)</span>
+ | <span id='categories'><a href='./../Browse.html#Libraries'>Libraries</a>&#8201;&gt;&#8201;<a href='./../Browse.html#Libraries>crucial'>crucial</a>&#8201;&gt;&#8201;<a href='./../Browse.html#Libraries>crucial>Players'>Players</a> | <a href='./../Browse.html#Libraries'>Libraries</a>&#8201;&gt;&#8201;<a href='./../Browse.html#Libraries>crucial'>crucial</a>&#8201;&gt;&#8201;<a href='./../Browse.html#Libraries>crucial>SoundFiles'>SoundFiles</a></span>
+</div><h1>SFP<span id='superclasses'> : <a href="../Classes/AbstractSFP.html">AbstractSFP</a> : <a href="../Classes/AbstractPlayer.html">AbstractPlayer</a> : <a href="../Classes/AbstractFunction.html">AbstractFunction</a> : <a href="../Classes/Object.html">Object</a></span>
+<div class='extension-indicator-ctr' title='This help file originates from a third-party quark or plugin for SuperCollider.'><img class='extension-indicator-icon' alt='Extension' src='./../images/plugin.png'><span class='extension-indicator-text'>Extension</span></div></h1>
+<div id='summary'>Sound File Player</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/Players/SFP/SFP.sc' title='/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/Players/SFP/SFP.sc'>SFP.sc</a></div><div id='subclasses'>Subclasses: <a href="../Classes/VSFP.html">VSFP</a></div>
+<div id='related'>See also: <a href="./../Classes/VSFP.html">VSFP</a></div>
+</div>
+<h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>SFP plays long sound files from disk. It is not a sample player, it is to be used for playing recordings and long sound files.<pre class='code prettyprint lang-sc'>(
+
+SFP.getNew({ arg v;
+    Sheet({ arg layout;
+        v.topGui(layout);
+    })
+})
+
+)
+
+
+(
+// no path supplied
+// click on the path (which is nil) to browse for a file
+SFP.new.gui
+)</pre>
+
+<p><h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>SFP.</span><a class='method-name' name='*new' href='./../Overviews/Methods.html#new'>new</a>(<span class='argstr'>path</span>, <span class='argstr'>tempo</span>, <span class='argstr'>firstBeatIsAtFrame: 0</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>path<td class='argumentdesc'>
+<p>Paths should be either fully specified or if a relative path is used it will be relative to the classvar :
+<p>AbstractSFP.dir
+<p>which by default is "~/SoundFiles/"
+<p>so test.aiff will be determined internally by using the standardizePath method:
+<p>SFP.standardizePath("test.aiff")
+<p>for me this would result in :
+<p>/Users/cruxxial/SoundFiles/test.aiff
+<p>You may set the AbstractSFP.dir = "wherever you want it" in your startup.rtf file.
+<p>or you may simply fully specify your paths.<tr><td class='argumentname'>tempo<td class='argumentdesc'><tr><td class='argumentname'>firstBeatIsAtFrame<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>SFP.</span><a class='method-name' name='*getNew' href='./../Overviews/Methods.html#getNew'>getNew</a>(<span class='argstr'>receivingFunction</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>receivingFunction<td class='argumentdesc'></table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-firstBeatIsAt' href='./../Overviews/Methods.html#firstBeatIsAt'>firstBeatIsAt</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-firstBeatIsAt' href='./../Overviews/Methods.html#firstBeatIsAt'>firstBeatIsAt</a> = value</h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-found' href='./../Overviews/Methods.html#found'>found</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-soundFilePath' href='./../Overviews/Methods.html#soundFilePath'>soundFilePath</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-storeArgs' href='./../Overviews/Methods.html#storeArgs'>storeArgs</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-init' href='./../Overviews/Methods.html#init'>init</a>(<span class='argstr'>sfilePath</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>sfilePath<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-fileNotFound' href='./../Overviews/Methods.html#fileNotFound'>fileNotFound</a>(<span class='argstr'>sfilePath</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>sfilePath<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-preloadData' href='./../Overviews/Methods.html#preloadData'>preloadData</a>(<span class='argstr'>startAt: 0</span>, <span class='argstr'>endAt</span>, <span class='argstr'>group</span>, <span class='argstr'>bundle</span>, <span class='argstr'>parentSegmentBuffers</span>)</h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>startAt<td class='argumentdesc'><tr><td class='argumentname'>endAt<td class='argumentdesc'><tr><td class='argumentname'>group<td class='argumentdesc'><tr><td class='argumentname'>bundle<td class='argumentdesc'><tr><td class='argumentname'>parentSegmentBuffers<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-fileName' href='./../Overviews/Methods.html#fileName'>fileName</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-fileDuration' href='./../Overviews/Methods.html#fileDuration'>fileDuration</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-timeDuration' href='./../Overviews/Methods.html#timeDuration'>timeDuration</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-tempo' href='./../Overviews/Methods.html#tempo'>tempo</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-tempo' href='./../Overviews/Methods.html#tempo'>tempo</a> = <span class='argstr'>t</span></h3>
+<div class='method'><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>t<td class='argumentdesc'></table></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-children' href='./../Overviews/Methods.html#children'>children</a></h3>
+<div class='method'></div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-guiClass' href='./../Overviews/Methods.html#guiClass'>guiClass</a></h3>
+<div class='method'></div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/HelpSource/Classes/SFP.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/crucial-library/HelpSource/Classes/SFP.schelp</a><br>link::Classes/SFP::<br></div></div></body></html>

@@ -1,0 +1,132 @@
+<!doctype html><html lang='en'><head><title>ServerView | SuperCollider 3.12.2 Help</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../codemirror.css' type='text/css' />
+<link rel='stylesheet' href='./../editor.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../lib/jquery.min.js'></script>
+<script src='./../lib/codemirror-5.39.2.min.js' type='text/javascript'></script>
+<script src='./../lib/codemirror-addon-simple-5.39.2.min.js' type='text/javascript'></script>
+<script>
+var helpRoot = './..';
+var scdoc_title = 'ServerView';
+var scdoc_sc_version = '3.12.2';
+</script>
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='qrc:///qtwebchannel/qwebchannel.js' type='text/javascript'></script>
+</head>
+<body onload='fixTOC()'>
+<div id='toc'>
+<div id='toctitle'>ServerView:</div>
+<span class='toc_search'>Filter: <input id='toc_search'></span><ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc3'><a href='#*widgets'>widgets</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+<li class='toc2'><a href='#Undocumented%20class%20methods'>Undocumented class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*actions'>actions</a> </li>
+<li class='toc3'><a href='#*border'>border</a> </li>
+<li class='toc3'><a href='#*default'>default</a> </li>
+<li class='toc3'><a href='#*doOnServerBoot'>doOnServerBoot</a> </li>
+</ul></ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-close'>close</a> </li>
+<li class='toc3'><a href='#-onClose'>onClose</a> </li>
+<li class='toc3'><a href='#-front'>front</a> </li>
+<li class='toc3'><a href='#-registerKeyAction'>registerKeyAction</a> </li>
+<li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-clearView'>clearView</a> </li>
+<li class='toc3'><a href='#-createView'>createView</a> </li>
+<li class='toc3'><a href='#-onClose'>onClose</a> </li>
+<li class='toc3'><a href='#-populateView'>populateView</a> </li>
+<li class='toc3'><a href='#-server'>server</a> </li>
+<li class='toc3'><a href='#-set'>set</a> </li>
+<li class='toc3'><a href='#-view'>view</a> </li>
+<li class='toc3'><a href='#-widgets'>widgets</a> </li>
+<li class='toc3'><a href='#-window'>window</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#Keyboard%20shortcuts%20/%20interaction'>Keyboard shortcuts / interaction</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#Adding%20widgets.'>Adding widgets.</a></li>
+<ul class='toc'></ul></ul></div><div id='menubar'></div>
+<div class='contents'>
+<div class='header'>
+<div id='label'>
+<span id='folder'>Classes (extension)</span>
+ | <span id='categories'><a href='./../Browse.html#GUI'>GUI</a></span>
+</div><h1>ServerView<span id='superclasses'> : <a href="../Classes/Singleton.html">Singleton</a> : <a href="../Classes/Object.html">Object</a></span>
+<div class='extension-indicator-ctr' title='This help file originates from a third-party quark or plugin for SuperCollider.'><img class='extension-indicator-icon' alt='Extension' src='./../images/plugin.png'><span class='extension-indicator-text'>Extension</span></div></h1>
+<div id='summary'>An improved GUI for server information</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/ServerView/ServerView.sc' title='/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/ServerView/ServerView.sc'>ServerView.sc</a></div><div id='related'>See also: <a href="./../Classes/Server.html">Server</a>, <a href="./../Classes/Singleton.html">Singleton</a></div>
+</div>
+<h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>ServerView is a replacement for the standard SuperCollider server gui. It has a cleaner and more compact look, it supports multiple servers, and displays graphs of CPU usage, Synth counts, as well as a scope and input/output levels.<div class='note'><span class='notelabel'>NOTE:</span> ServerView is built to use the M+ font series: <a href="http://mplus-fonts.osdn.jp/mplus-outline-fonts/index-en.html">http://mplus-fonts.osdn.jp/mplus-outline-fonts/index-en.html</a>
+<p>It will work without these installed, but layout and affordances may not be correct.</div><h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*new' href='./../Overviews/Methods.html#new'>new</a>(<span class='argstr'>name</span> <span class='argstr'>... settings</span>)</h3>
+<div class='supmethod'>From superclass: <a href='./../Classes/Singleton.html'>Singleton</a></div>
+<div class='method'>
+<p>Create a new ServerView<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>key<td class='argumentdesc'>
+<p>A <a href="./../Classes/Symbol.html">Symbol</a> or other IdentityDictionary-appropriate object used to identify the ServerView. See <a href="./../Singleton#-new">Singleton: -new</a> for behavior. Unless you need multiple ServerView's, no argument is required.</table></div><h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*widgets' href='./../Overviews/Methods.html#widgets'>widgets</a></h3>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*widgets' href='./../Overviews/Methods.html#widgets'>widgets</a> = value</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>(widgetlist)<td class='argumentdesc'>
+<p>A list of subclasses of ServerWidgetBase to be displayed in the ServerView. By default, it contains ServerStatusWidget, VolumeWidget, ScopeWidget. Set this in your startup file to enable alternative configurations of widgets.</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h3><a class='anchor' name='Undocumented%20class%20methods'>Undocumented class methods</a></h3>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*actions' href='./../Overviews/Methods.html#actions'>actions</a></h3>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*border' href='./../Overviews/Methods.html#border'>border</a></h3>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*border' href='./../Overviews/Methods.html#border'>border</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*default' href='./../Overviews/Methods.html#default'>default</a></h3>
+<h3 class='method-code'><span class='method-prefix'>ServerView.</span><a class='method-name' name='*doOnServerBoot' href='./../Overviews/Methods.html#doOnServerBoot'>doOnServerBoot</a>(<span class='argstr'>server</span>)</h3>
+<h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-close' href='./../Overviews/Methods.html#close'>close</a></h3>
+<div class='method'>
+<p>Close the view;</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-onClose' href='./../Overviews/Methods.html#onClose'>onClose</a>(<span class='argstr'>v</span>)</h3>
+<div class='method'>
+<p> Sets or gets the object to be evaluated when the view is destroyed (i.e. <a href="#-close">closed</a> or <a href="#-remove">removed</a>). It is passed the view as an argument.</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-front' href='./../Overviews/Methods.html#front'>front</a></h3>
+<div class='method'>
+<p>Bring ServerView to front. If this ServerView has not been created yet, create it.</div><h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-registerKeyAction' href='./../Overviews/Methods.html#registerKeyAction'>registerKeyAction</a>(<span class='argstr'>key</span>, <span class='argstr'>action</span>)</h3>
+<div class='method'>
+<p>Add a keyboard action to the ServerView.<h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>key<td class='argumentdesc'>
+<p>A <a href="./../Classes/Char.html">Char</a> representing an ascii key.<tr><td class='argumentname'>action<td class='argumentdesc'>
+<p>A function to execute when key is detected.</table></div><h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-clearView' href='./../Overviews/Methods.html#clearView'>clearView</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-createView' href='./../Overviews/Methods.html#createView'>createView</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-onClose' href='./../Overviews/Methods.html#onClose'>onClose</a>(<span class='argstr'>v</span>)</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-populateView' href='./../Overviews/Methods.html#populateView'>populateView</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-server' href='./../Overviews/Methods.html#server'>server</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-server' href='./../Overviews/Methods.html#server'>server</a> = <span class='argstr'>newServer</span></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-set' href='./../Overviews/Methods.html#set'>set</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-view' href='./../Overviews/Methods.html#view'>view</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-view' href='./../Overviews/Methods.html#view'>view</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-widgets' href='./../Overviews/Methods.html#widgets'>widgets</a></h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-widgets' href='./../Overviews/Methods.html#widgets'>widgets</a> = value</h3>
+<h3 class='method-code'><span class='method-prefix'>.</span><a class='method-name' name='-window' href='./../Overviews/Methods.html#window'>window</a></h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+
+<p>ServerView works as a singleton, so the default constructor will always refer to the same object.<textarea class='editor'>ServerView().front;
+
+ServerView().close;</textarea>
+<h2><a class='anchor' name='Keyboard%20shortcuts%20/%20interaction'>Keyboard shortcuts / interaction</a></h2>
+<table>
+<tr><td>p<td>Show node hierarchy window<tr><td>n<td>Dump all node information to post window (<code>s.queryAllNodes(true)</code>)<tr><td>l<td>Show level meters window.<tr><td>&lt;space&gt;<td>Boot server (if not already running)<tr><td>s<td>Show scope window<tr><td>f<td>Show frequency scope window<tr><td>d<td>Enable / disable dumping of OSC messages<tr><td>m<td>Mute server volume<tr><td>0<td>Reset server volume to 0dB</table>
+
+<p>Horizontal / vertical mouse wheel or scroll actions over the scope will zoom horizontally and vertically.
+<p>Clicking graph widgets will reset their bounds.
+<p>Clicking the server name will boot / kill the server.<h2><a class='anchor' name='Adding%20widgets.'>Adding widgets.</a></h2>
+
+<p>ServerView is populated by widgets that must be subclasses of <a href="./../Classes/ServerWidgetBase.html">ServerWidgetBase</a>. To add a new widget type to the ServerView:
+<p>1. Create a subclass of <a href="./../Classes/ServerWidgetBase.html">ServerWidgetBase</a>. It should not implement a constructor, and must implement a <code>view</code> method that returns a valid <a href="./../Classes/View.html">View</a>.
+<p>2. Add the class to <a href="#*widgets">*widgets</a> in your startup file, or any time before a ServerView is created.<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/ServerView/HelpSource/Classes/ServerView.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/ServerView/HelpSource/Classes/ServerView.schelp</a><br>link::Classes/ServerView::<br></div></div><script src='./../editor.js' type='text/javascript'></script>
+</body></html>

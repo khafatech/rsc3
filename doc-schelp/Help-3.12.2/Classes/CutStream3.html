@@ -1,0 +1,201 @@
+<html><head><title>CutStream3</title>
+<link rel='stylesheet' href='./../scdoc.css' type='text/css' />
+<link rel='stylesheet' href='./../frontend.css' type='text/css' />
+<link rel='stylesheet' href='./../custom.css' type='text/css' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<script src='./../scdoc.js' type='text/javascript'></script>
+<script src='./../docmap.js' type='text/javascript'></script>
+<script src='./../prettify.js' type='text/javascript'></script>
+<script src='./../lang-sc.js' type='text/javascript'></script>
+<script type='text/javascript'>var helpRoot='./..';</script>
+</head>
+<ul id='menubar'></ul>
+<body onload='fixTOC();prettyPrint()'>
+<div class='contents'>
+<div class='header'>
+<div id='label'>SuperCollider CLASSES (extension)</div>
+<div id='categories'><a href='./../Browse.html#Libraries>BBCut'>Libraries>BBCut</a></div>
+<h1>CutStream3</h1>
+<div id='summary'>BBCut2 with live input</div>
+</div>
+<div class='subheader'>
+<div id='filename'>Source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/cutsynths/CutStream3.sc'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/classes/cutsynths/CutStream3.sc</a></div><div id='superclasses'>Inherits from: <a href="../Classes/CutSynth.html">CutSynth</a> : <a href="../Classes/Object.html">Object</a></div>
+<div id='related'>See also: <a href="./../Overviews/BBCut.html">BBCut</a></div>
+</div>
+<div id='toc'>
+<ul class='toc'><li class='toc1'><a href='#description'>Description</a></li>
+<ul class='toc'></ul><li class='toc1'><a href='#classmethods'>Class methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#*new'>new</a> </li>
+<li class='toc2'><a href='#Inherited%20class%20methods'>Inherited class methods</a></li>
+</ul><li class='toc1'><a href='#instancemethods'>Instance methods</a></li>
+<ul class='toc'><li class='toc2'><a href='#Inherited%20instance%20methods'>Inherited instance methods</a></li>
+<li class='toc2'><a href='#Undocumented%20instance%20methods'>Undocumented instance methods</a></li>
+<ul class='toc'><li class='toc3'><a href='#-database'>database</a> </li>
+<li class='toc3'><a href='#-deviationmult'>deviationmult</a> </li>
+<li class='toc3'><a href='#-free'>free</a> </li>
+<li class='toc3'><a href='#-initCutStream3'>initCutStream3</a> </li>
+<li class='toc3'><a href='#-posttrim'>posttrim</a> </li>
+<li class='toc3'><a href='#-pretrim'>pretrim</a> </li>
+<li class='toc3'><a href='#-renderBlock'>renderBlock</a> </li>
+<li class='toc3'><a href='#-setup'>setup</a> </li>
+<li class='toc3'><a href='#-swing'>swing</a> </li>
+</ul></ul><li class='toc1'><a href='#examples'>Examples</a></li>
+<ul class='toc'></ul></ul></div><h2><a class='anchor' name='description'>Description</a></h2>
+
+<p>Playback for a stream of audio which can be cut-up, with offsetting relative to the last beat marked by the clock. The stream can be any bus on the Server, so might be a file streamed off disk, a current audio input or some synthesised data. 
+<p>Each grain may have associated parameters for playback speed, enveloping and dutycycle (ratio of duration to inter-onset-interval). 
+<p>Note that CutStream3 uses In.ar rather than InFeedback.ar, for reaction speed, so execution order is important. you cannot cut-up a stream created later in the execution order. Change the SynthDefs in the class file to InFeedback if you want no execution order worries, at the expense of an audio block's delay (usually 64 samples). <h2><a class='anchor' name='classmethods'>Class Methods</a></h2>
+<h3 class='cmethodname'><span class='methprefix'>*</span><a name='*new' href='./../Overviews/Methods.html#new'>new</a> (<span class='argstr'>aed</span>, <span class='argstr'>offset</span>, <span class='argstr'>swing</span>, <span class='argstr'>deviationmult</span>, <span class='argstr'>pretrim</span>, <span class='argstr'>posttrim</span>, <span class='argstr'>pbsfunc</span>, <span class='argstr'>dutycycle</span>, <span class='argstr'>atk</span>, <span class='argstr'>rel</span>, <span class='argstr'>curve</span>)</h3>
+<div class='method'>
+<p><h4>Arguments:</h4>
+<table class='arguments'>
+<tr><td class='argumentname'>aed<td class='argumentdesc'>
+<p>a running AnalyseEventsDatabase object, using the same ExternalClock as the cutter.<tr><td class='argumentname'>offset<td class='argumentdesc'>
+<p>value to offset from the last recorded beat of the clock. 0 keeps this reference point, 2 would be a reference start time of three beats ago (last recorded, then back another 2). The default is 1. However, the meaning of this parameter changes when setoffset is applied by certain cut procedures; here it determines the region of offsetting in beats. <tr><td class='argumentname'>swing<td class='argumentdesc'>
+<p>Number of beats of delay to apply for offbeat semiquavers, ie 0.0 is no swing, 0.08 is UK garage swing. For strict quantisation on-the-fly deviationmult must also be 0.0. <tr><td class='argumentname'>deviationmult<td class='argumentdesc'>
+<p>Multiplies the groove based time deviations of events. Set to 0.0 for rigid quantise based playback, 1.0 for full original timing properties. <tr><td class='argumentname'>pretrim<td class='argumentdesc'>
+<p>If playing back a cut, play any events within the cut even if there tming deviation puts them ahead of the cut start. Ie, play anticipatory events. <tr><td class='argumentname'>posttrim<td class='argumentdesc'>
+<p>The same for events whose deviation puts them after the end of the cut, but whose quantised position is within the cut. <tr><td class='argumentname'>pbsfunc<td class='argumentdesc'>
+<p>Manipulate playback speed, would usually be 1.0. <tr><td class='argumentname'>dutycycle<td class='argumentdesc'>
+<p>Ratio of duration to inter-onset-interval (IOI). 0.5 would mean that the duration of grains is only half the length between cut start times. <tr><td class='argumentname'>atk<td class='argumentdesc'>
+<p>Enveloping parameter for attack speed. Rated as a proportion of the overall envelope (0.0 to 1.0) <tr><td class='argumentname'>rel<td class='argumentdesc'>
+<p>Enveloping parameter for release speed. Rated as a proportion of the overall envelope (0.0 to 1.0) <tr><td class='argumentname'>curve<td class='argumentdesc'>
+<p>Envelope curve</table></div><h3><a class='anchor' name='Inherited%20class%20methods'>Inherited class methods</a></h3>
+<div id='inheritedclassmets'></div><h2><a class='anchor' name='instancemethods'>Instance Methods</a></h2>
+<h3><a class='anchor' name='Inherited%20instance%20methods'>Inherited instance methods</a></h3>
+<div id='inheritedinstmets'></div><h3><a class='anchor' name='Undocumented%20instance%20methods'>Undocumented instance methods</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-database' href='./../Overviews/Methods.html#database'>database</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-database' href='./../Overviews/Methods.html#database'>database</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deviationmult' href='./../Overviews/Methods.html#deviationmult'>deviationmult</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-deviationmult' href='./../Overviews/Methods.html#deviationmult'>deviationmult</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-free' href='./../Overviews/Methods.html#free'>free</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-initCutStream3' href='./../Overviews/Methods.html#initCutStream3'>initCutStream3</a> (<span class='argstr'>aed</span>, <span class='argstr'>off</span>, <span class='argstr'>sw</span>, <span class='argstr'>dm</span>, <span class='argstr'>pt</span>, <span class='argstr'>pstt</span>, <span class='argstr'>nb</span>, <span class='argstr'>pbs</span>, <span class='argstr'>dc</span>, <span class='argstr'>ap</span>, <span class='argstr'>rp</span>, <span class='argstr'>c</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-posttrim' href='./../Overviews/Methods.html#posttrim'>posttrim</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-posttrim' href='./../Overviews/Methods.html#posttrim'>posttrim</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pretrim' href='./../Overviews/Methods.html#pretrim'>pretrim</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-pretrim' href='./../Overviews/Methods.html#pretrim'>pretrim</a> = value</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-renderBlock' href='./../Overviews/Methods.html#renderBlock'>renderBlock</a> (<span class='argstr'>block</span>, <span class='argstr'>clock</span>)</h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-setup' href='./../Overviews/Methods.html#setup'>setup</a> </h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-swing' href='./../Overviews/Methods.html#swing'>swing</a></h3>
+<h3 class='imethodname'><span class='methprefix'>-</span><a name='-swing' href='./../Overviews/Methods.html#swing'>swing</a> = value</h3>
+<h2><a class='anchor' name='examples'>Examples</a></h2>
+<pre class='code prettyprint lang-sc'>s=Server.default;
+
+c=ExternalClock(2.3).play;
+
+e=AnalyseEventsDatabase.new;
+
+e.analyse(clock:c);
+
+//must be same clock    
+a=BBCut2(CutStream3(e,1,0.0), ChooseCutProc(0.5,2)).play(c);
+
+a.end;
+
+e.stop;
+
+c.stop;
+
+
+//sing along to the beat and have the events found in the audio stream in time, auto quantised
+(
+var b,buf,e, clock;
+
+clock= ExternalClock(TempoClock(2.1));  
+        
+clock.play;     
+        
+e=AnalyseEventsDatabase.new;
+
+e.analyse(clock:clock);
+                
+Routine.run({
+    
+b=BBCutBuffer(Platform.resourceDir +/+ "sounds/break.aiff",8);    
+
+s.sync; //this forces a wait for the Buffer to be allocated
+
+//3 beats into the past
+BBCut2(CutStream3(e,3,0.0,0.0, false, false), ChooseCutProc({[1.5,1.0].choose},2)).play(clock);
+
+BBCut2(CutBuf1(b), BBCutProc11.new).play(clock);
+});
+
+)
+
+
+
+//beat induction and event capture on an existing track
+(
+var trackbus, trackgroup;
+
+s.latency=0.05;
+
+//clear any existing OSCresponder
+OSCresponder.all.do({arg val; if(val.cmdName=='/tr',{OSCresponder.remove(val)}); });
+
+//run a line at a time
+~clock= ServerClock.new;    
+    
+~clock.play(100,s); //will wait on trigID 100
+    
+~database=AnalyseEventsDatabase.new;    
+    
+Routine.run({
+
+//choose some file you want to track off your hard drive
+~source=Buffer.read(s,"/Volumes/data/stevebeattrack/samples/100.wav");
+ 
+s.sync;
+ 
+~trackbus=Bus.audio(s,1);
+
+trackgroup= Group.before(Node.basicNew(s,1));
+
+//run a beat tracker on the Server which sends the appropriate OSC message
+~tracksynth= SynthDef(\help_cutstream3,{arg vol=1.0, beepvol=0.0, lock=0;
+var trackb,trackh,trackq,tempo;
+var source, beep;
+
+source= PlayBuf.ar(1,~source.bufnum,1.0,1,0,1);
+
+//see AutoTrack help file
+#trackb,trackh,trackq,tempo=AutoTrack.kr(source, lock);
+
+beep= SinOsc.ar(1000,0.0,Decay.kr(trackb,0.1));
+
+Out.ar(~trackbus.index,source);
+
+Out.ar(0,Pan2.ar((vol*source)+(beepvol*beep),0.0));
+
+SendTrig.kr(trackb,100,tempo);  //sends with ID of 100 matching what clock expects
+
+}).play(trackgroup);
+
+//creates at tail of trackgroup
+~database.analyse(~trackbus.index, 101, trackgroup, 0.34, ~clock); //trigID 101 is default
+
+});
+
+)
+
+//default is add to head of group at Node 1 CutGroup
+a=BBCut2(CutStream3(~database, 4, 0.0, 0.0,false,false), ChooseCutProc(1,2)).play(~clock);
+
+b=BBCut2(CutStream3(~database, 4, 0.0, 0.0,false,false), BBCutProc11.new).play(~clock);
+
+c=BBCut2([CutMod1.new,CutRev1.new,CutStream3(~database, 4, 0.0, 0.0,false,false)], ChooseCutProc(0.5,4)).play(~clock);
+
+~tracksynth.set(\vol,0.0);
+
+~tracksynth.set(\beepvol,1.0);
+
+~database.threshold_(0.1); //make it more event trigger happy
+
+a.end;
+b.end;
+c.end;
+
+~clock.stop;
+~database.stop;</pre>
+<div class='doclink'>helpfile source: <a href='file:///Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/CutStream3.schelp'>/Users/zzk/Library/Application Support/SuperCollider/downloaded-quarks/BBCut/HelpSource/Classes/CutStream3.schelp</a><br>link::Classes/CutStream3::<br>sc version: 3.8.0</div></div></body></html>

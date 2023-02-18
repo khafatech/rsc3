@@ -1,0 +1,90 @@
+#lang scribble/manual
+@(require (for-label racket))
+
+@title{Pseq}
+ sequentially embed values in a list@section{related}
+  Classes/Pser
+@section{categories}
+  Streams-Patterns-Events>Patterns>List
+
+@section{description}
+
+
+Cycles over a list of values. The repeats variable gives the number of times to repeat the entire list.
+
+@section{Examples}
+ 
+
+
+@racketblock[
+(
+var a, b;
+a = Pseq([1, 2, 3], 2);	// repeat twice
+b = a.asStream;
+7.do({ b.next.postln; });
+)
+::
+
+Pseq also has an offset argument which gives a starting offset into the list.
+]
+
+@racketblock[
+(
+var a, b;
+a = Pseq([1, 2, 3, 4], 3, 2);	// repeat 3, offset 2
+b = a.asStream;
+13.do({ b.next.postln; });
+)
+::
+
+You can pass a function for the repeats variable that gets evaluated when the stream is created.
+]
+
+@racketblock[
+(
+var a, b;
+a = Pseq([1, 2], { rrand(1, 3) });	// repeat 1,2, or 3 times
+b = a.asStream;
+7.do({ b.next.postln; });
+)
+::
+
+If you specify the value inf for the repeats variable, then it will repeat indefinitely.
+]
+
+@racketblock[
+(
+var a, b;
+a = Pseq([1, 2, 3], inf);	// infinite repeat
+b = a.asStream;
+10.do({ b.next.postln; });
+)
+::
+
+
+Pseq used as a sequence of pitches:
+]
+
+@racketblock[
+(
+SynthDef(\help_sinegrain,
+	{ arg out=0, freq=440, sustain=0.05;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, sustain, 0.2), doneAction: Done.freeSelf);
+		Out.ar(out, SinOsc.ar(freq, 0, env))
+	}).add;
+)
+
+(
+a = Pseq(#[60, 61, 63, 65, 72], inf).asStream;
+Routine({
+	loop({
+		Synth(\help_sinegrain, [\freq, a.next.midicps]);
+		0.2.wait;
+	})
+}).play;
+)
+::
+]
+
+
