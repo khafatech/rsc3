@@ -12,7 +12,9 @@
         ))
 
 (define build-deps
-  (list "rackunit-lib"))
+  (list "racket-doc"
+        "scribble-lib"
+        "rackunit-lib"))
 
 (define scribblings
-  (list "doc/rsc3-docs.scrbl" ()))
+  '(("doc/rsc3-docs.scrbl" (multi-page))))
