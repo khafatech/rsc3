@@ -4,7 +4,19 @@ This is a port of the [[http://rd.slavepianos.org/?t=rsc3][rsc3]] [[https://supe
 
 ** Install
 
-If you have raco installed you can Install rsc3 with =raco pkg install rsc3=
+If you have raco installed you can Install rsc3 from the racket package archive  with
+#+BEGIN_SRC shell :dir :wrap SRC text :results raw
+=raco pkg install rsc3
+#+END_SRC
+
+developement version can be installed directly from this repo with
+#+BEGIN_SRC shell :dir :wrap SRC text :results raw
+raco pkg install https://github.com/zzkt/rsc3.git
+#+END_SRC
+and updated as required
+#+BEGIN_SRC shell :dir :wrap SRC text :results raw
+raco pkg update https://github.com/zzkt/rsc3.git
+#+END_SRC
 
 ** Using
 
