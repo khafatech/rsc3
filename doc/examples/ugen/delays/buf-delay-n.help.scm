@@ -1,1 +1,0 @@
-;; See buf-delay-c
